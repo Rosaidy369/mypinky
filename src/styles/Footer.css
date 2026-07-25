@@ -51,3 +51,19 @@ color:#aaa;
 color:#ff3f87;
 
 }
+
+@media (max-width: 640px) {
+
+  .footer {
+    padding: 60px 24px;
+  }
+
+  .footer-logo {
+    font-size: 28px;
+  }
+
+  .footer-links {
+    gap: 16px 24px;
+  }
+
+}

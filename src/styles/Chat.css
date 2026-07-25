@@ -641,3 +641,41 @@ font-size:13px;
 color:#777;
 
 }
+
+@media (max-width: 600px) {
+
+  .chats-page {
+    padding: 120px 16px 40px;
+  }
+
+  .chats-header h1 {
+    font-size: 26px;
+  }
+
+  .chat-item {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .chatroom-header {
+    padding: 14px 16px;
+  }
+
+  .chatroom-messages {
+    padding: 16px;
+  }
+
+  .chat-bubble {
+    max-width: 82%;
+  }
+
+  .chatroom-input {
+    padding: 14px 16px;
+  }
+
+  .premium-unlock-banner {
+    margin: 12px 16px 0;
+    padding: 12px 16px;
+  }
+
+}

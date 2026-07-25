@@ -361,3 +361,19 @@ transition:.3s;
 transform:translateY(-2px);
 
 }
+
+@media (max-width: 500px) {
+
+  .register-page {
+    padding: 120px 16px 40px;
+  }
+
+  .register-card {
+    padding: 30px 22px;
+  }
+
+  .register-header .logo {
+    font-size: 34px;
+  }
+
+}

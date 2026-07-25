@@ -41,3 +41,20 @@ font-size:24px;
 color:#666;
 line-height:1.7;
 }
+
+@media (max-width: 900px) {
+
+  .benefits {
+    padding: 70px 24px;
+  }
+
+  .benefits h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

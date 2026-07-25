@@ -474,6 +474,12 @@ font-size:15px;
 
 @media(max-width:600px){
 
+.premium-page{
+
+padding:120px 16px 60px;
+
+}
+
 .premium-header h1{
 
 font-size:30px;
@@ -489,6 +495,12 @@ transform:none;
 .plan-highlight:hover{
 
 transform:translateY(-6px);
+
+}
+
+.faq-item{
+
+padding:20px 22px;
 
 }
 

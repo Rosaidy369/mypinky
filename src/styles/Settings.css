@@ -663,3 +663,19 @@ border-radius:14px;
 margin:0;
 
 }
+
+@media (max-width: 600px) {
+
+  .settings-page {
+    padding: 120px 16px 40px;
+  }
+
+  .settings-content h1 {
+    font-size: 26px;
+  }
+
+  .settings-section {
+    padding: 22px 20px;
+  }
+
+}

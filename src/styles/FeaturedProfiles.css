@@ -176,3 +176,19 @@ border:2px solid white;
 border-radius:50%;
 
 }
+
+@media (max-width: 900px) {
+
+  .featured {
+    padding: 70px 24px;
+  }
+
+  .featured h2 {
+    font-size: 32px;
+  }
+
+  .profiles {
+    grid-template-columns: 1fr;
+  }
+
+}

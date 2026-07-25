@@ -290,3 +290,19 @@ font-size:14px;
 text-align:center;
 
 }
+
+@media (max-width: 500px) {
+
+  .login-page {
+    padding: 120px 16px 40px;
+  }
+
+  .login-card {
+    padding: 30px 22px;
+  }
+
+  .logo {
+    font-size: 34px;
+  }
+
+}

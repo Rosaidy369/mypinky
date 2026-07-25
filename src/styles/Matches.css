@@ -371,3 +371,20 @@ font-weight:700;
 cursor:pointer;
 
 }
+
+@media (max-width: 600px) {
+
+  .matches-page {
+    padding: 120px 20px 40px;
+  }
+
+  .matches-header h1 {
+    font-size: 28px;
+  }
+
+  .matches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+  }
+
+}

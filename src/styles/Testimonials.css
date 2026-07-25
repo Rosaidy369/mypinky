@@ -30,3 +30,20 @@ margin-bottom:20px;
 .testimonial h4{
 color:#ff4d8d;
 }
+
+@media (max-width: 900px) {
+
+  .testimonials {
+    padding: 70px 24px;
+  }
+
+  .testimonials h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

@@ -577,6 +577,12 @@ box-shadow:none;
 
 @media(max-width:600px){
 
+.onboarding-page{
+
+padding:120px 16px 40px;
+
+}
+
 .onboarding-card{
 
 padding:30px 22px;
