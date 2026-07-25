@@ -6,6 +6,7 @@ import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
 import LockIcon from "../components/ui/LockIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Swipe.css";
 import "../styles/BackButton.css";
 
@@ -246,7 +247,7 @@ function Swipe() {
 
         <div className="paywall">
 
-          <div className="paywall-icon">💎</div>
+          <div className="paywall-icon"><PremiumDiamond size={44} /></div>
 
           <h2>¡Sigue conociendo personas!</h2>
 
@@ -255,7 +256,7 @@ function Swipe() {
           </p>
 
           <Link to="/premium" className="paywall-premium-btn">
-            💎 Desbloquear Premium
+            <PremiumDiamond size={16} /> Desbloquear Premium
           </Link>
 
           <div className="paywall-countdown">

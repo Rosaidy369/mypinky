@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { isPlanActive } from "../../lib/plan";
+import PremiumDiamond from "../ui/PremiumDiamond";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
   const photos = profile.photos && profile.photos.length > 0
@@ -59,7 +60,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
           )}
 
           {isPlanActive(profile) && (
-            <span className="detail-premium">💎 Premium</span>
+            <span className="detail-premium"><PremiumDiamond size={14} /> Premium</span>
           )}
 
         </div>

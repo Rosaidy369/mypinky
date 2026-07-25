@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import profiles from "../../data/profiles";
+import PremiumDiamond from "../ui/PremiumDiamond";
 import "../../styles/FeaturedProfiles.css";
 
 const featuredProfiles = profiles.slice(0, 3);
@@ -31,7 +32,7 @@ function FeaturedProfiles() {
 
                 {profile.premium && (
                   <span className="featured-premium-badge">
-                    💎 Premium
+                    <PremiumDiamond size={13} /> Premium
                   </span>
                 )}
 

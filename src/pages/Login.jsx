@@ -44,7 +44,7 @@ function Login() {
 
         <div className="login-header">
 
-          <h1 className="logo">
+          <h1 className="auth-logo">
             My<span>Pinky</span>
           </h1>
 

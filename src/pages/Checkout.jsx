@@ -5,11 +5,12 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import LockIcon from "../components/ui/LockIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Checkout.css";
 import "../styles/BackButton.css";
 
 const PLAN_INFO = {
-  premium: { name: "Premium", price: 9.99, icon: "💎" },
+  premium: { name: "Premium", price: 9.99, icon: <PremiumDiamond size={32} /> },
   vip: { name: "VIP", price: 19.99, icon: null },
 };
 

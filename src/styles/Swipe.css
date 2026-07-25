@@ -158,6 +158,12 @@ top:20px;
 
 left:20px;
 
+display:flex;
+
+align-items:center;
+
+gap:5px;
+
 background:linear-gradient(135deg,#ff4d8d,#ff80b2);
 
 color:white;
@@ -676,7 +682,9 @@ margin-top:20px;
 
 .paywall-icon{
 
-font-size:50px;
+display:flex;
+
+justify-content:center;
 
 margin-bottom:15px;
 
@@ -868,7 +876,13 @@ border:1px solid rgba(255,63,135,.12);
 
 .paywall-premium-btn{
 
-display:block;
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:6px;
 
 width:100%;
 
@@ -1177,6 +1191,12 @@ position:absolute;
 bottom:16px;
 
 left:16px;
+
+display:flex;
+
+align-items:center;
+
+gap:5px;
 
 background:linear-gradient(135deg,#ff4d8d,#ff80b2);
 

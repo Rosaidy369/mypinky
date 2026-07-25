@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { isPlanActive } from "../../lib/plan";
+import PremiumDiamond from "../ui/PremiumDiamond";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
 // profile.id is a Supabase UUID string, not a number, so it needs hashing
@@ -107,7 +108,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
         <div className="swipe-top-row">
 
           {isPlanActive(profile) && (
-            <span className="swipe-premium">💎 Premium</span>
+            <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
           )}
 
           <div className="swipe-top-right">

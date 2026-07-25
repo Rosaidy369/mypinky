@@ -566,6 +566,10 @@ opacity:.8;
 
 .premium-chat-tag{
 
+display:inline-flex;
+
+align-items:center;
+
 margin-left:6px;
 
 font-size:12px;
@@ -575,6 +579,12 @@ font-size:12px;
 .premium-header-badge{
 
 margin-left:auto;
+
+display:flex;
+
+align-items:center;
+
+gap:5px;
 
 background:linear-gradient(135deg,#ff3f87,#ff79ac);
 

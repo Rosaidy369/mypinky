@@ -5,6 +5,7 @@ import { isPlanActive, isVipActive } from "../lib/plan";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
@@ -150,7 +151,7 @@ function Profile() {
                 </span>
               ) : isPlanActive(profile) && profile.plan === "premium" ? (
                 <span className="premium-badge-inline">
-                  💎 Premium
+                  <PremiumDiamond size={16} /> Premium
                 </span>
               ) : null}
 
@@ -242,7 +243,7 @@ function Profile() {
 
             {!existingMatch && (
               <button className="premium-btn" onClick={handleMensajePremium}>
-                💎 Mensaje Premium
+                <PremiumDiamond size={16} /> Mensaje Premium
               </button>
             )}
 

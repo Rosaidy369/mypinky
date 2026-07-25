@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import LockIcon from "../ui/LockIcon";
+import PremiumDiamond from "../ui/PremiumDiamond";
 
 const GENDER_OPTIONS = [
   { value: "Todos", label: "Todos" },
@@ -67,7 +68,7 @@ function FilterBar({ filters, onChange, isPremium }) {
           />
 
           <Link to="/premium" className="unlock-badge">
-            💎 Premium
+            <PremiumDiamond size={13} /> Premium
           </Link>
 
         </div>

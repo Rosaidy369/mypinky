@@ -143,6 +143,12 @@ top:10px;
 
 left:10px;
 
+display:flex;
+
+align-items:center;
+
+gap:4px;
+
 background:linear-gradient(135deg,#ffd700,#ffb700);
 
 color:#333;

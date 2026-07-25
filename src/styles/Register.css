@@ -38,7 +38,7 @@ margin-bottom:35px;
 
 }
 
-.register-header .logo{
+.register-header .auth-logo{
 
 font-size:44px;
 
@@ -46,7 +46,7 @@ margin-bottom:12px;
 
 }
 
-.register-header .logo span{
+.register-header .auth-logo span{
 
 color:#ff3f87;
 
@@ -372,7 +372,7 @@ transform:translateY(-2px);
     padding: 30px 22px;
   }
 
-  .register-header .logo {
+  .register-header .auth-logo {
     font-size: 34px;
   }
 

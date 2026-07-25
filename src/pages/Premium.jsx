@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import VipDiamond from "../components/ui/VipDiamond";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Premium.css";
 
 const plans = [
@@ -24,8 +25,7 @@ const plans = [
 
   {
     name: "Premium",
-    name: "Premium",
-    icon: "💎",
+    icon: <PremiumDiamond size={38} />,
     monthlyPrice: 9.99,
     yearlyPrice: 79.99,
     highlight: true,
@@ -66,7 +66,7 @@ function Premium() {
 
       <div className="premium-header">
 
-        <span className="premium-eyebrow">💎 MyPinky Premium</span>
+        <span className="premium-eyebrow"><PremiumDiamond size={14} /> MyPinky Premium</span>
 
         <h1>Encuentra a tu persona, más rápido</h1>
 

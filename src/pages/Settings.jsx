@@ -10,6 +10,9 @@ import BellIcon from "../components/ui/BellIcon";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import CheckIcon from "../components/ui/CheckIcon";
 import WarningIcon from "../components/ui/WarningIcon";
+import GlobeIcon from "../components/ui/GlobeIcon";
+import CardIcon from "../components/ui/CardIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
@@ -257,7 +260,7 @@ function Settings() {
               </label>
             ) : (
               <button className="premium-lock-btn" onClick={() => navigate("/premium")}>
-                💎 Premium
+                <PremiumDiamond size={14} /> Premium
               </button>
             )}
 
@@ -313,7 +316,7 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2>🌐 Idioma</h2>
+          <h2><GlobeIcon size={18} /> Idioma</h2>
 
           <select
             className="settings-select"
@@ -334,7 +337,7 @@ function Settings() {
 
           <div className="settings-section">
 
-            <h2>💳 Suscripción y pago</h2>
+            <h2><CardIcon size={18} /> Suscripción y pago</h2>
 
             <p className="plan-status">
               Plan actual: <strong className="plan-status-inline">
@@ -343,7 +346,9 @@ function Settings() {
                     <VipDiamond size={22} /> VIP
                   </>
                 ) : (
-                  "💎 Premium"
+                  <>
+                    <PremiumDiamond size={20} /> Premium
+                  </>
                 )}
               </strong>
               {isCancelled ? (

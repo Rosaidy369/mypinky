@@ -42,7 +42,7 @@ function Register() {
         <div className="register-card">
 
           <div className="register-header">
-            <h1 className="logo">
+            <h1 className="auth-logo">
               My<span>Pinky</span>
             </h1>
           </div>
@@ -72,7 +72,7 @@ function Register() {
 
         <div className="register-header">
 
-          <h1 className="logo">
+          <h1 className="auth-logo">
             My<span>Pinky</span>
           </h1>
 

@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import BackButton from "../components/ui/BackButton";
 import HeartIcon from "../components/ui/HeartIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/WhoLikedMe.css";
 import "../styles/BackButton.css";
 
@@ -137,7 +138,7 @@ function WhoLikedMe() {
           <p>Desbloquea esta lista con Premium o VIP.</p>
 
           <Link to="/premium" className="wholiked-cta-btn">
-            💎 Ver con Premium
+            <PremiumDiamond size={16} /> Ver con Premium
           </Link>
 
         </div>

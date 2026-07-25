@@ -20,7 +20,11 @@ margin:0 auto 60px;
 
 .premium-eyebrow{
 
-display:inline-block;
+display:inline-flex;
+
+align-items:center;
+
+gap:6px;
 
 background:#ffe7f1;
 
@@ -249,6 +253,8 @@ white-space:nowrap;
 }
 
 .plan-icon{
+
+display:flex;
 
 font-size:38px;
 
@@ -504,59 +510,93 @@ padding:20px 22px;
 
 }
 
+.premium-header{
+
+margin-bottom:30px;
+
+}
+
 .plans-grid{
 
-gap:16px;
+gap:14px;
 
 }
 
 .plan-card{
 
-padding:24px 22px;
+padding:18px 20px;
+
+}
+
+.plan-tag{
+
+top:-12px;
+
+font-size:11px;
+
+padding:5px 14px;
 
 }
 
 .plan-icon{
 
-font-size:28px;
+margin-bottom:4px;
 
-margin-bottom:6px;
+}
+
+.plan-icon svg{
+
+width:24px;
+
+height:24px;
 
 }
 
 .plan-card h2{
 
-font-size:20px;
+font-size:17px;
 
-margin-bottom:10px;
+margin-bottom:4px;
 
 }
 
 .price-amount{
 
-font-size:32px;
+font-size:26px;
+
+}
+
+.price-period{
+
+font-size:13px;
+
+}
+
+.price-billed{
+
+margin-bottom:10px;
 
 }
 
 .plan-features{
 
-margin:16px 0 20px;
+margin:10px 0 14px;
 
-gap:10px;
+gap:8px;
 
 }
 
 .plan-features li{
 
-font-size:14px;
+font-size:13px;
 
 }
 
 .plan-btn{
 
-padding:13px;
+padding:11px;
 
-font-size:14px;
+font-size:13px;
 
 }
 

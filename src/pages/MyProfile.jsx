@@ -8,6 +8,7 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
 import LockIcon from "../components/ui/LockIcon";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
@@ -241,7 +242,7 @@ function MyProfile() {
 
                   {isPremiumPlan && (
                     <span className="premium-badge-inline">
-                      💎 Premium
+                      <PremiumDiamond size={16} /> Premium
                     </span>
                   )}
 
@@ -397,6 +398,7 @@ function MyProfile() {
             <StepPrompts
               prompts={draft.prompts || []}
               onChange={(val) => updateDraft("prompts", val)}
+              isEditing
             />
 
             <label className="field-label">Nota de voz (10s)</label>

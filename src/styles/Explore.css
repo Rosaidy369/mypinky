@@ -201,6 +201,9 @@ pointer-events:none;
 }
 
 .premium-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   background: linear-gradient(135deg,#ff4d8d,#ff80b2);
   color: white;
   padding: 8px 14px;
@@ -1003,6 +1006,12 @@ width:220px;
 position:absolute;
 
 right:6px;
+
+display:flex;
+
+align-items:center;
+
+gap:4px;
 
 background:linear-gradient(135deg,#ff3f87,#ff79ac);
 

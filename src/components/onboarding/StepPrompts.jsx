@@ -1,6 +1,9 @@
 import PROMPT_OPTIONS from "../../data/promptOptions";
 
-function StepPrompts({ prompts, onChange }) {
+// `isEditing` distinguishes the onboarding wizard from being reused inside
+// MyProfile.jsx's edit form — "add this later from your profile" makes no
+// sense when the person is already there editing.
+function StepPrompts({ prompts, onChange, isEditing = false }) {
   const updateSlot = (index, field, value) => {
     const updated = [...prompts];
     if (!updated[index]) updated[index] = { question: "", answer: "" };
@@ -14,7 +17,7 @@ function StepPrompts({ prompts, onChange }) {
       <h2>Preguntas rompehielo</h2>
       <p className="step-subtitle">
         Elige hasta 2 preguntas y respóndelas para que otras personas te conozcan mejor.
-        Este paso es opcional, puedes agregarlo después desde tu perfil.
+        {!isEditing && " Este paso es opcional, puedes agregarlo después desde tu perfil."}
       </p>
 
       {[0, 1].map((index) => {

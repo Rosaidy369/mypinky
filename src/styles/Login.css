@@ -38,7 +38,7 @@ margin-bottom:35px;
 
 }
 
-.logo{
+.auth-logo{
 
 font-size:44px;
 
@@ -46,7 +46,7 @@ margin-bottom:12px;
 
 }
 
-.login-header .logo span{
+.login-header .auth-logo span{
 
 color:#ff3f87;
 
@@ -301,7 +301,7 @@ text-align:center;
     padding: 30px 22px;
   }
 
-  .logo {
+  .auth-logo {
     font-size: 34px;
   }
 

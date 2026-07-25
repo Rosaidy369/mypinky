@@ -5,6 +5,7 @@ import { isPlanActive, isVipActive } from "../lib/plan";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
 
@@ -167,7 +168,7 @@ function Explore() {
                   {isVipActive(profile) ? (
                     <span className="premium-badge"><VipDiamond size={14} /> VIP</span>
                   ) : isPlanActive(profile) && profile.plan === "premium" ? (
-                    <span className="premium-badge">💎 Premium</span>
+                    <span className="premium-badge"><PremiumDiamond size={14} /> Premium</span>
                   ) : null}
 
                 </div>

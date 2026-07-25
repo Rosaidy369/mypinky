@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Chat.css";
 import "../styles/BackButton.css";
 
@@ -107,7 +108,7 @@ function Chats() {
                   <h3>
                     {chat.otherProfile?.name}
                     {chat.created_via === "premium_message" && (
-                      <span className="premium-chat-tag" title="Mensaje Premium">💎</span>
+                      <span className="premium-chat-tag" title="Mensaje Premium"><PremiumDiamond size={13} /></span>
                     )}
                   </h3>
                   <p>{chat.lastMessage}</p>

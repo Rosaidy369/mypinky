@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Chat.css";
 
 function ChatRoom() {
@@ -151,14 +152,14 @@ function ChatRoom() {
         </Link>
 
         {match.created_via === "premium_message" && (
-          <span className="premium-header-badge">💎 Mensaje Premium</span>
+          <span className="premium-header-badge"><PremiumDiamond size={14} /> Mensaje Premium</span>
         )}
 
       </div>
 
       {match.created_via === "premium_message" && (
         <div className="premium-unlock-banner">
-          <span className="premium-unlock-icon">💎</span>
+          <span className="premium-unlock-icon"><PremiumDiamond size={22} /></span>
           <div>
             <strong>Mensaje Premium</strong>
             <p>
