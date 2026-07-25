@@ -1,0 +1,32 @@
+.testimonials{
+padding:100px 80px;
+text-align:center;
+}
+
+.testimonials h2{
+font-size:48px;
+margin-bottom:60px;
+}
+
+.testimonial-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+
+.testimonial{
+background:white;
+padding:35px;
+border-radius:25px;
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.testimonial p{
+line-height:1.8;
+color:#666;
+margin-bottom:20px;
+}
+
+.testimonial h4{
+color:#ff4d8d;
+}

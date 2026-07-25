@@ -1,0 +1,43 @@
+.benefits{
+padding:100px 80px;
+background:#fff8fb;
+text-align:center;
+}
+
+.benefits h2{
+font-size:48px;
+margin-bottom:60px;
+}
+
+.benefits-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:35px;
+}
+
+.benefit{
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.benefit:hover{
+transform:translateY(-10px);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:20px;
+}
+
+.benefit h3{
+margin-bottom:15px;
+font-size:24px;
+}
+
+.benefit p{
+color:#666;
+line-height:1.7;
+}

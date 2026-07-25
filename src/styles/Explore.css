@@ -1,0 +1,1015 @@
+.explore {
+  padding: 120px 60px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
+}
+
+.explore-header {
+  margin-bottom: 35px;
+}
+
+.explore-header h1 {
+  font-size: 46px;
+  color: #222;
+  margin-bottom: 25px;
+}
+
+.explore-header input {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px 22px;
+  border: none;
+  border-radius: 50px;
+  background: white;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+  font-size: 16px;
+  outline: none;
+}
+
+/* ========================= */
+/* FILTROS */
+/* ========================= */
+
+.filter-bar {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 45px;
+}
+
+.filter-bar select,
+.filter-bar button {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 40px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  cursor: pointer;
+  font-size: 15px;
+  transition: .25s;
+}
+
+.filter-bar button:hover,
+.filter-bar select:hover {
+  transform: translateY(-2px);
+}
+
+.filter-bar button {
+  background: #ff4d8d;
+  color: white;
+}
+
+.online-filter{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:14px 22px;
+
+background:white;
+
+border-radius:40px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.online-filter input{
+
+width:18px;
+
+height:18px;
+
+cursor:pointer;
+
+}
+
+/* ========================= */
+/* GRID DE TARJETAS */
+/* ========================= */
+
+.profiles-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
+align-items:start;
+
+}
+
+/* ========================= */
+/* TARJETA (estado base) */
+/* ========================= */
+
+.profile-card{
+
+background:white;
+
+border-radius:24px;
+
+overflow:hidden;
+
+box-shadow:0 14px 35px rgba(0,0,0,.08);
+
+display:flex;
+
+flex-direction:column;
+
+transition:.4s;
+
+}
+
+.profile-card:hover{
+
+transform:translateY(-12px);
+
+box-shadow:0 30px 60px rgba(0,0,0,.16);
+
+}
+
+/* ========================= */
+/* IMAGEN + OVERLAY */
+/* ========================= */
+
+.profile-image{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.profile-image img{
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+display:block;
+
+transition:.5s;
+
+}
+
+.profile-card:hover .profile-image img{
+
+transform:scale(1.12);
+
+filter:brightness(.88);
+
+}
+
+.image-overlay{
+
+position:absolute;
+
+inset:0;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-start;
+
+padding:18px;
+
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.28),
+rgba(0,0,0,0) 40%,
+rgba(0,0,0,0) 70%,
+rgba(0,0,0,.35)
+);
+
+pointer-events:none;
+
+}
+
+.premium-badge {
+  background: linear-gradient(135deg,#ff4d8d,#ff80b2);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow:0 6px 16px rgba(255,77,141,.4);
+}
+
+.online-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #19c95d;
+  border: 3px solid white;
+  box-shadow:0 0 0 3px rgba(25,201,93,.25);
+}
+
+/* ========================= */
+/* INFO DE LA TARJETA */
+/* ========================= */
+
+.profile-info{
+
+padding:22px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:12px;
+
+flex:1;
+
+}
+
+.profile-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:2px;
+
+}
+
+.profile-info h3{
+
+font-size:26px;
+
+font-weight:700;
+
+margin:0;
+
+color:#222;
+
+}
+
+.age{
+
+background:#ffe8f2;
+
+padding:5px 12px;
+
+border-radius:25px;
+
+font-size:14px;
+
+font-weight:bold;
+
+color:#ff3f87;
+
+}
+
+.country{
+
+font-size:15px;
+
+color:#666;
+
+margin:0;
+
+}
+
+.mood-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 10px 16px;
+  background: #ffe7f1;
+  border-radius: 30px;
+  font-weight: 600;
+  color: #444;
+  font-size:14px;
+}
+
+/* ========================= */
+/* ACCIONES DE LA TARJETA */
+/* ========================= */
+
+.profile-actions{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+margin-top:auto;
+
+}
+
+.favorite-btn{
+
+width:50px;
+
+height:50px;
+
+flex-shrink:0;
+
+border:none;
+
+border-radius:50%;
+
+background:#fff0f6;
+
+font-size:22px;
+
+cursor:pointer;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+transition:.25s;
+
+}
+
+.favorite-btn:hover{
+
+background:#ffd6e8;
+
+transform:scale(1.1);
+
+}
+
+.profile-button{
+
+flex:1;
+
+text-align:center;
+
+padding:15px;
+
+border-radius:40px;
+
+background:linear-gradient(135deg,#ff3f87,#ff6ea8);
+
+color:white;
+
+font-weight:700;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+.profile-button:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 12px 25px rgba(255,63,135,.35);
+
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width:768px){
+
+  .explore{
+    padding:100px 20px;
+  }
+
+  .explore-header h1{
+    font-size:34px;
+  }
+
+  .filter-bar{
+    flex-direction:column;
+  }
+
+  .filter-bar select,
+  .filter-bar button{
+    width:100%;
+  }
+
+}
+
+/* ========================= */
+/* BUSCADOR MODERNO */
+/* ========================= */
+
+.search-box{
+
+position:relative;
+
+max-width:420px;
+
+}
+
+.search-icon{
+
+position:absolute;
+
+left:22px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+font-size:17px;
+
+pointer-events:none;
+
+}
+
+.explore-header .search-box input{
+
+width:100%;
+
+padding:16px 22px 16px 52px;
+
+border:1px solid transparent;
+
+border-radius:50px;
+
+background:white;
+
+box-shadow:0 12px 30px rgba(0,0,0,.08);
+
+font-size:16px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.explore-header .search-box input:focus{
+
+border-color:#ff3f87;
+
+box-shadow:0 0 0 5px rgba(255,63,135,.15),0 12px 30px rgba(0,0,0,.08);
+
+}
+
+/* ========================= */
+/* FILTROS: TARJETA CONTENEDORA */
+/* ========================= */
+
+.filter-bar{
+
+background:rgba(255,255,255,.6);
+
+backdrop-filter:blur(14px);
+
+-webkit-backdrop-filter:blur(14px);
+
+border:1px solid rgba(255,255,255,.5);
+
+border-radius:24px;
+
+padding:18px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.06);
+
+}
+
+/* ========================= */
+/* SELECTS PERSONALIZADOS */
+/* ========================= */
+
+.select-wrapper{
+
+position:relative;
+
+display:inline-block;
+
+}
+
+.select-wrapper::after{
+
+content:"▾";
+
+position:absolute;
+
+right:18px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+color:#ff3f87;
+
+font-size:14px;
+
+pointer-events:none;
+
+}
+
+.select-wrapper select{
+
+appearance:none;
+
+-webkit-appearance:none;
+
+-moz-appearance:none;
+
+padding:14px 40px 14px 22px;
+
+border:1px solid transparent;
+
+border-radius:40px;
+
+background:white;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:500;
+
+color:#333;
+
+transition:.25s;
+
+}
+
+.select-wrapper select:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 14px 30px rgba(0,0,0,.12);
+
+}
+
+.select-wrapper select:focus{
+
+outline:none;
+
+border-color:#ff3f87;
+
+box-shadow:0 0 0 4px rgba(255,63,135,.15);
+
+}
+
+/* ========================= */
+/* TOGGLE "SOLO CONECTADOS" */
+/* ========================= */
+
+.online-filter{
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:12px 22px;
+
+background:white;
+
+border-radius:40px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+cursor:pointer;
+
+font-weight:600;
+
+transition:.25s;
+
+}
+
+.online-filter:hover{
+
+transform:translateY(-2px);
+
+}
+
+.online-filter input{
+
+position:absolute;
+
+opacity:0;
+
+width:0;
+
+height:0;
+
+}
+
+.toggle-track{
+
+width:42px;
+
+height:24px;
+
+background:#e5e7eb;
+
+border-radius:20px;
+
+position:relative;
+
+transition:.3s;
+
+flex-shrink:0;
+
+}
+
+.toggle-track::before{
+
+content:"";
+
+position:absolute;
+
+top:3px;
+
+left:3px;
+
+width:18px;
+
+height:18px;
+
+background:white;
+
+border-radius:50%;
+
+transition:.3s;
+
+box-shadow:0 2px 6px rgba(0,0,0,.2);
+
+}
+
+.online-filter input:checked + .toggle-track{
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+}
+
+.online-filter input:checked + .toggle-track::before{
+
+transform:translateX(18px);
+
+}
+
+.toggle-label{
+
+font-size:15px;
+
+color:#444;
+
+}
+
+/* ========================= */
+/* BOTÓN DE FAVORITO */
+/* ========================= */
+
+.favorite-btn.active{
+
+background:#ffe0eb;
+
+animation:heartPop .35s ease;
+
+}
+
+@keyframes heartPop{
+
+0%{ transform:scale(1); }
+
+40%{ transform:scale(1.3); }
+
+100%{ transform:scale(1); }
+
+}
+
+.explore{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.explore-bg-decor{
+
+position:absolute;
+
+inset:0;
+
+overflow:hidden;
+
+pointer-events:none;
+
+z-index:0;
+
+}
+
+.explore-bg-decor .blob{
+
+position:absolute;
+
+border-radius:50%;
+
+filter:blur(80px);
+
+opacity:.3;
+
+}
+
+.explore-bg-decor .blob-1{
+
+width:380px;
+
+height:380px;
+
+background:linear-gradient(135deg,#ff9dc3,#ff3f87);
+
+top:-140px;
+
+right:-120px;
+
+}
+
+.explore-bg-decor .blob-2{
+
+width:300px;
+
+height:300px;
+
+background:linear-gradient(135deg,#93c5fd,#60a5fa);
+
+bottom:-100px;
+
+left:-100px;
+
+}
+
+.explore-header,
+.filter-bar,
+.profiles-grid{
+
+position:relative;
+
+z-index:1;
+
+}
+
+/* ========================= */
+/* LIMITAR TAMAÑO MÁXIMO DE LAS CARDS */
+/* ========================= */
+
+.profiles-grid{
+
+grid-template-columns:repeat(auto-fill,minmax(260px,300px));
+
+justify-content:center;
+
+}
+
+/* ========================= */
+/* SLIDER DE DISTANCIA */
+/* ========================= */
+
+.distance-filter{
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+background:white;
+
+padding:12px 22px;
+
+border-radius:40px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+min-width:200px;
+
+justify-content:center;
+
+}
+
+.distance-label{
+
+font-size:14px;
+
+font-weight:600;
+
+color:#333;
+
+}
+
+.distance-slider{
+
+-webkit-appearance:none;
+
+appearance:none;
+
+width:100%;
+
+height:5px;
+
+border-radius:10px;
+
+background:#f0d3e0;
+
+outline:none;
+
+cursor:pointer;
+
+}
+
+.distance-slider::-webkit-slider-thumb{
+
+-webkit-appearance:none;
+
+appearance:none;
+
+width:18px;
+
+height:18px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+cursor:pointer;
+
+box-shadow:0 3px 8px rgba(255,63,135,.4);
+
+}
+
+.distance-slider::-moz-range-thumb{
+
+width:18px;
+
+height:18px;
+
+border-radius:50%;
+
+border:none;
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+cursor:pointer;
+
+box-shadow:0 3px 8px rgba(255,63,135,.4);
+
+}
+
+/* ========================= */
+/* BÚSQUEDA PREMIUM BLOQUEADA */
+/* ========================= */
+
+.premium-search-wrapper{
+
+position:relative;
+
+display:flex;
+
+align-items:center;
+
+}
+
+.premium-locked-input{
+
+padding:14px 100px 14px 22px;
+
+border-radius:40px;
+
+border:1px dashed #ddd;
+
+background:#fafafa;
+
+color:#999;
+
+font-size:14px;
+
+cursor:not-allowed;
+
+width:220px;
+
+}
+
+.unlock-badge{
+
+position:absolute;
+
+right:6px;
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+color:white;
+
+font-size:12px;
+
+font-weight:700;
+
+padding:8px 14px;
+
+border-radius:30px;
+
+text-decoration:none;
+
+white-space:nowrap;
+
+box-shadow:0 6px 16px rgba(255,63,135,.35);
+
+transition:.25s;
+
+}
+
+.unlock-badge:hover{
+
+transform:translateY(-2px);
+
+}
+
+/* ========================= */
+/* SIN RESULTADOS */
+/* ========================= */
+
+.no-results{
+
+position:relative;
+
+z-index:1;
+
+max-width:420px;
+
+margin:40px auto;
+
+text-align:center;
+
+background:white;
+
+border-radius:24px;
+
+padding:50px 30px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.06);
+
+}
+
+.no-results h2{
+
+font-size:20px;
+
+color:#222;
+
+margin-bottom:10px;
+
+}
+
+.no-results p{
+
+color:#777;
+
+}
+
+.location-search-input{
+
+padding:14px 22px;
+
+border-radius:40px;
+
+border:1px solid transparent;
+
+background:white;
+
+font-size:14px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+outline:none;
+
+width:220px;
+
+transition:.3s;
+
+}
+
+.location-search-input:focus{
+
+border-color:#ff3f87;
+
+box-shadow:0 0 0 4px rgba(255,63,135,.15);
+
+}

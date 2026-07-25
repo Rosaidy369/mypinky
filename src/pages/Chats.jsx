@@ -1,0 +1,162 @@
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+import BackButton from "../components/ui/BackButton";
+import "../styles/Chat.css";
+import "../styles/BackButton.css";
+
+function Chats() {
+  const navigate = useNavigate();
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [toDelete, setToDelete] = useState(null);
+
+  useEffect(() => {
+    loadConversations();
+  }, []);
+
+  const loadConversations = async () => {
+    setLoading(true);
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    const { data: matchesData, error } = await supabase
+      .from("matches")
+      .select("id, user_id, matched_profile_id, created_via, user_profile:user_id(*), matched_profile:matched_profile_id(*)")
+      .or(`user_id.eq.${user.id},matched_profile_id.eq.${user.id}`)
+      .order("matched_at", { ascending: false });
+
+    if (error) {
+      console.error("Error cargando conversaciones:", error.message);
+      setLoading(false);
+      return;
+    }
+
+    const withLastMessage = await Promise.all(
+      (matchesData || []).map(async (match) => {
+        const { data: lastMsg } = await supabase
+          .from("messages")
+          .select("text")
+          .eq("match_id", match.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        const otherProfile = match.user_id === user.id ? match.matched_profile : match.user_profile;
+
+        return { ...match, otherProfile, lastMessage: lastMsg?.text || "Di hola 👋" };
+      })
+    );
+
+    // Premium message conversations are pinned to the top for both people.
+    const sorted = [...withLastMessage].sort((a, b) => {
+      const aPinned = a.created_via === "premium_message" ? 1 : 0;
+      const bPinned = b.created_via === "premium_message" ? 1 : 0;
+      return bPinned - aPinned;
+    });
+
+    setConversations(sorted);
+    setLoading(false);
+  };
+
+  const confirmDelete = async () => {
+    await supabase.from("matches").delete().eq("id", toDelete.id);
+    setConversations((prev) => prev.filter((c) => c.id !== toDelete.id));
+    setToDelete(null);
+  };
+
+  if (loading) {
+    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando mensajes...</div>;
+  }
+
+  return (
+    <div className="chats-page">
+
+      <div className="chats-bg-decor">
+        <span className="blob blob-1"></span>
+        <span className="blob blob-2"></span>
+      </div>
+
+      <div className="chats-header">
+        <BackButton />
+        <h1>Mensajes</h1>
+      </div>
+
+      {conversations.length === 0 ? (
+
+        <div className="matches-empty">
+          <div className="matches-empty-icon">💬</div>
+          <h2>No tienes conversaciones</h2>
+          <p>Haz match con alguien para empezar a chatear.</p>
+        </div>
+
+      ) : (
+
+        <div className="chats-list">
+
+          {conversations.map((chat) => (
+            <div className={`chat-item-wrapper ${chat.created_via === "premium_message" ? "is-premium-message" : ""}`} key={chat.id}>
+
+              <Link to={`/chat/${chat.id}`} className="chat-item">
+                <img src={chat.otherProfile?.photos?.[0] || "https://via.placeholder.com/100"} alt={chat.otherProfile?.name} />
+                <div className="chat-item-info">
+                  <h3>
+                    {chat.otherProfile?.name}
+                    {chat.created_via === "premium_message" && (
+                      <span className="premium-chat-tag" title="Mensaje Premium">💎</span>
+                    )}
+                  </h3>
+                  <p>{chat.lastMessage}</p>
+                </div>
+              </Link>
+
+              <button
+                className="chat-delete-btn"
+                onClick={() => setToDelete(chat)}
+                aria-label="Eliminar conversación"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                  <path d="M10 11v6"></path>
+                  <path d="M14 11v6"></path>
+                  <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                </svg>
+              </button>
+
+            </div>
+          ))}
+
+        </div>
+
+      )}
+
+      {toDelete && (
+        <div className="delete-modal-backdrop" onClick={() => setToDelete(null)}>
+          <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+
+            <h2>¿Eliminar esta conversación?</h2>
+            <p>Se borrará el chat con {toDelete.otherProfile?.name}. Esta acción no se puede deshacer.</p>
+
+            <div className="delete-modal-actions">
+              <button className="cancel-btn" onClick={() => setToDelete(null)}>
+                Cancelar
+              </button>
+              <button className="confirm-delete-btn" onClick={confirmDelete}>
+                Sí, eliminar
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+export default Chats;

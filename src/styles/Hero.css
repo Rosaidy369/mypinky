@@ -1,0 +1,325 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 140px 80px 80px;
+  background:
+    radial-gradient(circle at top left, #ffd7e8 0%, transparent 35%),
+    radial-gradient(circle at bottom right, #ffe6f0 0%, transparent 35%),
+    linear-gradient(135deg, #fff8fb 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.hero-left {
+  position: relative;
+  z-index: 2;
+  width: 55%;
+}
+
+.badge {
+  display: inline-block;
+  background: #ffe4ef;
+  color: #ff4d8d;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  font-size: 72px;
+  line-height: 1.05;
+  color: #181818;
+  margin-bottom: 25px;
+}
+
+.hero p {
+  font-size: 22px;
+  color: #666;
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.primary,
+.secondary {
+  padding: 18px 36px;
+  border-radius: 999px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.primary {
+  border: none;
+  background: #ff4d8d;
+  color: white;
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+}
+
+.secondary {
+  background: white;
+  border: 2px solid #ff4d8d;
+  color: #ff4d8d;
+}
+
+.secondary:hover {
+  background: #ff4d8d;
+  color: white;
+}
+
+.stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.stat-item{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+max-width:160px;
+
+}
+
+.stat-icon{
+
+flex-shrink:0;
+
+width:44px;
+
+height:44px;
+
+border-radius:50%;
+
+background:linear-gradient(135deg,#ffe4ef,#ffd0e4);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:18px;
+
+box-shadow:0 8px 18px rgba(255,77,141,.15);
+
+}
+
+.stat-label{
+
+font-size:13px;
+
+font-weight:600;
+
+color:#666;
+
+line-height:1.4;
+
+}
+
+.hero-right {
+  position: relative;
+  z-index: 2;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+.phone {
+  width: 350px;
+  transform: rotate(-5deg);
+  background: white;
+  border-radius: 35px;
+  padding: 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.12);
+}
+
+.card {
+  text-align: center;
+}
+
+.avatar {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+  border: 6px solid #fff;
+  box-shadow: 0 15px 40px rgba(0,0,0,.15);
+}
+
+.online {
+  display: inline-block;
+  margin-top: 20px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.card h3 {
+  margin-top: 15px;
+  font-size: 28px;
+}
+
+.card p {
+  margin-top: 8px;
+  color: #666;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+
+.tags span {
+  background: #ffe4ef;
+  color: #ff4d8d;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hero-profile-btn{
+
+display:block;
+
+width:100%;
+
+margin-top:18px;
+
+padding:14px;
+
+border-radius:40px;
+
+background:linear-gradient(135deg,#ff3f87,#ff6ea8);
+
+color:white;
+
+text-align:center;
+
+text-decoration:none;
+
+font-weight:700;
+
+transition:.3s;
+
+}
+
+.hero-profile-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 12px 25px rgba(255,63,135,.35);
+
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  background: rgba(255, 77, 141, 0.08);
+  border-radius: 50%;
+  top: -180px;
+  right: -150px;
+  filter: blur(20px);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 182, 193, 0.15);
+  border-radius: 50%;
+  bottom: -150px;
+  left: -120px;
+}
+
+.floating{
+
+position:absolute;
+
+background:white;
+
+padding:14px 22px;
+
+border-radius:50px;
+
+box-shadow:0 20px 40px rgba(0,0,0,.12);
+
+font-weight:600;
+
+animation:float 4s ease-in-out infinite;
+
+}
+
+.floating1{
+
+top:40px;
+
+right:-40px;
+
+}
+
+.floating2{
+
+bottom:80px;
+
+left:-70px;
+
+animation-delay:1s;
+
+}
+
+.floating3{
+
+top:230px;
+
+right:-70px;
+
+animation-delay:2s;
+
+}
+
+@keyframes float{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}

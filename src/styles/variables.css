@@ -1,0 +1,18 @@
+:root{
+  --primary:#FF4D8D;
+  --primary-hover:#E63973;
+
+  --background:#FFF8FB;
+
+  --white:#FFFFFF;
+
+  --black:#181818;
+
+  --gray:#6B7280;
+
+  --radius:18px;
+
+  --shadow:0 15px 40px rgba(0,0,0,.08);
+
+  --max-width:1300px;
+}
