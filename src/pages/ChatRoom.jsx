@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { useNotifications } from "../hooks/useNotifications";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Chat.css";
 
 function ChatRoom() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { markMessagesReadForMatch } = useNotifications();
 
   const [match, setMatch] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -31,6 +33,12 @@ function ChatRoom() {
           setMessages((prev) =>
             prev.some((m) => m.id === payload.new.id) ? prev : [...prev, payload.new]
           );
+
+          // The chat is open, so a message that just arrived counts as read
+          // immediately rather than waiting for the next visit.
+          if (payload.new.sender_id !== currentUserId) {
+            markMessagesReadForMatch(id);
+          }
         }
       )
       .subscribe((status, err) => {
@@ -42,7 +50,7 @@ function ChatRoom() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [id]);
+  }, [id, currentUserId]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -87,6 +95,8 @@ function ChatRoom() {
 
     setMessages(messagesData || []);
     setLoading(false);
+
+    markMessagesReadForMatch(id);
   };
 
   const sendMessage = async () => {

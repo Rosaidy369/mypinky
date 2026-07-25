@@ -18,14 +18,7 @@ import "../styles/BackButton.css";
 
 function loadLocalSettings() {
   const raw = localStorage.getItem("mypinky_settings");
-  return raw
-    ? JSON.parse(raw)
-    : {
-        notifMatches: true,
-        notifMessages: true,
-        notifLikes: false,
-        language: "Español",
-      };
+  return raw ? JSON.parse(raw) : { language: "Español" };
 }
 
 function Settings() {
@@ -59,7 +52,7 @@ function Settings() {
 
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, plan, plan_expires_at, plan_cancelled, is_invisible, search_gender, age_min, age_max, default_distance")
+      .select("id, plan, plan_expires_at, plan_cancelled, is_invisible, search_gender, age_min, age_max, default_distance, notify_matches, notify_messages, notify_likes")
       .eq("id", user.id)
       .single();
 
@@ -279,8 +272,11 @@ function Settings() {
             <label className="settings-toggle">
               <input
                 type="checkbox"
-                checked={localSettings.notifMatches}
-                onChange={(e) => updateLocalSetting("notifMatches", e.target.checked)}
+                checked={profile?.notify_matches ?? true}
+                onChange={(e) => {
+                  updateProfileField("notify_matches", e.target.checked);
+                  commitProfileField("notify_matches", e.target.checked);
+                }}
               />
               <span className="settings-toggle-track"></span>
             </label>
@@ -291,8 +287,11 @@ function Settings() {
             <label className="settings-toggle">
               <input
                 type="checkbox"
-                checked={localSettings.notifMessages}
-                onChange={(e) => updateLocalSetting("notifMessages", e.target.checked)}
+                checked={profile?.notify_messages ?? true}
+                onChange={(e) => {
+                  updateProfileField("notify_messages", e.target.checked);
+                  commitProfileField("notify_messages", e.target.checked);
+                }}
               />
               <span className="settings-toggle-track"></span>
             </label>
@@ -303,8 +302,11 @@ function Settings() {
             <label className="settings-toggle">
               <input
                 type="checkbox"
-                checked={localSettings.notifLikes}
-                onChange={(e) => updateLocalSetting("notifLikes", e.target.checked)}
+                checked={profile?.notify_likes ?? false}
+                onChange={(e) => {
+                  updateProfileField("notify_likes", e.target.checked);
+                  commitProfileField("notify_likes", e.target.checked);
+                }}
               />
               <span className="settings-toggle-track"></span>
             </label>

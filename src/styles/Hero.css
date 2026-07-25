@@ -167,9 +167,33 @@ line-height:1.4;
 
 .hero-swipe-card-frame .swipe-card-overlay p {
   color: white;
-  font-size: 15px;
+  font-size: 14px;
   max-width: none;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+.hero-swipe-card-frame .swipe-top-row {
+  gap: 8px;
+}
+
+.hero-swipe-card-frame .swipe-premium,
+.hero-swipe-card-frame .swipe-match {
+  font-size: 11px;
+  padding: 6px 11px;
+  white-space: nowrap;
+}
+
+.hero-swipe-card-frame .swipe-name-row h2 {
+  font-size: 20px;
+}
+
+.hero-swipe-card-frame .swipe-distance {
+  font-size: 12px;
+}
+
+.hero-swipe-card-frame .swipe-mood {
+  font-size: 12px;
+  padding: 6px 12px;
 }
 
 .badge-heart {
@@ -363,6 +387,7 @@ transform:translateY(0);
 
   .phone {
     width: min(320px, 100%);
+    padding: 16px;
     transform: none;
   }
 

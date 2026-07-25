@@ -80,11 +80,21 @@ object-fit:cover;
 
 }
 
+.chat-item-info{
+
+flex:1;
+
+min-width:0;
+
+}
+
 .chat-item-info h3{
 
 font-size:16px;
 
 color:#222;
+
+font-weight:600;
 
 }
 
@@ -403,6 +413,34 @@ flex:1;
 background:linear-gradient(135deg,#fff0f6,#ffe9f2);
 
 border:1px solid #ffd0e4;
+
+}
+
+.chat-item-wrapper.is-unread .chat-item{
+
+background:#fff5f9;
+
+}
+
+.chat-item-wrapper.is-unread .chat-item-info h3{
+
+font-weight:800;
+
+}
+
+.chat-unread-dot{
+
+width:10px;
+
+height:10px;
+
+border-radius:50%;
+
+background:#ff3f87;
+
+flex-shrink:0;
+
+margin-left:auto;
 
 }
 

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useNotifications } from "../../hooks/useNotifications";
 import { supabase } from "../../lib/supabaseClient";
 import HeartIcon from "../ui/HeartIcon";
 import StarIcon from "../ui/StarIcon";
@@ -12,6 +13,7 @@ import "../../styles/Navbar.css";
 
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
+  const { badges } = useNotifications();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -107,11 +109,17 @@ function Navbar() {
               <span className="nav-link-label">Explorar</span>
             </Link>
             <Link to="/mensajes" className="nav-link">
-              <MessageIcon size={18} className="nav-link-icon" />
+              <span className="nav-icon-badge-wrap">
+                <MessageIcon size={18} className="nav-link-icon" />
+                {badges?.messages && <span className="notif-dot"></span>}
+              </span>
               <span className="nav-link-label">Mensajes</span>
             </Link>
             <Link to="/matches" className="nav-link">
-              <HeartIcon size={17} className="nav-link-icon" />
+              <span className="nav-icon-badge-wrap">
+                <HeartIcon size={17} className="nav-link-icon" />
+                {badges?.matches && <span className="notif-dot"></span>}
+              </span>
               <span className="nav-link-label">Matches</span>
             </Link>
 
@@ -144,7 +152,10 @@ function Navbar() {
                   </Link>
 
                   <Link to="/quien-me-dio-like" onClick={() => setMenuOpen(false)}>
-                    <span className="menu-icon-slot"><HeartIcon size={15} /></span>
+                    <span className="menu-icon-badge-wrap">
+                      <span className="menu-icon-slot"><HeartIcon size={15} /></span>
+                      {badges?.likes && <span className="notif-dot menu-notif-dot"></span>}
+                    </span>
                     <span className="menu-item-label">A quién le gustas</span>
                   </Link>
 

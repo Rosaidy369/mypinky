@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { useNotifications } from "../hooks/useNotifications";
 import BackButton from "../components/ui/BackButton";
 import HeartIcon from "../components/ui/HeartIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
@@ -13,9 +14,11 @@ function WhoLikedMe() {
   const [likers, setLikers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPremium, setIsPremium] = useState(false);
+  const { markLikesViewed } = useNotifications();
 
   useEffect(() => {
     loadLikers();
+    markLikesViewed();
   }, []);
 
   const loadLikers = async () => {

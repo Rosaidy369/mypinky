@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { useNotifications } from "../hooks/useNotifications";
 import BackButton from "../components/ui/BackButton";
 import "../styles/Matches.css";
 import "../styles/BackButton.css";
@@ -10,9 +11,11 @@ function Matches() {
   const [loading, setLoading] = useState(true);
   const [matchToDelete, setMatchToDelete] = useState(null);
   const navigate = useNavigate();
+  const { markMatchesViewed } = useNotifications();
 
   useEffect(() => {
     loadMatches();
+    markMatchesViewed();
   }, []);
 
   const loadMatches = async () => {

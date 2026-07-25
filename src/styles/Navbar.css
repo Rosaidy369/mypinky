@@ -162,6 +162,52 @@ flex-shrink:0;
 
 }
 
+.nav-icon-badge-wrap{
+
+position:relative;
+
+display:inline-flex;
+
+}
+
+.notif-dot{
+
+position:absolute;
+
+top:-2px;
+
+right:-2px;
+
+width:9px;
+
+height:9px;
+
+border-radius:50%;
+
+background:#ff3f87;
+
+border:2px solid white;
+
+}
+
+.menu-icon-badge-wrap{
+
+position:relative;
+
+display:flex;
+
+flex-shrink:0;
+
+}
+
+.menu-notif-dot{
+
+top:-1px;
+
+right:-1px;
+
+}
+
 .label-short{
 
 display:none;

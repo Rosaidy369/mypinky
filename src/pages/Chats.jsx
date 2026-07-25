@@ -48,9 +48,21 @@ function Chats() {
           .limit(1)
           .maybeSingle();
 
+        const { count: unreadCount } = await supabase
+          .from("messages")
+          .select("id", { count: "exact", head: true })
+          .eq("match_id", match.id)
+          .is("read_at", null)
+          .neq("sender_id", user.id);
+
         const otherProfile = match.user_id === user.id ? match.matched_profile : match.user_profile;
 
-        return { ...match, otherProfile, lastMessage: lastMsg?.text || "Di hola 👋" };
+        return {
+          ...match,
+          otherProfile,
+          lastMessage: lastMsg?.text || "Di hola 👋",
+          unreadCount: unreadCount || 0,
+        };
       })
     );
 
@@ -101,7 +113,10 @@ function Chats() {
         <div className="chats-list">
 
           {conversations.map((chat) => (
-            <div className={`chat-item-wrapper ${chat.created_via === "premium_message" ? "is-premium-message" : ""}`} key={chat.id}>
+            <div
+              className={`chat-item-wrapper ${chat.created_via === "premium_message" ? "is-premium-message" : ""} ${chat.unreadCount > 0 ? "is-unread" : ""}`}
+              key={chat.id}
+            >
 
               <Link to={`/chat/${chat.id}`} className="chat-item">
                 <img src={chat.otherProfile?.photos?.[0] || "https://via.placeholder.com/100"} alt={chat.otherProfile?.name} />
@@ -114,6 +129,7 @@ function Chats() {
                   </h3>
                   <p>{chat.lastMessage}</p>
                 </div>
+                {chat.unreadCount > 0 && <span className="chat-unread-dot"></span>}
               </Link>
 
               <button
