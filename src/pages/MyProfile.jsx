@@ -3,6 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
 import VoiceRecorder from "../components/profile/VoiceRecorder";
+import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
+import PhotoCropModal from "../components/profile/PhotoCropModal";
+import { getCroppedImageBlob } from "../lib/cropImage";
 import StepPrompts from "../components/onboarding/StepPrompts";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -46,6 +49,11 @@ function MyProfile() {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
+  const [dragIndex, setDragIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [cropQueue, setCropQueue] = useState([]);
+  const [cropImageSrc, setCropImageSrc] = useState(null);
 
   const isVip = isVipActive(user);
   const isPremiumPlan = isPlanActive(user) && user?.plan === "premium";
@@ -146,28 +154,82 @@ function MyProfile() {
     });
   };
 
-  const handleFileChange = async (e) => {
+  // Files go through the crop modal one at a time before upload — queueing
+  // here lets a multi-file selection still crop each photo individually.
+  const handleFileChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 7 - draft.photos.length);
     e.target.value = "";
+    if (files.length === 0) return;
 
-    for (const file of files) {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+    setCropQueue(files);
+    setCropImageSrc(URL.createObjectURL(files[0]));
+  };
 
-      const { error } = await supabase.storage.from("photos").upload(fileName, file);
+  const advanceCropQueue = (remaining) => {
+    if (cropImageSrc) URL.revokeObjectURL(cropImageSrc);
+
+    if (remaining.length === 0) {
+      setCropQueue([]);
+      setCropImageSrc(null);
+      return;
+    }
+
+    setCropQueue(remaining);
+    setCropImageSrc(URL.createObjectURL(remaining[0]));
+  };
+
+  const handleCropCancel = () => {
+    advanceCropQueue(cropQueue.slice(1));
+  };
+
+  const handleCropConfirm = async (croppedAreaPixels) => {
+    try {
+      const blob = await getCroppedImageBlob(cropImageSrc, croppedAreaPixels);
+      const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
+
+      const { error } = await supabase.storage
+        .from("photos")
+        .upload(fileName, blob, { contentType: "image/jpeg" });
 
       if (error) {
         console.error("Error subiendo foto:", error.message);
-        continue;
+      } else {
+        const { data: publicUrlData } = supabase.storage.from("photos").getPublicUrl(fileName);
+        setDraft((prev) => ({ ...prev, photos: [...prev.photos, publicUrlData.publicUrl] }));
       }
-
-      const { data: publicUrlData } = supabase.storage.from("photos").getPublicUrl(fileName);
-      updateDraft("photos", [...draft.photos, publicUrlData.publicUrl]);
+    } finally {
+      advanceCropQueue(cropQueue.slice(1));
     }
   };
 
   const removePhoto = (index) => {
     updateDraft("photos", draft.photos.filter((_, i) => i !== index));
+  };
+
+  // Pointer Events (not the HTML5 drag-and-drop API) so reordering works
+  // with touch on phones, not just mouse on desktop.
+  const handlePhotoPointerDown = (index, e) => {
+    if (!draft.photos[index]) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setDragIndex(index);
+  };
+
+  const handlePhotoPointerMove = (e) => {
+    if (dragIndex === null) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const slot = el && el.closest("[data-photo-slot]");
+    const overIndex = slot ? Number(slot.dataset.photoSlot) : null;
+    setDragOverIndex(overIndex !== null && draft.photos[overIndex] ? overIndex : null);
+  };
+
+  const handlePhotoPointerUp = () => {
+    if (dragIndex !== null && dragOverIndex !== null && dragIndex !== dragOverIndex) {
+      const updated = [...draft.photos];
+      [updated[dragIndex], updated[dragOverIndex]] = [updated[dragOverIndex], updated[dragIndex]];
+      updateDraft("photos", updated);
+    }
+    setDragIndex(null);
+    setDragOverIndex(null);
   };
 
   const handleVoiceSave = async (blob) => {
@@ -211,7 +273,15 @@ function MyProfile() {
                 className="profile-photo"
                 src={user.photos && user.photos[0] ? user.photos[0] : "https://via.placeholder.com/220"}
                 alt={user.name}
+                onClick={() => user.photos?.length > 0 && setShowGallery(true)}
+                style={{ cursor: user.photos?.length > 0 ? "pointer" : "default" }}
               />
+
+              {user.photos && user.photos.length > 1 && (
+                <button className="view-photos-btn" onClick={() => setShowGallery(true)}>
+                  📷 Ver fotos ({user.photos.length})
+                </button>
+              )}
 
               <div className="completion-box">
                 <div className="completion-label">
@@ -309,6 +379,7 @@ function MyProfile() {
             </div>
 
             <label className="field-label">Fotos</label>
+            <p className="drag-hint">Arrastra una foto sobre otra para cambiar el orden. La primera es tu foto principal.</p>
 
             <div className="photo-grid edit-photo-grid">
 
@@ -316,11 +387,23 @@ function MyProfile() {
                 const photo = draft.photos[i];
 
                 return (
-                  <div className={`photo-slot ${i === 0 ? "main-slot" : ""}`} key={i}>
+                  <div
+                    className={`photo-slot ${i === 0 ? "main-slot" : ""} ${dragIndex === i ? "dragging" : ""} ${dragOverIndex === i ? "drag-over" : ""}`}
+                    key={i}
+                    data-photo-slot={i}
+                  >
 
                     {photo ? (
                       <>
-                        <img src={photo} alt={`Foto ${i + 1}`} />
+                        <img
+                          src={photo}
+                          alt={`Foto ${i + 1}`}
+                          className="draggable-photo"
+                          onPointerDown={(e) => handlePhotoPointerDown(i, e)}
+                          onPointerMove={handlePhotoPointerMove}
+                          onPointerUp={handlePhotoPointerUp}
+                          onPointerCancel={handlePhotoPointerUp}
+                        />
 
                         <button
                           type="button"
@@ -436,6 +519,21 @@ function MyProfile() {
         )}
 
       </div>
+
+      {showGallery && user.photos && user.photos.length > 0 && (
+        <PhotoGalleryModal
+          photos={user.photos}
+          onClose={() => setShowGallery(false)}
+        />
+      )}
+
+      {cropImageSrc && (
+        <PhotoCropModal
+          imageSrc={cropImageSrc}
+          onCancel={handleCropCancel}
+          onConfirm={handleCropConfirm}
+        />
+      )}
 
     </div>
   );

@@ -245,6 +245,18 @@ display:block;
 
 }
 
+.photo-slot img.draggable-photo{
+
+cursor:grab;
+
+touch-action:none;
+
+user-select:none;
+
+-webkit-user-drag:none;
+
+}
+
 .main-slot{
 
 grid-column:span 2;
