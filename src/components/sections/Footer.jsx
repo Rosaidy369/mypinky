@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
 import HeartIcon from "../ui/HeartIcon";
+import InstagramIcon from "../ui/InstagramIcon";
+import TikTokIcon from "../ui/TikTokIcon";
+import XIcon from "../ui/XIcon";
+import FacebookIcon from "../ui/FacebookIcon";
+import YouTubeIcon from "../ui/YouTubeIcon";
+import PinterestIcon from "../ui/PinterestIcon";
 import "../../styles/Footer.css";
+
+const SOCIAL_LINKS = [
+  { name: "Instagram", Icon: InstagramIcon },
+  { name: "TikTok", Icon: TikTokIcon },
+  { name: "X", Icon: XIcon },
+  { name: "Facebook", Icon: FacebookIcon },
+  { name: "YouTube", Icon: YouTubeIcon },
+  { name: "Pinterest", Icon: PinterestIcon },
+];
 
 function Footer() {
   return (
@@ -19,6 +34,20 @@ function Footer() {
         <Link to="/soporte">Soporte</Link>
 
         <Link to="/contacto">Contacto</Link>
+
+      </div>
+
+      <div className="footer-social">
+
+        <p className="footer-social-title">Síguenos</p>
+
+        <div className="footer-social-icons">
+          {SOCIAL_LINKS.map(({ name, Icon }) => (
+            <a href="#" className="social-icon-link" aria-label={name} key={name}>
+              <Icon size={16} />
+            </a>
+          ))}
+        </div>
 
       </div>
 

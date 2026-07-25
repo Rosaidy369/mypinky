@@ -58,6 +58,64 @@ color:#ff3f87;
 
 }
 
+.footer-social{
+
+margin-bottom:30px;
+
+}
+
+.footer-social-title{
+
+font-size:13px;
+
+font-weight:600;
+
+margin-bottom:14px;
+
+}
+
+.footer-social-icons{
+
+display:flex;
+
+justify-content:center;
+
+gap:12px;
+
+flex-wrap:wrap;
+
+}
+
+.social-icon-link{
+
+width:38px;
+
+height:38px;
+
+border-radius:50%;
+
+border:1px solid rgba(255,255,255,.25);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+transition:.25s;
+
+}
+
+.social-icon-link:hover{
+
+background:#ff3f87;
+
+border-color:#ff3f87;
+
+transform:translateY(-3px);
+
+}
+
 @media (max-width: 640px) {
 
   .footer {
