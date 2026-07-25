@@ -28,8 +28,16 @@ transform:translateY(-10px);
 }
 
 .icon{
-font-size:50px;
-margin-bottom:20px;
+width:64px;
+height:64px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 20px;
+border-radius:50%;
+background:linear-gradient(135deg,#ffe4ef,#ffd0e4);
+color:#ff3f87;
+box-shadow:0 8px 18px rgba(255,77,141,.15);
 }
 
 .benefit h3{

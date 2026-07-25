@@ -54,7 +54,7 @@ gap:10px;
 
 .logo-heart{
 
-font-size:34px;
+display:flex;
 
 color:#ff3f87;
 
@@ -68,7 +68,7 @@ transform:scale(1.25) rotate(-10deg);
 
 color:#ff1f73;
 
-text-shadow:0 0 20px rgba(255,63,135,.5);
+filter:drop-shadow(0 0 12px rgba(255,63,135,.5));
 
 }
 

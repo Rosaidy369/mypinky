@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import BackButton from "../components/ui/BackButton";
+import HeartIcon from "../components/ui/HeartIcon";
 import "../styles/WhoLikedMe.css";
 import "../styles/BackButton.css";
 
@@ -74,7 +75,7 @@ function WhoLikedMe() {
       <BackButton />
 
       <div className="wholiked-header">
-        <h1>💗 A quién le gustas</h1>
+        <h1><HeartIcon size={24} /> A quién le gustas</h1>
         <p>{likers.length} personas ya te dieron like</p>
       </div>
 

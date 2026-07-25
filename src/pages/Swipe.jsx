@@ -4,6 +4,8 @@ import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
+import StarIcon from "../components/ui/StarIcon";
+import LockIcon from "../components/ui/LockIcon";
 import "../styles/Swipe.css";
 import "../styles/BackButton.css";
 
@@ -297,10 +299,7 @@ function Swipe() {
             >
               {!isPremium && (
                 <span className="lock-icon">
-                  <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
-                    <rect x="4" y="10.5" width="16" height="10" rx="2.5"></rect>
-                    <path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round"></path>
-                  </svg>
+                  <LockIcon size={11} />
                 </span>
               )}
               ↩
@@ -316,13 +315,10 @@ function Swipe() {
             >
               {!isPremium && (
                 <span className="lock-icon">
-                  <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
-                    <rect x="4" y="10.5" width="16" height="10" rx="2.5"></rect>
-                    <path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round"></path>
-                  </svg>
+                  <LockIcon size={11} />
                 </span>
               )}
-              ⭐
+              <StarIcon size={22} />
             </button>
 
             <button className="swipe-btn like" onClick={() => handleButtonSwipe("right")}>

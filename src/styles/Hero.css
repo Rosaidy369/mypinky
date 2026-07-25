@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 140px 80px 80px;
+  padding: calc(var(--navbar-bottom) + 38px) 80px 80px;
   background:
     radial-gradient(circle at top left, #ffd7e8 0%, transparent 35%),
     radial-gradient(circle at bottom right, #ffe6f0 0%, transparent 35%),
@@ -260,6 +260,12 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
 
 position:absolute;
 
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
 background:white;
 
 padding:14px 22px;
@@ -271,6 +277,14 @@ box-shadow:0 20px 40px rgba(0,0,0,.12);
 font-weight:600;
 
 animation:float 4s ease-in-out infinite;
+
+}
+
+.floating svg{
+
+color:#ff3f87;
+
+flex-shrink:0;
 
 }
 
@@ -328,7 +342,7 @@ transform:translateY(0);
 
   .hero {
     flex-direction: column;
-    padding: 130px 24px 60px;
+    padding: calc(var(--navbar-bottom) + 28px) 24px 60px;
     text-align: center;
   }
 

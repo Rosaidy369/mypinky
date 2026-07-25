@@ -2,7 +2,7 @@
 
 position:fixed;
 
-top:114px;
+top:calc(var(--navbar-bottom) + 12px);
 
 left:30px;
 
@@ -54,7 +54,7 @@ box-shadow:0 14px 30px rgba(255,63,135,.2);
 
 .back-button{
 
-top:104px;
+top:calc(var(--navbar-bottom) + 8px);
 
 left:16px;
 

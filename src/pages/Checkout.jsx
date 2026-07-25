@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import SuccessCheck from "../components/ui/SuccessCheck";
+import LockIcon from "../components/ui/LockIcon";
 import "../styles/Checkout.css";
 import "../styles/BackButton.css";
 
@@ -145,7 +146,7 @@ function Checkout() {
               </button>
 
               <p className="checkout-secure-note">
-                🔒 Pago simulado, no se realiza ningún cargo real.
+                <LockIcon size={12} /> Pago simulado, no se realiza ningún cargo real.
               </p>
 
             </form>

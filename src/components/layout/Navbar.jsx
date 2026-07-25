@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { supabase } from "../../lib/supabaseClient";
+import HeartIcon from "../ui/HeartIcon";
+import StarIcon from "../ui/StarIcon";
+import GearIcon from "../ui/GearIcon";
+import PersonIcon from "../ui/PersonIcon";
 import "../../styles/Navbar.css";
 
 function Navbar() {
@@ -9,6 +13,32 @@ function Navbar() {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const navRef = useRef(null);
+
+  // The navbar can wrap into extra rows on narrow screens, so its real
+  // height varies. Measure it and expose it as a CSS var instead of
+  // hardcoding a fixed top-offset on every page (which would let a
+  // taller navbar cover page content).
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+
+    const updateNavSpace = () => {
+      const rect = nav.getBoundingClientRect();
+      document.documentElement.style.setProperty("--navbar-bottom", `${Math.ceil(rect.bottom)}px`);
+    };
+
+    updateNavSpace();
+
+    const observer = new ResizeObserver(updateNavSpace);
+    observer.observe(nav);
+    window.addEventListener("resize", updateNavSpace);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateNavSpace);
+    };
+  }, [isLoggedIn, menuOpen]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -55,10 +85,10 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" ref={navRef}>
 
       <Link to={isLoggedIn ? "/swipe" : "/"} className="logo">
-        <span className="logo-heart">♥</span>
+        <span className="logo-heart"><HeartIcon size={26} /></span>
         <span className="logo-text">
           <span className="my">My</span>
           <span className="pinky">Pinky</span>
@@ -91,24 +121,24 @@ function Navbar() {
                       {userPhoto ? (
                         <img src={userPhoto} alt="Mi perfil" className="menu-icon-photo" />
                       ) : (
-                        "👤"
+                        <PersonIcon size={15} />
                       )}
                     </span>
                     <span className="menu-item-label">Mi Perfil</span>
                   </Link>
 
                   <Link to="/favoritos" onClick={() => setMenuOpen(false)}>
-                    <span className="menu-icon-slot">⭐</span>
+                    <span className="menu-icon-slot"><StarIcon size={15} /></span>
                     <span className="menu-item-label">Favoritos</span>
                   </Link>
 
                   <Link to="/quien-me-dio-like" onClick={() => setMenuOpen(false)}>
-                    <span className="menu-icon-slot">💗</span>
+                    <span className="menu-icon-slot"><HeartIcon size={15} /></span>
                     <span className="menu-item-label">A quién le gustas</span>
                   </Link>
 
                   <Link to="/configuracion" onClick={() => setMenuOpen(false)}>
-                    <span className="menu-icon-slot">⚙️</span>
+                    <span className="menu-icon-slot"><GearIcon size={15} /></span>
                     <span className="menu-item-label">Configuración</span>
                   </Link>
 

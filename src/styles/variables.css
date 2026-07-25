@@ -15,4 +15,7 @@
   --shadow:0 15px 40px rgba(0,0,0,.08);
 
   --max-width:1300px;
+
+  /* Fallback before Navbar.jsx measures its real (possibly wrapped) height */
+  --navbar-bottom:102px;
 }

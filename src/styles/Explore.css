@@ -1,5 +1,5 @@
 .explore {
-  padding: 120px 60px;
+  padding: calc(var(--navbar-bottom) + 18px) 60px 60px;
   min-height: 100vh;
   background: linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
 }
@@ -386,7 +386,7 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
 @media (max-width:768px){
 
   .explore{
-    padding:100px 20px;
+    padding:calc(var(--navbar-bottom) + 18px) 20px 40px;
   }
 
   .explore-header h1{
@@ -405,9 +405,14 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
   .distance-filter,
   .premium-search-wrapper,
   .premium-locked-input,
-  .location-search-input{
+  .location-search-input,
+  .filter-gender-pills{
     width:100%;
     box-sizing:border-box;
+  }
+
+  .filter-gender-pill{
+    flex:1;
   }
 
 }
@@ -489,6 +494,58 @@ border-radius:24px;
 padding:18px;
 
 box-shadow:0 15px 40px rgba(0,0,0,.06);
+
+}
+
+/* ========================= */
+/* PILLS DE GÉNERO */
+/* ========================= */
+
+.filter-gender-pills{
+
+display:flex;
+
+gap:8px;
+
+}
+
+.filter-gender-pill{
+
+padding:14px 20px;
+
+border-radius:40px;
+
+border:none;
+
+background:white;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+cursor:pointer;
+
+font-size:15px;
+
+font-weight:500;
+
+color:#333;
+
+transition:.25s;
+
+}
+
+.filter-gender-pill:hover{
+
+transform:translateY(-2px);
+
+}
+
+.filter-gender-pill.selected{
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+color:white;
+
+box-shadow:0 10px 25px rgba(255,63,135,.3);
 
 }
 
@@ -896,9 +953,27 @@ align-items:center;
 
 }
 
+.premium-locked-icon{
+
+position:absolute;
+
+left:20px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+color:#bbb;
+
+display:flex;
+
+pointer-events:none;
+
+}
+
 .premium-locked-input{
 
-padding:14px 100px 14px 22px;
+padding:14px 100px 14px 44px;
 
 border-radius:40px;
 

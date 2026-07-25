@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import HeartIcon from "../ui/HeartIcon";
 import "../../styles/Footer.css";
 
 function Footer() {
@@ -6,7 +7,7 @@ function Footer() {
     <footer className="footer">
 
       <div className="footer-logo">
-        <span className="footer-heart">♥</span> MyPinky
+        <span className="footer-heart"><HeartIcon size={26} /></span> MyPinky
       </div>
 
       <div className="footer-links">

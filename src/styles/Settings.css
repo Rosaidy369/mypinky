@@ -6,7 +6,7 @@ min-height:100vh;
 
 overflow:hidden;
 
-padding:140px 20px 60px;
+padding:calc(var(--navbar-bottom) + 38px) 20px 60px;
 
 background:linear-gradient(180deg,#fff8fb 0%,#ffffff 60%);
 
@@ -112,11 +112,25 @@ box-shadow:0 12px 30px rgba(0,0,0,.06);
 
 .settings-section h2{
 
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
 font-size:18px;
 
 color:#222;
 
 margin-bottom:20px;
+
+}
+
+.settings-section h2 svg{
+
+color:#ff3f87;
+
+flex-shrink:0;
 
 }
 
@@ -667,7 +681,7 @@ margin:0;
 @media (max-width: 600px) {
 
   .settings-page {
-    padding: 120px 16px 40px;
+    padding: calc(var(--navbar-bottom) + 18px) 16px 40px;
   }
 
   .settings-content h1 {

@@ -5,6 +5,8 @@ import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
+import LockIcon from "../components/ui/LockIcon";
+import BellIcon from "../components/ui/BellIcon";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
@@ -157,7 +159,7 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2>💘 Preferencias de búsqueda</h2>
+          <h2>Preferencias de búsqueda</h2>
 
           <div className="settings-row">
 
@@ -229,7 +231,7 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2>🔒 Privacidad</h2>
+          <h2><LockIcon size={18} /> Privacidad</h2>
 
           <div className="settings-toggle-row">
 
@@ -264,7 +266,7 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2>🔔 Notificaciones</h2>
+          <h2><BellIcon size={18} /> Notificaciones</h2>
 
           <div className="settings-toggle-row">
             <span className="toggle-title">Nuevos matches</span>

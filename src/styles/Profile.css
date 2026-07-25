@@ -381,7 +381,7 @@ color:white !important;
 
 position:absolute;
 
-top:100px;
+top:calc(var(--navbar-bottom) + 8px);
 
 left:20px;
 

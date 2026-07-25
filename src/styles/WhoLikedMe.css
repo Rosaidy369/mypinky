@@ -2,7 +2,7 @@
 
 min-height:100vh;
 
-padding:140px 40px 60px;
+padding:calc(var(--navbar-bottom) + 38px) 40px 60px;
 
 background:linear-gradient(180deg,#fff8fb 0%,#ffffff 100%);
 
@@ -18,9 +18,23 @@ margin:0 auto 30px;
 
 .wholiked-header h1{
 
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
 font-size:32px;
 
 color:#222;
+
+}
+
+.wholiked-header h1 svg{
+
+color:#ff3f87;
+
+flex-shrink:0;
 
 }
 
@@ -243,7 +257,7 @@ transform:translateY(-2px);
 @media (max-width: 600px) {
 
   .wholiked-page {
-    padding: 120px 20px 40px;
+    padding: calc(var(--navbar-bottom) + 18px) 20px 40px;
   }
 
   .wholiked-header h1 {

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import MicIcon from "../ui/MicIcon";
+import StopIcon from "../ui/StopIcon";
 
 const MAX_SECONDS = 10;
 
@@ -199,7 +200,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
           <span>Grabando... {seconds}s / {MAX_SECONDS}s</span>
 
           <button type="button" className="voice-stop-btn" onClick={stopRecording}>
-            ⏹ Detener
+            <StopIcon size={14} /> Detener
           </button>
 
           <div className="voice-level-meter" aria-hidden="true">
@@ -210,9 +211,11 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
           </div>
 
           <p className="voice-level-hint">
-            {level > 4
-              ? "🎤 Detectando tu voz"
-              : "Habla ahora — si esta barra no se mueve, tu micrófono está silenciado"}
+            {level > 4 ? (
+              <><MicIcon size={13} /> Detectando tu voz</>
+            ) : (
+              "Habla ahora — si esta barra no se mueve, tu micrófono está silenciado"
+            )}
           </p>
 
         </div>

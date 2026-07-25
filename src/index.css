@@ -16,6 +16,15 @@ body {
 
 button {
   font-family: inherit;
+  /* iOS Safari can otherwise leak its native system-blue button chrome
+     through custom backgrounds/colors unless appearance is reset. */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+select {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 a {

@@ -8,7 +8,7 @@ align-items:flex-start;
 
 justify-content:center;
 
-padding:140px 20px 60px;
+padding:calc(var(--navbar-bottom) + 38px) 20px 60px;
 
 background:linear-gradient(135deg,#fff4f8,#ffe4ef);
 
@@ -170,6 +170,14 @@ transform:translateY(-2px);
 
 .checkout-secure-note{
 
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:5px;
+
 text-align:center;
 
 color:#999;
@@ -201,7 +209,7 @@ margin-top:16px;
 @media (max-width: 500px) {
 
   .checkout-page {
-    padding: 120px 16px 40px;
+    padding: calc(var(--navbar-bottom) + 18px) 16px 40px;
   }
 
   .checkout-card {

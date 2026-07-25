@@ -1,18 +1,27 @@
 import { Link } from "react-router-dom";
+import LockIcon from "../ui/LockIcon";
+
+const GENDER_OPTIONS = [
+  { value: "Todos", label: "Todos" },
+  { value: "Mujer", label: "Mujeres" },
+  { value: "Hombre", label: "Hombres" },
+];
 
 function FilterBar({ filters, onChange, isPremium }) {
   return (
     <div className="filter-bar">
 
-      <div className="select-wrapper">
-        <select
-          value={filters.gender}
-          onChange={(e) => onChange("gender", e.target.value)}
-        >
-          <option value="Todos">🧑 Todos los géneros</option>
-          <option value="Mujer">Mujeres</option>
-          <option value="Hombre">Hombres</option>
-        </select>
+      <div className="filter-gender-pills">
+        {GENDER_OPTIONS.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            className={`filter-gender-pill ${filters.gender === option.value ? "selected" : ""}`}
+            onClick={() => onChange("gender", option.value)}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
 
       <div className="distance-filter">
@@ -48,9 +57,11 @@ function FilterBar({ filters, onChange, isPremium }) {
 
         <div className="premium-search-wrapper">
 
+          <span className="premium-locked-icon"><LockIcon size={14} /></span>
+
           <input
             type="text"
-            placeholder="🔒 Buscar por país o ciudad"
+            placeholder="Buscar por país o ciudad"
             disabled
             className="premium-locked-input"
           />

@@ -12,6 +12,12 @@ text-align:center;
 
 .footer-logo{
 
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
 font-size:36px;
 
 font-weight:bold;

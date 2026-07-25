@@ -7,6 +7,7 @@ import StepPrompts from "../components/onboarding/StepPrompts";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
+import LockIcon from "../components/ui/LockIcon";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
@@ -245,10 +246,7 @@ function MyProfile() {
                   )}
 
                   <span className="locked-tag">
-                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="4" y="10.5" width="16" height="10" rx="2.5"></rect>
-                      <path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"></path>
-                    </svg>
+                    <LockIcon size={13} />
                     Nombre y edad verificados
                   </span>
                 </h1>
@@ -306,7 +304,7 @@ function MyProfile() {
             <h2 className="edit-title">Editar perfil</h2>
 
             <div className="locked-fields-notice">
-              🔒 Nombre y edad no se pueden editar por seguridad y verificación.
+              <LockIcon size={14} /> Nombre y edad no se pueden editar por seguridad y verificación.
             </div>
 
             <label className="field-label">Fotos</label>
@@ -414,7 +412,7 @@ function MyProfile() {
             ) : (
 
               <div className="voice-locked">
-                <span>🔒 Solo disponible para usuarios VIP</span>
+                <span><LockIcon size={13} /> Solo disponible para usuarios VIP</span>
                 <Link to="/premium" className="voice-unlock-btn">
                   <VipDiamond size={14} /> Hazte VIP
                 </Link>
