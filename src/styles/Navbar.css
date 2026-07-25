@@ -110,6 +110,8 @@ align-items:center;
 
 gap:16px;
 
+flex-shrink:0;
+
 }
 
 .menu a{
@@ -136,6 +138,8 @@ border-radius:30px;
 
 transition:.3s;
 
+white-space:nowrap;
+
 }
 
 .menu a:hover{
@@ -143,6 +147,24 @@ transition:.3s;
 background:#fff0f6;
 
 color:#ff3f87;
+
+}
+
+.nav-link{
+
+gap:8px;
+
+}
+
+.nav-link-icon{
+
+flex-shrink:0;
+
+}
+
+.label-short{
+
+display:none;
 
 }
 
@@ -248,105 +270,109 @@ color:#ff3f87;
 
 /* ===================== */
 
-@media(max-width:900px){
+@media(max-width:600px){
 
 .navbar{
 
 height:auto;
 
-padding:18px;
+min-height:64px;
 
-flex-direction:column;
+width:94%;
 
-gap:18px;
+padding:0 14px;
+
+border-radius:18px;
+
+}
+
+.logo{
+
+gap:6px;
+
+}
+
+.logo-heart svg{
+
+width:20px;
+
+height:20px;
+
+}
+
+.logo-text{
+
+font-size:20px;
 
 }
 
 .menu{
 
-flex-wrap:wrap;
-
-justify-content:center;
+gap:6px;
 
 }
 
 .menu a{
 
-display:flex;
+height:40px;
 
-align-items:center;
+padding:0 12px;
 
-justify-content:center;
+font-size:13px;
 
-height:48px;
+}
 
-padding:0 20px;
+.nav-link{
 
-text-decoration:none;
+padding:0 10px;
 
-color:#555;
+gap:5px;
 
-font-weight:600;
+}
 
-border-radius:30px;
+.nav-link-label{
 
-transition:.3s;
-
-box-sizing:border-box;
+display:none;
 
 }
 
 .login{
 
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-height:48px;
-
-padding:0 22px;
-
-border-radius:30px;
-
-border:2px solid #ff3f87;
-
-color:#ff3f87 !important;
-
-font-weight:700;
-
-box-sizing:border-box;
-
-transition:.3s;
+padding:0 12px;
 
 }
 
 .register{
 
-display:flex;
+padding:0 16px;
 
-align-items:center;
+}
 
-justify-content:center;
+.label-full{
 
-height:48px;
+display:none;
 
-padding:0 24px;
+}
 
-border-radius:30px;
+.label-short{
 
-background:linear-gradient(135deg,#ff3f87,#ff79ac);
+display:inline;
 
-color:white !important;
+}
 
-font-weight:700;
+.hamburger-btn{
 
-box-shadow:0 10px 25px rgba(255,63,135,.30);
+width:40px;
 
-box-sizing:border-box;
+height:40px;
 
-transition:.3s;
+font-size:16px;
+
+}
+
+.hamburger-dropdown{
+
+top:50px;
 
 }
 
@@ -499,7 +525,7 @@ color:#ff3f87;
 
 .dropdown-logout{
 
-color:#e63946;
+color:#555;
 
 border-top:1px solid #eee;
 
@@ -511,7 +537,7 @@ padding-top:14px;
 
 .dropdown-logout:hover{
 
-background:#fff0f0;
+background:#f5f5f5;
 
 }
 

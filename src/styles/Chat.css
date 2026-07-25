@@ -2,7 +2,7 @@
 
 min-height:100vh;
 
-padding:calc(var(--navbar-bottom) + 38px) 40px 60px;
+padding:calc(var(--navbar-bottom) + 65px) 40px 60px;
 
 background:linear-gradient(180deg,#fff8fb 0%,#ffffff 100%);
 
@@ -645,7 +645,7 @@ color:#777;
 @media (max-width: 600px) {
 
   .chats-page {
-    padding: calc(var(--navbar-bottom) + 18px) 16px 40px;
+    padding: calc(var(--navbar-bottom) + 60px) 16px 40px;
   }
 
   .chats-header h1 {

@@ -6,6 +6,8 @@ import HeartIcon from "../ui/HeartIcon";
 import StarIcon from "../ui/StarIcon";
 import GearIcon from "../ui/GearIcon";
 import PersonIcon from "../ui/PersonIcon";
+import SearchIcon from "../ui/SearchIcon";
+import MessageIcon from "../ui/MessageIcon";
 import "../../styles/Navbar.css";
 
 function Navbar() {
@@ -100,9 +102,18 @@ function Navbar() {
         {isLoggedIn ? (
 
           <>
-            <Link to="/explore">Explorar</Link>
-            <Link to="/mensajes">Mensajes</Link>
-            <Link to="/matches">Matches</Link>
+            <Link to="/explore" className="nav-link">
+              <SearchIcon size={18} className="nav-link-icon" />
+              <span className="nav-link-label">Explorar</span>
+            </Link>
+            <Link to="/mensajes" className="nav-link">
+              <MessageIcon size={18} className="nav-link-icon" />
+              <span className="nav-link-label">Mensajes</span>
+            </Link>
+            <Link to="/matches" className="nav-link">
+              <HeartIcon size={17} className="nav-link-icon" />
+              <span className="nav-link-label">Matches</span>
+            </Link>
 
             <div className="hamburger-wrapper" ref={menuRef}>
 
@@ -155,14 +166,19 @@ function Navbar() {
         ) : (
 
           <>
-            <Link to="/premium">Premium</Link>
+            <Link to="/premium" className="nav-link premium-link">
+              <StarIcon size={18} className="nav-link-icon" />
+              <span className="nav-link-label">Premium</span>
+            </Link>
 
             <Link to="/login" className="login">
-              Iniciar sesión
+              <span className="label-full">Iniciar sesión</span>
+              <span className="label-short">Entrar</span>
             </Link>
 
             <Link to="/register" className="register">
-              Crear cuenta
+              <span className="label-full">Crear cuenta</span>
+              <span className="label-short">Registro</span>
             </Link>
           </>
 

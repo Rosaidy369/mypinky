@@ -177,6 +177,10 @@ border:2px solid #ddd;
 
 background:white;
 
+color:#333;
+
+-webkit-text-fill-color:#333;
+
 font-weight:600;
 
 cursor:pointer;
@@ -194,6 +198,8 @@ border-color:#ff3f87;
 background:#fff0f6;
 
 color:#ff3f87;
+
+-webkit-text-fill-color:#ff3f87;
 
 }
 
@@ -405,6 +411,10 @@ border:2px solid #ddd;
 
 background:white;
 
+color:#333;
+
+-webkit-text-fill-color:#333;
+
 font-weight:600;
 
 cursor:pointer;
@@ -422,6 +432,8 @@ border-color:#ff3f87;
 background:linear-gradient(135deg,#ff3f87,#ff79ac);
 
 color:white;
+
+-webkit-text-fill-color:white;
 
 }
 

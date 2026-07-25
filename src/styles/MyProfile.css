@@ -12,6 +12,15 @@ width:220px;
 
 }
 
+@media (max-width: 768px) {
+
+  .completion-box {
+    margin-top:12px;
+    width:160px;
+  }
+
+}
+
 .completion-label{
 
 font-size:13px;
@@ -541,9 +550,9 @@ border:none;
 
 border-radius:20px;
 
-background:#fff0f0;
+background:#fff0f6;
 
-color:#e63946;
+color:#ff3f87;
 
 font-weight:700;
 

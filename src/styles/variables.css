@@ -1,4 +1,10 @@
 :root{
+  /* The whole app is light-only. Without this, iOS Safari can auto-adjust
+     colors on form controls (buttons, selects) toward its dark-mode
+     palette when the device is in Dark Mode — e.g. unselected pill text
+     rendering system blue instead of the declared color. */
+  color-scheme: light;
+
   --primary:#FF4D8D;
   --primary-hover:#E63973;
 

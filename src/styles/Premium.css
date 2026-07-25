@@ -504,4 +504,60 @@ padding:20px 22px;
 
 }
 
+.plans-grid{
+
+gap:16px;
+
+}
+
+.plan-card{
+
+padding:24px 22px;
+
+}
+
+.plan-icon{
+
+font-size:28px;
+
+margin-bottom:6px;
+
+}
+
+.plan-card h2{
+
+font-size:20px;
+
+margin-bottom:10px;
+
+}
+
+.price-amount{
+
+font-size:32px;
+
+}
+
+.plan-features{
+
+margin:16px 0 20px;
+
+gap:10px;
+
+}
+
+.plan-features li{
+
+font-size:14px;
+
+}
+
+.plan-btn{
+
+padding:13px;
+
+font-size:14px;
+
+}
+
 }

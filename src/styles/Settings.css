@@ -6,7 +6,7 @@ min-height:100vh;
 
 overflow:hidden;
 
-padding:calc(var(--navbar-bottom) + 38px) 20px 60px;
+padding:calc(var(--navbar-bottom) + 65px) 20px 60px;
 
 background:linear-gradient(180deg,#fff8fb 0%,#ffffff 60%);
 
@@ -178,6 +178,10 @@ border:2px solid #ddd;
 
 background:white;
 
+color:#333;
+
+-webkit-text-fill-color:#333;
+
 font-weight:600;
 
 font-size:13px;
@@ -195,6 +199,8 @@ border-color:#ff3f87;
 background:#fff0f6;
 
 color:#ff3f87;
+
+-webkit-text-fill-color:#ff3f87;
 
 }
 
@@ -572,6 +578,26 @@ cursor:pointer;
 
 }
 
+.confirm-btn{
+
+flex:1;
+
+padding:13px;
+
+border-radius:14px;
+
+border:none;
+
+background:linear-gradient(135deg,#ff3f87,#ff79ac);
+
+color:white;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
 .neutral-btn{
 
 width:100%;
@@ -662,7 +688,23 @@ gap:6px;
 
 }
 
+.success-icon{
+
+display:flex;
+
+justify-content:center;
+
+margin-bottom:15px;
+
+}
+
 .card-removed-note{
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
 
 font-size:14px;
 
@@ -681,7 +723,7 @@ margin:0;
 @media (max-width: 600px) {
 
   .settings-page {
-    padding: calc(var(--navbar-bottom) + 18px) 16px 40px;
+    padding: calc(var(--navbar-bottom) + 60px) 16px 40px;
   }
 
   .settings-content h1 {

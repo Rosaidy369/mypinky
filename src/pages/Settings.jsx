@@ -7,6 +7,9 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import LockIcon from "../components/ui/LockIcon";
 import BellIcon from "../components/ui/BellIcon";
+import SuccessCheck from "../components/ui/SuccessCheck";
+import CheckIcon from "../components/ui/CheckIcon";
+import WarningIcon from "../components/ui/WarningIcon";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
@@ -354,7 +357,7 @@ function Settings() {
 
             {cardRemoved ? (
               <p className="card-removed-note">
-                ✅ No tienes ningún método de pago guardado.
+                <CheckIcon size={14} /> No tienes ningún método de pago guardado.
               </p>
             ) : (
               <button className="neutral-btn" onClick={() => setShowRemoveCardConfirm(true)}>
@@ -376,7 +379,7 @@ function Settings() {
 
         <div className="settings-section danger-section">
 
-          <h2>⚠️ Cuenta</h2>
+          <h2><WarningIcon size={18} /> Cuenta</h2>
 
           <button className="deactivate-btn" onClick={handleDeactivate}>
             Cerrar sesión
@@ -421,7 +424,7 @@ function Settings() {
               <button className="cancel-btn" onClick={() => setShowRemoveCardConfirm(false)}>
                 Cancelar
               </button>
-              <button className="confirm-delete-btn" onClick={handleRemoveCard}>
+              <button className="confirm-btn" onClick={handleRemoveCard}>
                 Sí, eliminar
               </button>
             </div>
@@ -434,10 +437,11 @@ function Settings() {
         <div className="delete-modal-backdrop" onClick={() => setCardRemovedSuccess(false)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>✅ Método de pago eliminado</h2>
+            <div className="success-icon"><SuccessCheck size={48} /></div>
+            <h2>Método de pago eliminado</h2>
             <p>Se eliminó correctamente. Podrás agregar uno nuevo cuando lo necesites.</p>
 
-            <button className="confirm-delete-btn" onClick={() => setCardRemovedSuccess(false)}>
+            <button className="confirm-btn" onClick={() => setCardRemovedSuccess(false)}>
               Entendido
             </button>
 
@@ -459,7 +463,7 @@ function Settings() {
               <button className="cancel-btn" onClick={() => setShowCancelConfirm(false)}>
                 Volver
               </button>
-              <button className="confirm-delete-btn" onClick={handleCancelMembership}>
+              <button className="confirm-btn" onClick={handleCancelMembership}>
                 Sí, cancelar
               </button>
             </div>
@@ -472,12 +476,13 @@ function Settings() {
         <div className="delete-modal-backdrop" onClick={() => setCancelSuccess(false)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>✅ Membresía cancelada</h2>
+            <div className="success-icon"><SuccessCheck size={48} /></div>
+            <h2>Membresía cancelada</h2>
             <p>
               Seguirás teniendo tus beneficios hasta dentro de {daysLeft} días. No se te cobrará de nuevo.
             </p>
 
-            <button className="confirm-delete-btn" onClick={() => setCancelSuccess(false)}>
+            <button className="confirm-btn" onClick={() => setCancelSuccess(false)}>
               Entendido
             </button>
 

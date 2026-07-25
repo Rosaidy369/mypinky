@@ -2,7 +2,7 @@
 
 min-height:100vh;
 
-padding:calc(var(--navbar-bottom) + 38px) 40px 60px;
+padding:calc(var(--navbar-bottom) + 65px) 40px 60px;
 
 background:linear-gradient(180deg,#fff8fb 0%,#ffffff 100%);
 
@@ -257,7 +257,7 @@ transform:translateY(-2px);
 @media (max-width: 600px) {
 
   .wholiked-page {
-    padding: calc(var(--navbar-bottom) + 18px) 20px 40px;
+    padding: calc(var(--navbar-bottom) + 60px) 20px 40px;
   }
 
   .wholiked-header h1 {

@@ -1,5 +1,8 @@
 .explore {
-  padding: calc(var(--navbar-bottom) + 18px) 60px 60px;
+  /* Extra top gap clears the fixed BackButton (which floats independently
+     of document flow right below the navbar) so it never sits over the
+     page heading. */
+  padding: calc(var(--navbar-bottom) + 65px) 60px 60px;
   min-height: 100vh;
   background: linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
 }
@@ -386,7 +389,7 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
 @media (max-width:768px){
 
   .explore{
-    padding:calc(var(--navbar-bottom) + 18px) 20px 40px;
+    padding:calc(var(--navbar-bottom) + 60px) 20px 40px;
   }
 
   .explore-header h1{
@@ -529,6 +532,8 @@ font-weight:500;
 
 color:#333;
 
+-webkit-text-fill-color:#333;
+
 transition:.25s;
 
 }
@@ -544,6 +549,8 @@ transform:translateY(-2px);
 background:linear-gradient(135deg,#ff3f87,#ff79ac);
 
 color:white;
+
+-webkit-text-fill-color:white;
 
 box-shadow:0 10px 25px rgba(255,63,135,.3);
 
