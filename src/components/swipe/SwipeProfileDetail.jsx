@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { isPlanActive } from "../../lib/plan";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
   const photos = profile.photos && profile.photos.length > 0
@@ -8,6 +9,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
     : [profile.image];
 
   const [photoIndex, setPhotoIndex] = useState(0);
+  useLockBodyScroll();
 
   const interests = profile.interests || [];
   const sharedCount = interests.filter((i) => myInterests.includes(i)).length;

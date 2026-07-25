@@ -421,7 +421,13 @@ cursor:not-allowed;
 
 .view-photos-btn{
 
-display:block;
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:7px;
 
 width:100%;
 

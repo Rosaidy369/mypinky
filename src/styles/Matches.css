@@ -126,7 +126,13 @@ box-shadow:0 20px 45px rgba(0,0,0,.08);
 
 .matches-empty-icon{
 
+display:flex;
+
+justify-content:center;
+
 font-size:50px;
+
+color:#ff9dc3;
 
 margin-bottom:15px;
 

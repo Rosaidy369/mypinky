@@ -138,6 +138,8 @@ line-height:1.4;
   z-index: 2;
   width: 40%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -150,53 +152,37 @@ line-height:1.4;
   box-shadow: 0 30px 80px rgba(0,0,0,.12);
 }
 
-.card {
+.hero-swipe-card-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.hero-swipe-card-frame .swipe-card {
+  cursor: default;
+  touch-action: auto;
+}
+
+.hero-swipe-card-frame .swipe-card-overlay p {
+  color: white;
+  font-size: 15px;
+  max-width: none;
+  margin-bottom: 10px;
+}
+
+.badge-heart {
+  vertical-align: -2px;
+  margin-right: 2px;
+}
+
+p.hero-illustrative-note {
+  margin-top: 16px;
   text-align: center;
-}
-
-.avatar {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  margin: auto;
-  border: 6px solid #fff;
-  box-shadow: 0 15px 40px rgba(0,0,0,.15);
-}
-
-.online {
-  display: inline-block;
-  margin-top: 20px;
-  color: #22c55e;
-  font-weight: 600;
-}
-
-.card h3 {
-  margin-top: 15px;
-  font-size: 28px;
-}
-
-.card p {
-  margin-top: 8px;
-  color: #666;
-}
-
-.tags {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 25px 0;
-}
-
-.tags span {
-  background: #ffe4ef;
-  color: #ff4d8d;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  color: #aaa;
+  max-width: 320px;
 }
 
 .hero-profile-btn{

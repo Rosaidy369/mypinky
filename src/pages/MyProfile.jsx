@@ -12,6 +12,7 @@ import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
 import LockIcon from "../components/ui/LockIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import CameraIcon from "../components/ui/CameraIcon";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
@@ -279,7 +280,7 @@ function MyProfile() {
 
               {user.photos && user.photos.length > 1 && (
                 <button className="view-photos-btn" onClick={() => setShowGallery(true)}>
-                  📷 Ver fotos ({user.photos.length})
+                  <CameraIcon size={15} /> Ver fotos ({user.photos.length})
                 </button>
               )}
 

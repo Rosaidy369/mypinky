@@ -2,7 +2,13 @@ import { Link } from "react-router-dom";
 import LockIcon from "../ui/LockIcon";
 import MessageIcon from "../ui/MessageIcon";
 import StarIcon from "../ui/StarIcon";
+import HeartIcon from "../ui/HeartIcon";
+import NoAdsIcon from "../ui/NoAdsIcon";
+import PinIcon from "../ui/PinIcon";
+import VerifiedIcon from "../ui/VerifiedIcon";
+import PremiumDiamond from "../ui/PremiumDiamond";
 import "../../styles/Hero.css";
+import "../../styles/Swipe.css";
 
 function Hero() {
   return (
@@ -11,7 +17,7 @@ function Hero() {
       <div className="hero-left">
 
         <span className="badge">
-          ❤️ Encuentra a alguien con quien realmente conectar
+          <HeartIcon size={14} className="badge-heart" /> Encuentra a alguien con quien realmente conectar
         </span>
 
         <h1>
@@ -43,17 +49,17 @@ function Hero() {
         <div className="stats">
 
           <div className="stat-item">
-            <span className="stat-icon">🚫</span>
+            <span className="stat-icon"><NoAdsIcon size={20} /></span>
             <span className="stat-label">Sin anuncios</span>
           </div>
 
           <div className="stat-item">
-            <span className="stat-icon">📍</span>
+            <span className="stat-icon"><PinIcon size={20} /></span>
             <span className="stat-label">Búsqueda por distancia gratis</span>
           </div>
 
           <div className="stat-item">
-            <span className="stat-icon">✅</span>
+            <span className="stat-icon"><VerifiedIcon size={20} /></span>
             <span className="stat-label">Perfiles verificados</span>
           </div>
 
@@ -77,39 +83,52 @@ function Hero() {
 
         <div className="phone">
 
-          <div className="card">
+          <div className="hero-swipe-card-frame" aria-hidden="true">
+            <div className="swipe-card">
+              <div
+                className="swipe-card-image"
+                style={{ backgroundImage: "url(https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80)" }}
+              >
 
-            <img
-              className="avatar"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80"
-              alt="Lauren"
-            />
+                <div className="swipe-top-row">
 
-            <span className="online">
-              🟢 En línea
-            </span>
+                  <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
 
-            <h3>Lauren</h3>
+                  <div className="swipe-top-right">
+                    <span className="swipe-online" title="En línea"></span>
+                    <span className="swipe-match">🔥 92% match</span>
+                  </div>
 
-            <p>23 años • Madrid</p>
+                </div>
 
-            <div className="tags">
+                <div className="swipe-card-overlay">
 
-              <span>💬 Amistad</span>
+                  <div className="swipe-name-row">
+                    <h2>Lauren, 23</h2>
+                    <span className="swipe-distance">📍 3 km</span>
+                  </div>
 
-              <span>🎵 Música</span>
+                  <p>Madrid</p>
 
-              <span>☕ Café</span>
+                  <div className="swipe-bottom-row">
+                    <div className="swipe-mood">💬 Amistad</div>
+                  </div>
 
+                </div>
+
+              </div>
             </div>
-
-            <Link to="/login" className="hero-profile-btn">
-              Ver perfil
-            </Link>
-
           </div>
 
+          <Link to="/login" className="hero-profile-btn">
+            Ver perfil
+          </Link>
+
         </div>
+
+        <p className="hero-illustrative-note">
+          Las imágenes mostradas son con fines ilustrativos y no representan usuarios reales de la plataforma.
+        </p>
 
       </div>
 

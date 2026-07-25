@@ -1,7 +1,9 @@
 import { useState } from "react";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function PhotoGalleryModal({ photos, onClose }) {
   const [index, setIndex] = useState(0);
+  useLockBodyScroll();
 
   return (
     <div className="gallery-modal-backdrop" onClick={onClose}>

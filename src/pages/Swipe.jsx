@@ -7,6 +7,10 @@ import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
 import LockIcon from "../components/ui/LockIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import XIcon from "../components/ui/XIcon";
+import RewindIcon from "../components/ui/RewindIcon";
+import HeartIcon from "../components/ui/HeartIcon";
+import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Swipe.css";
 import "../styles/BackButton.css";
 
@@ -32,6 +36,20 @@ function formatCountdown(ms) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return `${hours}h ${minutes}m`;
+}
+
+function GradientHeart({ id, from, to, size }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className="mp-heart-svg">
+      <defs>
+        <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor={from} />
+          <stop offset="100%" stopColor={to} />
+        </linearGradient>
+      </defs>
+      <path fill={`url(#${id})`} d="M12 21s-7.5-4.9-10.2-9.3C.4 9.5 1 6.2 3.6 4.7c2.2-1.3 4.9-.7 6.4 1.3.6.8 1.3 1.9 2 3 .7-1.1 1.4-2.2 2-3 1.5-2 4.2-2.6 6.4-1.3 2.6 1.5 3.2 4.8 1.8 7-2.7 4.4-10.2 9.3-10.2 9.3z" />
+    </svg>
+  );
 }
 
 function Swipe() {
@@ -303,11 +321,11 @@ function Swipe() {
                   <LockIcon size={11} />
                 </span>
               )}
-              ↩
+              <RewindIcon size={20} />
             </button>
 
             <button className="swipe-btn nope" onClick={() => handleButtonSwipe("left")}>
-              ✕
+              <XIcon size={26} />
             </button>
 
             <button
@@ -323,7 +341,7 @@ function Swipe() {
             </button>
 
             <button className="swipe-btn like" onClick={() => handleButtonSwipe("right")}>
-              ❤️
+              <HeartIcon size={26} />
             </button>
 
           </div>
@@ -336,7 +354,23 @@ function Swipe() {
         <div className="match-popup">
 
           <div className="match-popup-hearts">
-            <span>💗</span><span>💖</span><span>💕</span><span>💗</span><span>💖</span>
+            <span><GradientHeart id="mpHeart1" from="#ff9dc3" to="#ff3f87" size={22} /></span>
+            <span><GradientHeart id="mpHeart2" from="#ffc2dd" to="#ff6ea8" size={16} /></span>
+            <span><GradientHeart id="mpHeart3" from="#ff9dc3" to="#ff3f87" size={30} /></span>
+            <span><GradientHeart id="mpHeart4" from="#ffc2dd" to="#ff6ea8" size={18} /></span>
+            <span><GradientHeart id="mpHeart5" from="#ff9dc3" to="#ff3f87" size={24} /></span>
+            <span><GradientHeart id="mpHeart6" from="#ffc2dd" to="#ff6ea8" size={14} /></span>
+          </div>
+
+          <div className="match-popup-confetti">
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
+            <span className="confetti-piece"></span>
           </div>
 
           <div className="match-popup-content">
@@ -355,7 +389,7 @@ function Swipe() {
                 )}
               </div>
 
-              <span className="match-photos-heart">💖</span>
+              <span className="match-photos-heart"><HeartIcon size={22} /></span>
 
               <div className="match-photo-circle theirs">
                 <img src={matchInfo.photos?.[0]} alt={matchInfo.name} />
@@ -380,7 +414,7 @@ function Swipe() {
                 className="match-popup-btn primary"
                 onClick={() => navigate(`/chat/${matchInfo.id}`)}
               >
-                💬 Enviar mensaje
+                <MessageIcon size={15} /> Enviar mensaje
               </button>
 
             </div>

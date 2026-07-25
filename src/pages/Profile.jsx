@@ -6,6 +6,8 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import CameraIcon from "../components/ui/CameraIcon";
+import MessageIcon from "../components/ui/MessageIcon";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
@@ -128,11 +130,13 @@ function Profile() {
             className="profile-photo"
             src={profile.photos?.[0] || "https://via.placeholder.com/220"}
             alt={profile.name}
+            onClick={() => profile.photos?.length > 0 && setShowGallery(true)}
+            style={{ cursor: profile.photos?.length > 0 ? "pointer" : "default" }}
           />
 
           {profile.photos && profile.photos.length > 1 && (
             <button className="view-photos-btn" onClick={() => setShowGallery(true)}>
-              📷 Ver fotos ({profile.photos.length})
+              <CameraIcon size={15} /> Ver fotos ({profile.photos.length})
             </button>
           )}
 
@@ -233,11 +237,11 @@ function Profile() {
 
             {existingMatch ? (
               <Link to={`/chat/${existingMatch.id}`} className="message-btn">
-                💬 Enviar mensaje
+                <MessageIcon size={15} /> Enviar mensaje
               </Link>
             ) : (
               <button className="message-btn" disabled>
-                💬 Requiere match
+                <MessageIcon size={15} /> Requiere match
               </button>
             )}
 

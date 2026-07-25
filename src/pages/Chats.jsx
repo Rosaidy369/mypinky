@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Chat.css";
 import "../styles/BackButton.css";
 
@@ -90,7 +91,7 @@ function Chats() {
       {conversations.length === 0 ? (
 
         <div className="matches-empty">
-          <div className="matches-empty-icon">💬</div>
+          <div className="matches-empty-icon"><MessageIcon size={46} /></div>
           <h2>No tienes conversaciones</h2>
           <p>Haz match con alguien para empezar a chatear.</p>
         </div>
