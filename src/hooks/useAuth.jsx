@@ -42,10 +42,18 @@ export function AuthProvider({ children }) {
       .select("suspended_until, suspension_reason")
       .eq("id", userId)
       .single()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
         if (cancelled) return;
 
+        if (error) {
+          console.error("Error verificando estado de suspensión:", error.message, error);
+        }
+
+        console.log("[suspension check]", { userId, data, error });
+
         const isActive = data?.suspended_until && new Date(data.suspended_until) > new Date();
+
+        console.log("[suspension check] isActive:", isActive, "suspended_until:", data?.suspended_until, "now:", new Date().toISOString());
 
         setSuspension(
           isActive ? { until: data.suspended_until, reason: data.suspension_reason } : null
