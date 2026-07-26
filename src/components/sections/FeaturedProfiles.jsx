@@ -63,6 +63,10 @@ function FeaturedProfiles() {
 
       </div>
 
+      <p className="featured-illustrative-note">
+        Las imágenes mostradas son con fines ilustrativos y no representan usuarios reales de la plataforma.
+      </p>
+
     </section>
   );
 }

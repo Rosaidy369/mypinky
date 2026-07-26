@@ -6,9 +6,7 @@ import HeartIcon from "../ui/HeartIcon";
 import NoAdsIcon from "../ui/NoAdsIcon";
 import PinIcon from "../ui/PinIcon";
 import VerifiedIcon from "../ui/VerifiedIcon";
-import PremiumDiamond from "../ui/PremiumDiamond";
 import "../../styles/Hero.css";
-import "../../styles/Swipe.css";
 
 function Hero() {
   return (
@@ -81,54 +79,67 @@ function Hero() {
           <StarIcon size={15} /> Premium
         </div>
 
-        <div className="phone">
+        <div className="hero-illustration" aria-hidden="true">
 
-          <div className="hero-swipe-card-frame" aria-hidden="true">
-            <div className="swipe-card">
-              <div
-                className="swipe-card-image"
-                style={{ backgroundImage: "url(https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=80)" }}
-              >
+          <svg viewBox="0 0 440 380" className="connection-svg">
 
-                <div className="swipe-top-row">
+            <defs>
+              <linearGradient id="personAGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ff9dc3" />
+                <stop offset="100%" stopColor="#ff3f87" />
+              </linearGradient>
+              <linearGradient id="personBGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#93c5fd" />
+                <stop offset="100%" stopColor="#5b9df0" />
+              </linearGradient>
+              <linearGradient id="heroHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ff9dc3" />
+                <stop offset="100%" stopColor="#ff3f87" />
+              </linearGradient>
+            </defs>
 
-                  <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
+            <ellipse cx="110" cy="280" rx="50" ry="78" fill="url(#personAGrad)" />
+            <circle cx="110" cy="150" r="38" fill="url(#personAGrad)" />
 
-                  <div className="swipe-top-right">
-                    <span className="swipe-online" title="En línea"></span>
-                    <span className="swipe-match">🔥 92% match</span>
-                  </div>
+            <ellipse cx="330" cy="280" rx="50" ry="78" fill="url(#personBGrad)" />
+            <circle cx="330" cy="150" r="38" fill="url(#personBGrad)" />
 
-                </div>
+            <g transform="translate(220,150)">
+              <circle r="50" fill="#ffe4ef" opacity="0.55" className="heart-glow" />
+              <g className="hero-heart-pulse">
+                <path
+                  transform="translate(-22,-20) scale(1.8)"
+                  fill="url(#heroHeartGrad)"
+                  d="M12 21s-7.5-4.9-10.2-9.3C.4 9.5 1 6.2 3.6 4.7c2.2-1.3 4.9-.7 6.4 1.3.6.8 1.3 1.9 2 3 .7-1.1 1.4-2.2 2-3 1.5-2 4.2-2.6 6.4-1.3 2.6 1.5 3.2 4.8 1.8 7-2.7 4.4-10.2 9.3-10.2 9.3z"
+                />
+              </g>
+            </g>
 
-                <div className="swipe-card-overlay">
+            <g transform="translate(45,30) scale(1.8)">
+              <g className="illustration-bubble bubble-a">
+                <path d="M4 5h16v11H8l-4 4z" fill="white" />
+                <circle cx="9" cy="10" r="1" fill="#ff3f87" />
+                <circle cx="12" cy="10" r="1" fill="#ff3f87" />
+                <circle cx="15" cy="10" r="1" fill="#ff3f87" />
+              </g>
+            </g>
 
-                  <div className="swipe-name-row">
-                    <h2>Lauren, 23</h2>
-                    <span className="swipe-distance">📍 3 km</span>
-                  </div>
+            <g transform="translate(330,30) scale(1.8)">
+              <g className="illustration-bubble bubble-b">
+                <path d="M20 5H4v11h12l4 4z" fill="white" />
+                <circle cx="9" cy="10" r="1" fill="#5b9df0" />
+                <circle cx="12" cy="10" r="1" fill="#5b9df0" />
+                <circle cx="15" cy="10" r="1" fill="#5b9df0" />
+              </g>
+            </g>
 
-                  <p>Madrid</p>
+            <circle className="illustration-sparkle spark-1" cx="180" cy="90" r="4" fill="#fff" />
+            <circle className="illustration-sparkle spark-2" cx="262" cy="98" r="3" fill="#fff" />
+            <circle className="illustration-sparkle spark-3" cx="220" cy="235" r="3.5" fill="#ffd76a" />
 
-                  <div className="swipe-bottom-row">
-                    <div className="swipe-mood">💬 Amistad</div>
-                  </div>
-
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <Link to="/login" className="hero-profile-btn">
-            Ver perfil
-          </Link>
+          </svg>
 
         </div>
-
-        <p className="hero-illustrative-note">
-          Las imágenes mostradas son con fines ilustrativos y no representan usuarios reales de la plataforma.
-        </p>
 
       </div>
 
