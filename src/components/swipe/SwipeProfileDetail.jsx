@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { isPlanActive } from "../../lib/plan";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
@@ -16,7 +17,11 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
   const prompts = profile.prompts || [];
 
-  return (
+  // Portaled to <body> so the sheet is a real DOM sibling of the swipe deck,
+  // not a child of the draggable .swipe-card. Otherwise clicks to close it
+  // still bubble through the card's pointer handlers underneath, which can
+  // leave the card mid-"dragging" with a corrupted transform until reload.
+  return createPortal(
     <div className="detail-sheet-backdrop" onClick={onClose}>
 
       <div className="detail-sheet" onClick={(e) => e.stopPropagation()}>
@@ -118,7 +123,8 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
       </div>
 
-    </div>
+    </div>,
+    document.body
   );
 }
 
