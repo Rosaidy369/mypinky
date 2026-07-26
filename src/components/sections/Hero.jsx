@@ -1,7 +1,4 @@
 import { Link } from "react-router-dom";
-import LockIcon from "../ui/LockIcon";
-import MessageIcon from "../ui/MessageIcon";
-import StarIcon from "../ui/StarIcon";
 import HeartIcon from "../ui/HeartIcon";
 import NoAdsIcon from "../ui/NoAdsIcon";
 import PinIcon from "../ui/PinIcon";
@@ -66,18 +63,6 @@ function Hero() {
       </div>
 
       <div className="hero-right">
-
-        <div className="floating floating1">
-          <LockIcon size={15} /> Nombre y edad verificados
-        </div>
-
-        <div className="floating floating2">
-          <MessageIcon size={15} /> Conversaciones reales
-        </div>
-
-        <div className="floating floating3">
-          <StarIcon size={15} /> Premium
-        </div>
 
         <div className="hero-illustration" aria-hidden="true">
 
