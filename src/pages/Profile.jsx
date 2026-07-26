@@ -8,7 +8,9 @@ import MicIcon from "../components/ui/MicIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import CameraIcon from "../components/ui/CameraIcon";
 import MessageIcon from "../components/ui/MessageIcon";
+import FlagIcon from "../components/ui/FlagIcon";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
+import ReportModal from "../components/profile/ReportModal";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
@@ -25,6 +27,7 @@ function Profile() {
   const [notFound, setNotFound] = useState(false);
   const [matching, setMatching] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     loadProfile();
@@ -118,6 +121,16 @@ function Profile() {
 
       <div className="profile-back-wrapper">
         <BackButton />
+      </div>
+
+      <div className="profile-report-wrapper">
+        <button
+          className="report-flag-btn"
+          onClick={() => setShowReportModal(true)}
+          aria-label="Reportar perfil"
+        >
+          <FlagIcon size={18} />
+        </button>
       </div>
 
       <div className="profile-cover"></div>
@@ -261,6 +274,14 @@ function Profile() {
         <PhotoGalleryModal
           photos={profile.photos}
           onClose={() => setShowGallery(false)}
+        />
+      )}
+
+      {showReportModal && (
+        <ReportModal
+          profileId={profile.id}
+          reporterId={currentUserId}
+          onClose={() => setShowReportModal(false)}
         />
       )}
 
