@@ -38,6 +38,92 @@ margin-top:8px;
 
 }
 
+.swipe-filter-toggle{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:6px;
+
+margin-top:16px;
+
+padding:10px 20px;
+
+border-radius:30px;
+
+border:2px solid #ddd;
+
+background:white;
+
+color:#555;
+
+font-weight:600;
+
+font-size:14px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.swipe-filter-toggle:hover{
+
+border-color:#ff3f87;
+
+color:#ff3f87;
+
+}
+
+.swipe-filter-toggle.active{
+
+border-color:#ff3f87;
+
+background:#fff0f6;
+
+color:#ff3f87;
+
+}
+
+.swipe-filter-panel{
+
+position:relative;
+
+z-index:1;
+
+max-width:400px;
+
+margin:0 auto 30px;
+
+background:rgba(255,255,255,.7);
+
+backdrop-filter:blur(14px);
+
+-webkit-backdrop-filter:blur(14px);
+
+border:1px solid rgba(255,255,255,.5);
+
+border-radius:24px;
+
+padding:18px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.06);
+
+display:flex;
+
+flex-direction:column;
+
+gap:14px;
+
+}
+
+.swipe-filter-panel .filter-gender-pills{
+
+justify-content:center;
+
+}
+
 .swipe-deck{
 
 position:relative;
@@ -1667,6 +1753,32 @@ align-items:center;
 justify-content:center;
 
 box-shadow:0 8px 18px rgba(255,63,135,.3);
+
+}
+
+.match-superlike-badge{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:6px;
+
+background:linear-gradient(135deg,#60a5fa,#3b82f6);
+
+color:white;
+
+font-size:12px;
+
+font-weight:700;
+
+padding:7px 16px;
+
+border-radius:20px;
+
+margin-bottom:14px;
+
+box-shadow:0 8px 18px rgba(59,130,246,.35);
 
 }
 

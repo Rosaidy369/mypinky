@@ -42,6 +42,32 @@ function FilterBar({ filters, onChange, isPremium }) {
 
       </div>
 
+      <div className="distance-filter age-range-filter">
+
+        <span className="distance-label">
+          {filters.ageMin} - {filters.ageMax} años
+        </span>
+
+        <input
+          type="range"
+          min="18"
+          max="90"
+          value={filters.ageMin}
+          onChange={(e) => onChange("ageMin", Math.min(Number(e.target.value), filters.ageMax))}
+          className="distance-slider"
+        />
+
+        <input
+          type="range"
+          min="18"
+          max="90"
+          value={filters.ageMax}
+          onChange={(e) => onChange("ageMax", Math.max(Number(e.target.value), filters.ageMin))}
+          className="distance-slider"
+        />
+
+      </div>
+
       {isPremium ? (
 
         <div className="select-wrapper">

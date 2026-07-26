@@ -1,18 +1,8 @@
 import { useState, useRef } from "react";
 import { isPlanActive } from "../../lib/plan";
+import { hashId, getMockDistance } from "../../lib/mockDistance";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import SwipeProfileDetail from "./SwipeProfileDetail";
-
-// profile.id is a Supabase UUID string, not a number, so it needs hashing
-// before it can be used to derive stable pseudo-random display values.
-function hashId(id) {
-  const str = String(id);
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
-  }
-  return hash;
-}
 
 function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
   const [dragging, setDragging] = useState(false);
@@ -20,9 +10,8 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const startPos = useRef({ x: 0, y: 0 });
 
-  const idHash = hashId(profile.id);
-  const compatibility = 70 + (idHash % 30);
-  const distance = 1 + (idHash % 12);
+  const compatibility = 70 + (hashId(profile.id) % 30);
+  const distance = getMockDistance(profile.id);
 
   const handlePointerDown = (e) => {
     if (!isTop) return;

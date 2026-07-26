@@ -5,6 +5,7 @@ import { isPlanActive } from "../lib/plan";
 import { useNotifications } from "../hooks/useNotifications";
 import BackButton from "../components/ui/BackButton";
 import HeartIcon from "../components/ui/HeartIcon";
+import StarIcon from "../components/ui/StarIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/WhoLikedMe.css";
 import "../styles/BackButton.css";
@@ -40,7 +41,7 @@ function WhoLikedMe() {
 
     const { data, error } = await supabase
       .from("swipes")
-      .select("swiper_id, profiles:swiper_id(*)")
+      .select("swiper_id, direction, profiles:swiper_id(*)")
       .eq("swiped_profile_id", user.id)
       .in("direction", ["like", "superlike"]);
 
@@ -52,7 +53,7 @@ function WhoLikedMe() {
       for (const l of data || []) {
         if (l.profiles && !seenIds.has(l.profiles.id)) {
           seenIds.add(l.profiles.id);
-          uniqueProfiles.push(l.profiles);
+          uniqueProfiles.push({ ...l.profiles, isSuperLike: l.direction === "superlike" });
         }
       }
       setLikers(uniqueProfiles);
@@ -102,6 +103,12 @@ function WhoLikedMe() {
             >
 
               <img src={profile.photos?.[0] || "https://via.placeholder.com/300"} alt={profile.name} />
+
+              {profile.isSuperLike && (
+                <span className="wholiked-superlike-badge">
+                  <StarIcon size={12} /> Super Like
+                </span>
+              )}
 
               {isPremium ? (
 

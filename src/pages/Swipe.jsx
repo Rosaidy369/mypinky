@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { getMockDistance } from "../lib/mockDistance";
 import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
@@ -11,8 +12,12 @@ import XIcon from "../components/ui/XIcon";
 import RewindIcon from "../components/ui/RewindIcon";
 import HeartIcon from "../components/ui/HeartIcon";
 import MessageIcon from "../components/ui/MessageIcon";
+import FilterIcon from "../components/ui/FilterIcon";
 import "../styles/Swipe.css";
+import "../styles/Explore.css";
 import "../styles/BackButton.css";
+
+const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
 
 const SWIPE_LIMIT = 20;
 const STORAGE_KEY = "mypinky_swipe_data";
@@ -62,6 +67,8 @@ function Swipe() {
   const [swipeData, setSwipeData] = useState(loadSwipeData);
   const [now, setNow] = useState(Date.now());
   const [lastSwiped, setLastSwiped] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({ gender: "Todos", ageMin: 18, ageMax: 90, maxDistance: 100 });
 
   const isPremium = isPlanActive(currentUser);
 
@@ -109,7 +116,7 @@ function Swipe() {
       query = query.not("id", "in", `(${swipedIds.join(",")})`);
     }
 
-    const { data: candidateProfiles, error } = await query.limit(20);
+    const { data: candidateProfiles, error } = await query.limit(30);
 
     if (error) {
       console.error("Error cargando perfiles para swipe:", error.message);
@@ -148,7 +155,7 @@ function Swipe() {
     if (direction === "right") {
       const { data: theyLikedMe } = await supabase
         .from("swipes")
-        .select("id")
+        .select("id, direction")
         .eq("swiper_id", card.id)
         .eq("swiped_profile_id", currentUser.id)
         .in("direction", ["like", "superlike"])
@@ -161,14 +168,30 @@ function Swipe() {
           .select()
           .single();
 
-        setMatchInfo({ ...card, id: newMatch.id, profileId: card.id });
+        const isSuperLikeMatch = isSuperLike || theyLikedMe.direction === "superlike";
+
+        setMatchInfo({ ...card, id: newMatch.id, profileId: card.id, isSuperLikeMatch });
       }
     }
   };
 
+  const filteredStack = stack.filter((profile) => {
+    const matchesGender = filters.gender === "Todos" || profile.gender === filters.gender;
+    const matchesAge =
+      typeof profile.age !== "number" ||
+      (profile.age >= filters.ageMin && profile.age <= filters.ageMax);
+    const matchesDistance = getMockDistance(profile.id) <= filters.maxDistance;
+
+    return matchesGender && matchesAge && matchesDistance;
+  });
+
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
   const handleButtonSwipe = (direction, isSuperLike = false) => {
-    if (stack.length === 0 || isBlocked) return;
-    handleSwipe(direction, stack[0], isSuperLike);
+    if (filteredStack.length === 0 || isBlocked) return;
+    handleSwipe(direction, filteredStack[0], isSuperLike);
   };
 
   const handleRewind = async () => {
@@ -198,7 +221,7 @@ function Swipe() {
     handleButtonSwipe("right", true);
   };
 
-  const visibleCards = stack.slice(0, 3);
+  const visibleCards = filteredStack.slice(0, 3);
   const timeLeft = swipeData.resetAt ? swipeData.resetAt - now : 0;
   const myPhoto = currentUser?.photos?.[0] || null;
 
@@ -259,7 +282,68 @@ function Swipe() {
       <div className="swipe-header">
         <h1>Descubrir</h1>
         <p>Desliza para conocer gente nueva</p>
+
+        <button
+          type="button"
+          className={`swipe-filter-toggle ${showFilters ? "active" : ""}`}
+          onClick={() => setShowFilters((prev) => !prev)}
+        >
+          <FilterIcon size={15} /> Filtros
+        </button>
       </div>
+
+      {showFilters && (
+        <div className="swipe-filter-panel">
+
+          <div className="filter-gender-pills">
+            {GENDER_FILTER_OPTIONS.map((option) => (
+              <button
+                key={option}
+                type="button"
+                className={`filter-gender-pill ${filters.gender === option ? "selected" : ""}`}
+                onClick={() => updateFilter("gender", option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
+          <div className="distance-filter">
+            <span className="distance-label">
+              {filters.ageMin} - {filters.ageMax} años
+            </span>
+            <input
+              type="range"
+              min="18"
+              max="90"
+              value={filters.ageMin}
+              onChange={(e) => updateFilter("ageMin", Math.min(Number(e.target.value), filters.ageMax))}
+              className="distance-slider"
+            />
+            <input
+              type="range"
+              min="18"
+              max="90"
+              value={filters.ageMax}
+              onChange={(e) => updateFilter("ageMax", Math.max(Number(e.target.value), filters.ageMin))}
+              className="distance-slider"
+            />
+          </div>
+
+          <div className="distance-filter">
+            <span className="distance-label">📍 Hasta {filters.maxDistance} km</span>
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value={filters.maxDistance}
+              onChange={(e) => updateFilter("maxDistance", Number(e.target.value))}
+              className="distance-slider"
+            />
+          </div>
+
+        </div>
+      )}
 
       {isBlocked ? (
 
@@ -283,11 +367,15 @@ function Swipe() {
 
         </div>
 
-      ) : stack.length === 0 ? (
+      ) : filteredStack.length === 0 ? (
 
         <div className="swipe-empty">
           <h2>😅 No hay más perfiles por ahora</h2>
-          <p>Vuelve más tarde para ver gente nueva</p>
+          <p>
+            {stack.length > 0
+              ? "Nadie coincide con tus filtros — prueba ampliándolos."
+              : "Vuelve más tarde para ver gente nueva"}
+          </p>
         </div>
 
       ) : (
@@ -396,6 +484,12 @@ function Swipe() {
               </div>
 
             </div>
+
+            {matchInfo.isSuperLikeMatch && (
+              <span className="match-superlike-badge">
+                <StarIcon size={13} /> Match especial: hubo un Super Like
+              </span>
+            )}
 
             <h2>¡Es un Match!</h2>
 

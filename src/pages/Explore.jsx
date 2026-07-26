@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { getMockDistance } from "../lib/mockDistance";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -19,6 +20,8 @@ function Explore() {
   const [filters, setFilters] = useState({
     gender: "Todos",
     maxDistance: 100,
+    ageMin: 18,
+    ageMax: 90,
     onlineOnly: false,
     locationSearch: "",
   });
@@ -102,8 +105,12 @@ function Explore() {
     const matchesLocation =
       !filters.locationSearch ||
       profile.city?.toLowerCase().includes(filters.locationSearch.toLowerCase());
+    const matchesAge =
+      typeof profile.age !== "number" ||
+      (profile.age >= filters.ageMin && profile.age <= filters.ageMax);
+    const matchesDistance = getMockDistance(profile.id) <= filters.maxDistance;
 
-    return matchesSearch && matchesGender && matchesLocation;
+    return matchesSearch && matchesGender && matchesLocation && matchesAge && matchesDistance;
   });
 
   return (
