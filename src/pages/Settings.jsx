@@ -31,6 +31,7 @@ function Settings() {
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [deletePassword, setDeletePassword] = useState("");
   const [deleteError, setDeleteError] = useState("");
+  const [hasPassword, setHasPassword] = useState(true);
   const [showRemoveCardConfirm, setShowRemoveCardConfirm] = useState(false);
   const [cardRemovedSuccess, setCardRemovedSuccess] = useState(false);
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
@@ -51,6 +52,12 @@ function Settings() {
       navigate("/login");
       return;
     }
+
+    // Google/OAuth-only accounts never have a password on file, so the
+    // delete-account confirmation can't ask for one — it would always
+    // fail. "email" among the linked providers means a password exists.
+    const providers = user.identities?.map((i) => i.provider) ?? [user.app_metadata?.provider];
+    setHasPassword(providers.includes("email"));
 
     const { data, error } = await supabase
       .from("profiles")
@@ -123,25 +130,32 @@ function Settings() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    if (!deletePassword) {
-      setDeleteError("Ingresa tu contraseña para confirmar.");
-      return;
-    }
+    if (hasPassword) {
+      if (!deletePassword) {
+        setDeleteError("Ingresa tu contraseña para confirmar.");
+        return;
+      }
 
-    setDeletingAccount(true);
+      setDeletingAccount(true);
 
-    // Reauthentication gate: proves whoever is at this device right now
-    // still knows the password, so a shared/left-open session can't be
-    // used to permanently delete the account.
-    const { error: reauthError } = await supabase.auth.signInWithPassword({
-      email: user.email,
-      password: deletePassword,
-    });
+      // Reauthentication gate: proves whoever is at this device right now
+      // still knows the password, so a shared/left-open session can't be
+      // used to permanently delete the account.
+      const { error: reauthError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: deletePassword,
+      });
 
-    if (reauthError) {
-      setDeletingAccount(false);
-      setDeleteError("Contraseña incorrecta.");
-      return;
+      if (reauthError) {
+        setDeletingAccount(false);
+        setDeleteError("Contraseña incorrecta.");
+        return;
+      }
+    } else {
+      // Accounts that only ever signed in with Google have no password to
+      // check — the active OAuth session itself is the identity proof, so
+      // the explicit "Sí, eliminar" click is the confirmation gate here.
+      setDeletingAccount(true);
     }
 
     const { data: { session } } = await supabase.auth.getSession();
@@ -441,14 +455,16 @@ function Settings() {
             <h2>¿Eliminar tu cuenta?</h2>
             <p>Esta acción es permanente: se borrarán tu perfil, matches, mensajes y toda tu información. No se puede deshacer.</p>
 
-            <input
-              type="password"
-              className="settings-select"
-              placeholder="Confirma tu contraseña"
-              value={deletePassword}
-              onChange={(e) => setDeletePassword(e.target.value)}
-              autoComplete="current-password"
-            />
+            {hasPassword && (
+              <input
+                type="password"
+                className="settings-select"
+                placeholder="Confirma tu contraseña"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+                autoComplete="current-password"
+              />
+            )}
 
             {deleteError && <p className="onboarding-error">{deleteError}</p>}
 
