@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
+import EmailSentIcon from "../components/ui/EmailSentIcon";
 import "../styles/Register.css";
 
 function Register() {
@@ -56,7 +57,7 @@ function Register() {
           </div>
 
           <div className="confirm-email-message">
-            <div className="confirm-email-icon">📧</div>
+            <EmailSentIcon size={64} />
             <h2>¡Revisa tu correo!</h2>
             <p>
               Te enviamos un enlace de confirmación a <strong>{form.email}</strong>.

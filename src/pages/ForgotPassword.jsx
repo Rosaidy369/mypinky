@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import EmailSentIcon from "../components/ui/EmailSentIcon";
 import "../styles/Login.css";
 import "../styles/Register.css";
 
@@ -39,7 +40,7 @@ function ForgotPassword() {
           </div>
 
           <div className="confirm-email-message">
-            <div className="confirm-email-icon">📧</div>
+            <EmailSentIcon size={64} />
             <h2>¡Revisa tu correo!</h2>
             <p>
               Si existe una cuenta con <strong>{email}</strong>, te enviamos un enlace
