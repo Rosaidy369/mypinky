@@ -144,7 +144,7 @@ function Navbar() {
               </span>
               <span className="nav-link-label">Mensajes</span>
             </Link>
-            <Link to="/matches" className="nav-link">
+            <Link to="/matches" className="nav-link matches-desktop-link">
               <span className="nav-icon-badge-wrap">
                 <HeartIcon size={17} className="nav-link-icon" />
                 {badges?.matches && <span className="notif-dot"></span>}
@@ -241,6 +241,14 @@ function Navbar() {
                       )}
                     </span>
                     <span className="menu-item-label">Mi Perfil</span>
+                  </Link>
+
+                  <Link to="/matches" onClick={() => setMenuOpen(false)} className="matches-mobile-link">
+                    <span className="menu-icon-badge-wrap">
+                      <span className="menu-icon-slot"><HeartIcon size={15} /></span>
+                      {badges?.matches && <span className="notif-dot menu-notif-dot"></span>}
+                    </span>
+                    <span className="menu-item-label">Matches</span>
                   </Link>
 
                   <Link to="/favoritos" onClick={() => setMenuOpen(false)}>
