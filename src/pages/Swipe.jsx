@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { useSwipeFilters } from "../hooks/useSwipeFilters";
 import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
@@ -11,12 +12,9 @@ import XIcon from "../components/ui/XIcon";
 import RewindIcon from "../components/ui/RewindIcon";
 import HeartIcon from "../components/ui/HeartIcon";
 import MessageIcon from "../components/ui/MessageIcon";
-import FilterIcon from "../components/ui/FilterIcon";
 import "../styles/Swipe.css";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
-
-const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
 
 function formatCountdown(ms) {
   const totalMinutes = Math.max(Math.floor(ms / 60000), 0);
@@ -48,8 +46,7 @@ function Swipe() {
   const [matchInfo, setMatchInfo] = useState(null);
   const [now, setNow] = useState(Date.now());
   const [lastSwiped, setLastSwiped] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({ gender: "Todos", ageMin: 18, ageMax: 90, maxDistance: 100 });
+  const { filters } = useSwipeFilters();
   const [swipesLeft, setSwipesLeft] = useState(null);
   const [resetAt, setResetAt] = useState(null);
 
@@ -172,10 +169,6 @@ function Swipe() {
     }
   };
 
-  const updateFilter = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
-
   const handleButtonSwipe = (direction, isSuperLike = false) => {
     if (stack.length === 0 || isBlocked) return;
     handleSwipe(direction, stack[0], isSuperLike);
@@ -267,68 +260,7 @@ function Swipe() {
       <div className="swipe-header">
         <h1>Descubrir</h1>
         <p>Desliza para conocer gente nueva</p>
-
-        <button
-          type="button"
-          className={`swipe-filter-toggle ${showFilters ? "active" : ""}`}
-          onClick={() => setShowFilters((prev) => !prev)}
-        >
-          <FilterIcon size={15} /> Filtros
-        </button>
       </div>
-
-      {showFilters && (
-        <div className="swipe-filter-panel">
-
-          <div className="filter-gender-pills">
-            {GENDER_FILTER_OPTIONS.map((option) => (
-              <button
-                key={option}
-                type="button"
-                className={`filter-gender-pill ${filters.gender === option ? "selected" : ""}`}
-                onClick={() => updateFilter("gender", option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-
-          <div className="distance-filter">
-            <span className="distance-label">
-              {filters.ageMin} - {filters.ageMax} años
-            </span>
-            <input
-              type="range"
-              min="18"
-              max="90"
-              value={filters.ageMin}
-              onChange={(e) => updateFilter("ageMin", Math.min(Number(e.target.value), filters.ageMax))}
-              className="distance-slider"
-            />
-            <input
-              type="range"
-              min="18"
-              max="90"
-              value={filters.ageMax}
-              onChange={(e) => updateFilter("ageMax", Math.max(Number(e.target.value), filters.ageMin))}
-              className="distance-slider"
-            />
-          </div>
-
-          <div className="distance-filter">
-            <span className="distance-label">📍 Hasta {filters.maxDistance} km</span>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value={filters.maxDistance}
-              onChange={(e) => updateFilter("maxDistance", Number(e.target.value))}
-              className="distance-slider"
-            />
-          </div>
-
-        </div>
-      )}
 
       {isBlocked ? (
 

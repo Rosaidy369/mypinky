@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useNotifications } from "../../hooks/useNotifications";
+import { useSwipeFilters } from "../../hooks/useSwipeFilters";
 import { supabase } from "../../lib/supabaseClient";
 import HeartIcon from "../ui/HeartIcon";
 import StarIcon from "../ui/StarIcon";
@@ -9,16 +10,22 @@ import GearIcon from "../ui/GearIcon";
 import PersonIcon from "../ui/PersonIcon";
 import SearchIcon from "../ui/SearchIcon";
 import MessageIcon from "../ui/MessageIcon";
+import FilterIcon from "../ui/FilterIcon";
 import "../../styles/Navbar.css";
+import "../../styles/Explore.css";
+
+const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
 
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
   const { badges } = useNotifications();
+  const { filters, updateFilter, showFilters, setShowFilters } = useSwipeFilters();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const navRef = useRef(null);
+  const filterRef = useRef(null);
 
   // The navbar can wrap into extra rows on narrow screens, so its real
   // height varies. Measure it and expose it as a CSS var instead of
@@ -43,7 +50,7 @@ function Navbar() {
       observer.disconnect();
       window.removeEventListener("resize", updateNavSpace);
     };
-  }, [isLoggedIn, menuOpen]);
+  }, [isLoggedIn, menuOpen, showFilters]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -60,6 +67,23 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    function handleClickOutsideFilters(e) {
+      if (filterRef.current && !filterRef.current.contains(e.target)) {
+        setShowFilters(false);
+      }
+    }
+
+    if (showFilters) {
+      document.addEventListener("mousedown", handleClickOutsideFilters);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideFilters);
+    };
+  }, [showFilters, setShowFilters]);
+
   const [userPhoto, setUserPhoto] = useState(null);
 
   useEffect(() => {
@@ -127,6 +151,74 @@ function Navbar() {
               </span>
               <span className="nav-link-label">Matches</span>
             </Link>
+
+            {location.pathname === "/swipe" && (
+              <div className="navbar-filter-wrapper" ref={filterRef}>
+
+                <button
+                  type="button"
+                  className={`nav-link navbar-filter-btn ${showFilters ? "active" : ""}`}
+                  onClick={() => setShowFilters((prev) => !prev)}
+                >
+                  <FilterIcon size={18} className="nav-link-icon" />
+                  <span className="nav-link-label">Filtros</span>
+                </button>
+
+                {showFilters && (
+                  <div className="navbar-filter-dropdown">
+
+                    <div className="filter-gender-pills">
+                      {GENDER_FILTER_OPTIONS.map((option) => (
+                        <button
+                          key={option}
+                          type="button"
+                          className={`filter-gender-pill ${filters.gender === option ? "selected" : ""}`}
+                          onClick={() => updateFilter("gender", option)}
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="distance-filter">
+                      <span className="distance-label">
+                        {filters.ageMin} - {filters.ageMax} años
+                      </span>
+                      <input
+                        type="range"
+                        min="18"
+                        max="90"
+                        value={filters.ageMin}
+                        onChange={(e) => updateFilter("ageMin", Math.min(Number(e.target.value), filters.ageMax))}
+                        className="distance-slider"
+                      />
+                      <input
+                        type="range"
+                        min="18"
+                        max="90"
+                        value={filters.ageMax}
+                        onChange={(e) => updateFilter("ageMax", Math.max(Number(e.target.value), filters.ageMin))}
+                        className="distance-slider"
+                      />
+                    </div>
+
+                    <div className="distance-filter">
+                      <span className="distance-label">📍 Hasta {filters.maxDistance} km</span>
+                      <input
+                        type="range"
+                        min="1"
+                        max="100"
+                        value={filters.maxDistance}
+                        onChange={(e) => updateFilter("maxDistance", Number(e.target.value))}
+                        className="distance-slider"
+                      />
+                    </div>
+
+                  </div>
+                )}
+
+              </div>
+            )}
 
             <div className="hamburger-wrapper" ref={menuRef}>
 

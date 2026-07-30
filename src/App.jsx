@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import { NotificationsProvider } from "./hooks/useNotifications";
+import { SwipeFiltersProvider } from "./hooks/useSwipeFilters";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
 
@@ -32,6 +33,7 @@ function App() {
   return (
     <AuthProvider>
     <NotificationsProvider>
+    <SwipeFiltersProvider>
       <BrowserRouter>
         <Routes>
 
@@ -180,6 +182,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+    </SwipeFiltersProvider>
     </NotificationsProvider>
     </AuthProvider>
   );

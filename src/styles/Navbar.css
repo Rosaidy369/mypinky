@@ -422,6 +422,26 @@ top:50px;
 
 }
 
+.navbar-filter-btn{
+
+height:40px;
+
+padding:0 10px;
+
+gap:5px;
+
+font-size:13px;
+
+}
+
+.navbar-filter-dropdown{
+
+top:50px;
+
+min-width:240px;
+
+}
+
 }
 
 .hamburger-wrapper{
@@ -455,6 +475,93 @@ transition:.25s;
 .hamburger-btn:hover{
 
 background:#ffe0eb;
+
+}
+
+.navbar-filter-wrapper{
+
+position:relative;
+
+}
+
+.navbar-filter-btn{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+height:48px;
+
+box-sizing:border-box;
+
+background:none;
+
+border:none;
+
+color:#555;
+
+font-weight:600;
+
+font-family:inherit;
+
+font-size:15px;
+
+padding:0 16px;
+
+border-radius:30px;
+
+transition:.3s;
+
+white-space:nowrap;
+
+cursor:pointer;
+
+gap:8px;
+
+}
+
+.navbar-filter-btn:hover,
+.navbar-filter-btn.active{
+
+background:#fff0f6;
+
+color:#ff3f87;
+
+}
+
+.navbar-filter-dropdown{
+
+position:absolute;
+
+top:60px;
+
+right:0;
+
+background:white;
+
+border-radius:20px;
+
+box-shadow:0 20px 45px rgba(0,0,0,.15);
+
+padding:18px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:16px;
+
+min-width:260px;
+
+z-index:1000;
+
+}
+
+.navbar-filter-dropdown .filter-gender-pill{
+
+flex:1;
 
 }
 

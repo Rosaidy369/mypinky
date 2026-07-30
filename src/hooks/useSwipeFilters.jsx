@@ -1,0 +1,24 @@
+import { createContext, useContext, useState } from "react";
+
+const SwipeFiltersContext = createContext(null);
+
+const DEFAULT_FILTERS = { gender: "Todos", ageMin: 18, ageMax: 90, maxDistance: 100 };
+
+export function SwipeFiltersProvider({ children }) {
+  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const updateFilter = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  return (
+    <SwipeFiltersContext.Provider value={{ filters, updateFilter, showFilters, setShowFilters }}>
+      {children}
+    </SwipeFiltersContext.Provider>
+  );
+}
+
+export function useSwipeFilters() {
+  return useContext(SwipeFiltersContext);
+}
