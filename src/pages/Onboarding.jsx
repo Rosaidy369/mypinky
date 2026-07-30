@@ -21,6 +21,8 @@ function Onboarding() {
     age: "",
     gender: "",
     city: "",
+    latitude: null,
+    longitude: null,
     photos: [],
     bio: "",
     interests: [],
@@ -87,6 +89,8 @@ function Onboarding() {
       .update({
         gender: formData.gender,
         city: formData.city,
+        latitude: formData.latitude,
+        longitude: formData.longitude,
         photos: formData.photos,
         bio: formData.bio,
         interests: formData.interests,

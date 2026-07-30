@@ -124,6 +124,80 @@ margin-top:0;
 
 }
 
+.location-share-row{
+
+margin-top:14px;
+
+}
+
+.location-share-btn{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
+padding:12px 20px;
+
+border-radius:30px;
+
+border:2px solid #ddd;
+
+background:white;
+
+color:#555;
+
+font-weight:600;
+
+font-size:14px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.location-share-btn:hover{
+
+border-color:#ff3f87;
+
+color:#ff3f87;
+
+}
+
+.location-share-btn.granted{
+
+border-color:#19c95d;
+
+background:#eafff2;
+
+color:#19a463;
+
+cursor:default;
+
+}
+
+.location-share-hint{
+
+margin-top:8px;
+
+font-size:12px;
+
+color:#999;
+
+}
+
+.location-share-error{
+
+margin-top:8px;
+
+font-size:12px;
+
+color:#e63946;
+
+}
+
 .step-content input[type="text"],
 .step-content input[type="number"]{
 

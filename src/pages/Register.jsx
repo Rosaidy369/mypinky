@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabaseClient";
 import "../styles/Register.css";
 
 function Register() {
@@ -34,6 +35,13 @@ function Register() {
     }
 
     setRegistered(true);
+  };
+
+  const handleGoogleRegister = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/swipe` },
+    });
   };
 
   if (registered) {
@@ -153,7 +161,7 @@ function Register() {
           <span>o</span>
         </div>
 
-        <button className="google-btn">
+        <button type="button" className="google-btn" onClick={handleGoogleRegister}>
 
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
-import { getMockDistance } from "../lib/mockDistance";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -30,12 +29,15 @@ function Explore() {
   const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
-    loadData();
+    loadInitialData();
   }, []);
 
-  const loadData = async () => {
-    setLoading(true);
+  useEffect(() => {
+    if (currentUserId) loadProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance]);
 
+  const loadInitialData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       navigate("/login");
@@ -52,25 +54,33 @@ function Explore() {
 
     setIsPremium(isPlanActive(myProfile));
 
-    const { data: profilesData, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .neq("id", user.id)
-      .not("bio", "is", null)
-      .is("deleted_at", null);
-
-    if (error) {
-      console.error("Error cargando perfiles:", error.message);
-    } else {
-      setProfiles(profilesData || []);
-    }
-
     const { data: favoritesData } = await supabase
       .from("favorites")
       .select("favorite_profile_id")
       .eq("user_id", user.id);
 
     setFavorites((favoritesData || []).map((f) => f.favorite_profile_id));
+  };
+
+  const loadProfiles = async () => {
+    setLoading(true);
+
+    // Server-side: never returns anyone else's exact coordinates, only the
+    // already-computed distance_km (or null if either side lacks location).
+    const { data: profilesData, error } = await supabase.rpc("get_discoverable_profiles", {
+      p_gender: filters.gender,
+      p_min_age: filters.ageMin,
+      p_max_age: filters.ageMax,
+      p_max_distance_km: filters.maxDistance,
+      p_exclude_swiped: false,
+      p_limit: 60,
+    });
+
+    if (error) {
+      console.error("Error cargando perfiles:", error.message);
+    } else {
+      setProfiles(profilesData || []);
+    }
 
     setLoading(false);
   };
@@ -99,18 +109,15 @@ function Explore() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  // Gender/age/distance are already applied server-side (get_discoverable_profiles);
+  // only the free-text search boxes still need filtering here.
   const filteredProfiles = profiles.filter((profile) => {
     const matchesSearch = profile.name?.toLowerCase().includes(search.toLowerCase());
-    const matchesGender = filters.gender === "Todos" || profile.gender === filters.gender;
     const matchesLocation =
       !filters.locationSearch ||
       profile.city?.toLowerCase().includes(filters.locationSearch.toLowerCase());
-    const matchesAge =
-      typeof profile.age !== "number" ||
-      (profile.age >= filters.ageMin && profile.age <= filters.ageMax);
-    const matchesDistance = getMockDistance(profile.id) <= filters.maxDistance;
 
-    return matchesSearch && matchesGender && matchesLocation && matchesAge && matchesDistance;
+    return matchesSearch && matchesLocation;
   });
 
   return (
@@ -196,6 +203,7 @@ function Explore() {
 
                 <p className="country">
                   📍 {profile.city}
+                  {typeof profile.distance_km === "number" && ` · ${Math.round(profile.distance_km)} km`}
                 </p>
 
                 <div className="mood-badge">

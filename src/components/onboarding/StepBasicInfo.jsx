@@ -1,4 +1,27 @@
+import { useState } from "react";
+import { requestLocation } from "../../lib/geolocation";
+import PinIcon from "../ui/PinIcon";
+import CheckIcon from "../ui/CheckIcon";
+
 function StepBasicInfo({ data, onChange }) {
+  const [locationStatus, setLocationStatus] = useState("idle");
+  const [locationError, setLocationError] = useState("");
+
+  const handleShareLocation = async () => {
+    setLocationStatus("loading");
+    setLocationError("");
+
+    try {
+      const { latitude, longitude } = await requestLocation();
+      onChange("latitude", latitude);
+      onChange("longitude", longitude);
+      setLocationStatus("granted");
+    } catch (err) {
+      setLocationStatus("idle");
+      setLocationError(err.message);
+    }
+  };
+
   return (
     <div className="step-content">
 
@@ -45,6 +68,29 @@ function StepBasicInfo({ data, onChange }) {
         value={data.city}
         onChange={(e) => onChange("city", e.target.value)}
       />
+
+      <div className="location-share-row">
+
+        <button
+          type="button"
+          className={`location-share-btn ${data.latitude ? "granted" : ""}`}
+          onClick={handleShareLocation}
+          disabled={locationStatus === "loading"}
+        >
+          {data.latitude ? (
+            <><CheckIcon size={15} /> Ubicación compartida</>
+          ) : (
+            <><PinIcon size={15} /> {locationStatus === "loading" ? "Obteniendo ubicación..." : "Compartir mi ubicación (opcional)"}</>
+          )}
+        </button>
+
+        <p className="location-share-hint">
+          Nos ayuda a mostrarte la distancia real con otras personas. Es opcional — si no la compartes, seguirás viendo tu ciudad con normalidad.
+        </p>
+
+        {locationError && <p className="location-share-error">{locationError}</p>}
+
+      </div>
 
     </div>
   );

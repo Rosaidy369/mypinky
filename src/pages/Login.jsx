@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabaseClient";
 import "../styles/Login.css";
 
 function Login() {
@@ -34,6 +35,13 @@ function Login() {
     } else {
       navigate("/swipe");
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/swipe` },
+    });
   };
 
   return (
@@ -84,7 +92,7 @@ function Login() {
 
         <div className="login-links">
 
-          <Link to="#">
+          <Link to="/olvide-contrasena">
             ¿Olvidaste tu contraseña?
           </Link>
 
@@ -96,7 +104,7 @@ function Login() {
 
         </div>
 
-        <button className="google-btn">
+        <button type="button" className="google-btn" onClick={handleGoogleLogin}>
 
   <img
     src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"

@@ -10,6 +10,8 @@ import Swipe from "./pages/Swipe";
 import Favorites from "./pages/Favorites";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import Premium from "./pages/Premium";
 import Onboarding from "./pages/Onboarding";
@@ -40,6 +42,10 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             <Route path="/register" element={<Register />} />
+
+            <Route path="/olvide-contrasena" element={<ForgotPassword />} />
+
+            <Route path="/restablecer-contrasena" element={<ResetPassword />} />
 
             <Route path="/premium" element={<Premium />} />
 

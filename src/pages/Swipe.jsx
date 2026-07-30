@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
-import { getMockDistance } from "../lib/mockDistance";
 import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
@@ -18,23 +17,6 @@ import "../styles/Explore.css";
 import "../styles/BackButton.css";
 
 const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
-
-const SWIPE_LIMIT = 20;
-const STORAGE_KEY = "mypinky_swipe_data";
-const TWELVE_HOURS = 12 * 60 * 60 * 1000;
-
-function loadSwipeData() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return { count: 0, resetAt: null };
-
-  const data = JSON.parse(raw);
-
-  if (data.resetAt && Date.now() > data.resetAt) {
-    return { count: 0, resetAt: null };
-  }
-
-  return data;
-}
 
 function formatCountdown(ms) {
   const totalMinutes = Math.max(Math.floor(ms / 60000), 0);
@@ -64,26 +46,32 @@ function Swipe() {
   const [stack, setStack] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchInfo, setMatchInfo] = useState(null);
-  const [swipeData, setSwipeData] = useState(loadSwipeData);
   const [now, setNow] = useState(Date.now());
   const [lastSwiped, setLastSwiped] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({ gender: "Todos", ageMin: 18, ageMax: 90, maxDistance: 100 });
+  const [swipesLeft, setSwipesLeft] = useState(null);
+  const [resetAt, setResetAt] = useState(null);
 
   const isPremium = isPlanActive(currentUser);
+  const filtersAreDefault =
+    filters.gender === "Todos" && filters.ageMin === 18 && filters.ageMax === 90 && filters.maxDistance === 100;
 
   useEffect(() => {
-    loadEverything();
+    loadCurrentUser();
   }, []);
+
+  useEffect(() => {
+    if (currentUser) loadCandidates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, filters]);
 
   useEffect(() => {
     const interval = setInterval(() => setNow(Date.now()), 60000);
     return () => clearInterval(interval);
   }, []);
 
-  const loadEverything = async () => {
-    setLoading(true);
-
+  const loadCurrentUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       navigate("/login");
@@ -98,25 +86,26 @@ function Swipe() {
 
     setCurrentUser(myProfile);
 
-    const { data: alreadySwiped } = await supabase
-      .from("swipes")
-      .select("swiped_profile_id")
-      .eq("swiper_id", user.id);
-
-    const swipedIds = (alreadySwiped || []).map((s) => s.swiped_profile_id);
-
-    let query = supabase
-      .from("profiles")
-      .select("*")
-      .neq("id", user.id)
-      .not("bio", "is", null)
-      .is("deleted_at", null);
-
-    if (swipedIds.length > 0) {
-      query = query.not("id", "in", `(${swipedIds.join(",")})`);
+    if (myProfile) {
+      const isPrem = isPlanActive(myProfile);
+      setSwipesLeft(isPrem ? null : Math.max(20 - (myProfile.swipe_count || 0), 0));
+      setResetAt(myProfile.swipe_reset_at ? new Date(myProfile.swipe_reset_at).getTime() : null);
     }
+  };
 
-    const { data: candidateProfiles, error } = await query.limit(30);
+  const loadCandidates = async () => {
+    setLoading(true);
+
+    // Server-side: never returns anyone else's exact coordinates, only the
+    // already-computed distance_km (or null if either side lacks location).
+    const { data: candidateProfiles, error } = await supabase.rpc("get_discoverable_profiles", {
+      p_gender: filters.gender,
+      p_min_age: filters.ageMin,
+      p_max_age: filters.ageMax,
+      p_max_distance_km: filters.maxDistance,
+      p_exclude_swiped: true,
+      p_limit: 30,
+    });
 
     if (error) {
       console.error("Error cargando perfiles para swipe:", error.message);
@@ -126,31 +115,39 @@ function Swipe() {
     setLoading(false);
   };
 
-  const swipesLeft = SWIPE_LIMIT - swipeData.count;
-  const isBlocked = swipesLeft <= 0;
+  const isBlocked = !isPremium && swipesLeft !== null && swipesLeft <= 0;
 
   const handleSwipe = async (direction, card, isSuperLike = false) => {
     setLastSwiped(card);
-
     setStack((prev) => prev.filter((p) => p.id !== card.id));
-
-    setSwipeData((prev) => {
-      const newCount = prev.count + 1;
-      const newData = {
-        count: newCount,
-        resetAt: newCount >= SWIPE_LIMIT ? Date.now() + TWELVE_HOURS : prev.resetAt,
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
-      return newData;
-    });
 
     const swipeDirection = direction === "right" ? (isSuperLike ? "superlike" : "like") : "dislike";
 
-    await supabase.from("swipes").insert({
-      swiper_id: currentUser.id,
-      swiped_profile_id: card.id,
-      direction: swipeDirection,
+    // register_swipe is the ONLY way a swipe row gets created -- direct
+    // inserts into `swipes` are revoked so the daily limit can't be
+    // skipped by calling the API directly or clearing localStorage.
+    const { data, error } = await supabase.rpc("register_swipe", {
+      p_swiped_profile_id: card.id,
+      p_direction: swipeDirection,
     });
+
+    if (error) {
+      console.error("Error registrando swipe:", error.message);
+      setStack((prev) => [card, ...prev]);
+      return;
+    }
+
+    const result = Array.isArray(data) ? data[0] : data;
+
+    if (result) {
+      setSwipesLeft(result.swipes_left);
+      setResetAt(result.reset_at ? new Date(result.reset_at).getTime() : null);
+
+      if (!result.allowed) {
+        setStack((prev) => [card, ...prev]);
+        return;
+      }
+    }
 
     if (direction === "right") {
       const { data: theyLikedMe } = await supabase
@@ -175,40 +172,28 @@ function Swipe() {
     }
   };
 
-  const filteredStack = stack.filter((profile) => {
-    const matchesGender = filters.gender === "Todos" || profile.gender === filters.gender;
-    const matchesAge =
-      typeof profile.age !== "number" ||
-      (profile.age >= filters.ageMin && profile.age <= filters.ageMax);
-    const matchesDistance = getMockDistance(profile.id) <= filters.maxDistance;
-
-    return matchesGender && matchesAge && matchesDistance;
-  });
-
   const updateFilter = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleButtonSwipe = (direction, isSuperLike = false) => {
-    if (filteredStack.length === 0 || isBlocked) return;
-    handleSwipe(direction, filteredStack[0], isSuperLike);
+    if (stack.length === 0 || isBlocked) return;
+    handleSwipe(direction, stack[0], isSuperLike);
   };
 
   const handleRewind = async () => {
     if (!isPremium || !lastSwiped) return;
 
-    await supabase
-      .from("swipes")
-      .delete()
-      .eq("swiper_id", currentUser.id)
-      .eq("swiped_profile_id", lastSwiped.id);
-
-    setSwipeData((prev) => {
-      const newData = { count: Math.max(prev.count - 1, 0), resetAt: prev.resetAt };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
-      return newData;
+    const { data, error } = await supabase.rpc("rewind_last_swipe", {
+      p_swiped_profile_id: lastSwiped.id,
     });
 
+    if (error || !data) {
+      console.error("Error deshaciendo swipe:", error?.message);
+      return;
+    }
+
+    setSwipesLeft((prev) => (prev === null ? prev : prev + 1));
     setStack((prev) => [lastSwiped, ...prev]);
     setLastSwiped(null);
   };
@@ -221,8 +206,8 @@ function Swipe() {
     handleButtonSwipe("right", true);
   };
 
-  const visibleCards = filteredStack.slice(0, 3);
-  const timeLeft = swipeData.resetAt ? swipeData.resetAt - now : 0;
+  const visibleCards = stack.slice(0, 3);
+  const timeLeft = resetAt ? resetAt - now : 0;
   const myPhoto = currentUser?.photos?.[0] || null;
 
   if (loading) {
@@ -367,14 +352,14 @@ function Swipe() {
 
         </div>
 
-      ) : filteredStack.length === 0 ? (
+      ) : stack.length === 0 ? (
 
         <div className="swipe-empty">
           <h2>😅 No hay más perfiles por ahora</h2>
           <p>
-            {stack.length > 0
-              ? "Nadie coincide con tus filtros — prueba ampliándolos."
-              : "Vuelve más tarde para ver gente nueva"}
+            {filtersAreDefault
+              ? "Vuelve más tarde para ver gente nueva"
+              : "Nadie coincide con tus filtros — prueba ampliándolos."}
           </p>
         </div>
 
@@ -387,7 +372,7 @@ function Swipe() {
             {visibleCards.map((card, index) => (
               <SwipeCard
                 key={card.id}
-                profile={{ ...card, image: card.photos?.[0], country: card.city }}
+                profile={{ ...card, image: card.photos?.[0], country: card.city, distanceKm: card.distance_km }}
                 isTop={index === 0}
                 depth={index}
                 onSwipe={handleSwipe}

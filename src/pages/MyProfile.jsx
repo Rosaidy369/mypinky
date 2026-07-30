@@ -13,6 +13,9 @@ import MicIcon from "../components/ui/MicIcon";
 import LockIcon from "../components/ui/LockIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import CameraIcon from "../components/ui/CameraIcon";
+import PinIcon from "../components/ui/PinIcon";
+import CheckIcon from "../components/ui/CheckIcon";
+import { requestLocation } from "../lib/geolocation";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
@@ -55,6 +58,8 @@ function MyProfile() {
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [cropQueue, setCropQueue] = useState([]);
   const [cropImageSrc, setCropImageSrc] = useState(null);
+  const [locationStatus, setLocationStatus] = useState("idle");
+  const [locationError, setLocationError] = useState("");
 
   const isVip = isVipActive(user);
   const isPremiumPlan = isPlanActive(user) && user?.plan === "premium";
@@ -118,6 +123,8 @@ function MyProfile() {
       .from("profiles")
       .update({
         city: draft.city,
+        latitude: draft.latitude,
+        longitude: draft.longitude,
         bio: draft.bio,
         mood: draft.mood,
         interests: draft.interests,
@@ -141,6 +148,21 @@ function MyProfile() {
 
   const updateDraft = (field, value) => {
     setDraft((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleShareLocation = async () => {
+    setLocationStatus("loading");
+    setLocationError("");
+
+    try {
+      const { latitude, longitude } = await requestLocation();
+      updateDraft("latitude", latitude);
+      updateDraft("longitude", longitude);
+      setLocationStatus("granted");
+    } catch (err) {
+      setLocationStatus("idle");
+      setLocationError(err.message);
+    }
   };
 
   const toggleInterest = (interest) => {
@@ -441,6 +463,25 @@ function MyProfile() {
               value={draft.city || ""}
               onChange={(e) => updateDraft("city", e.target.value)}
             />
+
+            <div className="location-share-row">
+
+              <button
+                type="button"
+                className={`location-share-btn ${draft.latitude ? "granted" : ""}`}
+                onClick={handleShareLocation}
+                disabled={locationStatus === "loading"}
+              >
+                {draft.latitude ? (
+                  <><CheckIcon size={15} /> Ubicación actualizada</>
+                ) : (
+                  <><PinIcon size={15} /> {locationStatus === "loading" ? "Obteniendo ubicación..." : "Actualizar mi ubicación (opcional)"}</>
+                )}
+              </button>
+
+              {locationError && <p className="location-share-error">{locationError}</p>}
+
+            </div>
 
             <label className="field-label">Biografía</label>
             <textarea

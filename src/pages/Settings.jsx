@@ -29,6 +29,8 @@ function Settings() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [showRemoveCardConfirm, setShowRemoveCardConfirm] = useState(false);
   const [cardRemovedSuccess, setCardRemovedSuccess] = useState(false);
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
@@ -116,18 +118,43 @@ function Settings() {
   };
 
   async function handleDeleteAccount() {
-    setDeletingAccount(true);
+    setDeleteError("");
 
     const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
-    if (user) {
-      // Soft delete for now: flag the account instead of removing data.
-      // Fully removing the Supabase Auth user requires a server-side admin
-      // call (service role key) and is deferred to a future session.
-      await supabase
-        .from("profiles")
-        .update({ deleted_at: new Date().toISOString() })
-        .eq("id", user.id);
+    if (!deletePassword) {
+      setDeleteError("Ingresa tu contraseña para confirmar.");
+      return;
+    }
+
+    setDeletingAccount(true);
+
+    // Reauthentication gate: proves whoever is at this device right now
+    // still knows the password, so a shared/left-open session can't be
+    // used to permanently delete the account.
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: deletePassword,
+    });
+
+    if (reauthError) {
+      setDeletingAccount(false);
+      setDeleteError("Contraseña incorrecta.");
+      return;
+    }
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    const { data, error } = await supabase.functions.invoke("delete-account", {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+
+    if (error || data?.error) {
+      setDeletingAccount(false);
+      setDeleteError("No se pudo eliminar tu cuenta. Intenta de nuevo.");
+      console.error(error?.message || data?.error);
+      return;
     }
 
     setDeletingAccount(false);
@@ -401,14 +428,39 @@ function Settings() {
       </div>
 
       {showDeleteConfirm && (
-        <div className="delete-modal-backdrop" onClick={() => setShowDeleteConfirm(false)}>
+        <div
+          className="delete-modal-backdrop"
+          onClick={() => {
+            setShowDeleteConfirm(false);
+            setDeletePassword("");
+            setDeleteError("");
+          }}
+        >
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
             <h2>¿Eliminar tu cuenta?</h2>
-            <p>Tu cuenta quedará desactivada y dejarás de aparecer para otras personas. Podrás pedirnos que la reactivemos escribiéndonos a soporte.</p>
+            <p>Esta acción es permanente: se borrarán tu perfil, matches, mensajes y toda tu información. No se puede deshacer.</p>
+
+            <input
+              type="password"
+              className="settings-select"
+              placeholder="Confirma tu contraseña"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+              autoComplete="current-password"
+            />
+
+            {deleteError && <p className="onboarding-error">{deleteError}</p>}
 
             <div className="delete-modal-actions">
-              <button className="cancel-btn" onClick={() => setShowDeleteConfirm(false)}>
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setDeletePassword("");
+                  setDeleteError("");
+                }}
+              >
                 Cancelar
               </button>
               <button className="confirm-delete-btn" onClick={handleDeleteAccount} disabled={deletingAccount}>

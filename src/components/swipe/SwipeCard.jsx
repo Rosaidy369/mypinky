@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { isPlanActive } from "../../lib/plan";
-import { hashId, getMockDistance } from "../../lib/mockDistance";
+import { hashId } from "../../lib/mockDistance";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
@@ -11,7 +11,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
   const startPos = useRef({ x: 0, y: 0 });
 
   const compatibility = 70 + (hashId(profile.id) % 30);
-  const distance = getMockDistance(profile.id);
+  const distance = typeof profile.distanceKm === "number" ? Math.round(profile.distanceKm) : null;
 
   const handlePointerDown = (e) => {
     if (!isTop) return;
@@ -112,7 +112,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
           <div className="swipe-name-row">
             <h2>{profile.name}, {profile.age}</h2>
-            <span className="swipe-distance">📍 {distance} km</span>
+            {distance !== null && <span className="swipe-distance">📍 {distance} km</span>}
           </div>
 
           <p>{profile.country}</p>
