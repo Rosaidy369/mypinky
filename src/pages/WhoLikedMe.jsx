@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import { useNotifications } from "../hooks/useNotifications";
 import BackButton from "../components/ui/BackButton";
-import HeartIcon from "../components/ui/HeartIcon";
+import EyeIcon from "../components/ui/EyeIcon";
 import StarIcon from "../components/ui/StarIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/WhoLikedMe.css";
@@ -39,19 +39,31 @@ function WhoLikedMe() {
 
     setIsPremium(isPlanActive(myProfile));
 
-    const { data, error } = await supabase
-      .from("swipes")
-      .select("swiper_id, direction, profiles:swiper_id(*)")
-      .eq("swiped_profile_id", user.id)
-      .in("direction", ["like", "superlike"]);
+    const [{ data: swipesData, error: swipesError }, { data: matchesData, error: matchesError }] = await Promise.all([
+      supabase
+        .from("swipes")
+        .select("swiper_id, direction, profiles:swiper_id(*)")
+        .eq("swiped_profile_id", user.id)
+        .in("direction", ["like", "superlike"]),
+      supabase
+        .from("matches")
+        .select("user_id, matched_profile_id")
+        .or(`user_id.eq.${user.id},matched_profile_id.eq.${user.id}`),
+    ]);
 
-    if (error) {
-      console.error("Error cargando likes:", error.message);
+    if (swipesError || matchesError) {
+      console.error("Error cargando likes:", swipesError?.message || matchesError?.message);
     } else {
+      // Someone already matched shouldn't also show up here as a "pending"
+      // like -- Matches.jsx is the one place for mutual/confirmed likes.
+      const matchedIds = new Set(
+        (matchesData || []).map((m) => (m.user_id === user.id ? m.matched_profile_id : m.user_id))
+      );
+
       const uniqueProfiles = [];
       const seenIds = new Set();
-      for (const l of data || []) {
-        if (l.profiles && !seenIds.has(l.profiles.id)) {
+      for (const l of swipesData || []) {
+        if (l.profiles && !matchedIds.has(l.profiles.id) && !seenIds.has(l.profiles.id)) {
           seenIds.add(l.profiles.id);
           uniqueProfiles.push({ ...l.profiles, isSuperLike: l.direction === "superlike" });
         }
@@ -80,7 +92,7 @@ function WhoLikedMe() {
       <BackButton />
 
       <div className="wholiked-header">
-        <h1><HeartIcon size={24} /> A quién le gustas</h1>
+        <h1><EyeIcon size={24} /> A quién le gustas</h1>
         <p>{likers.length} personas ya te dieron like</p>
       </div>
 
