@@ -87,6 +87,8 @@ function Onboarding() {
     const { error } = await supabase
       .from("profiles")
       .update({
+        name: formData.name,
+        age: Number(formData.age),
         gender: formData.gender,
         city: formData.city,
         latitude: formData.latitude,

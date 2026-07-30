@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { useNotifications } from "../../hooks/useNotifications";
 import { supabase } from "../../lib/supabaseClient";
@@ -15,6 +15,7 @@ function Navbar() {
   const { isLoggedIn, logout } = useAuth();
   const { badges } = useNotifications();
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const navRef = useRef(null);
@@ -80,7 +81,11 @@ function Navbar() {
     };
 
     loadPhoto();
-  }, [isLoggedIn]);
+    // Refetch on every route change too, not just on login — the navbar
+    // never remounts between pages, so without this it stays stuck on
+    // whatever photos existed the moment the session started (e.g. still
+    // empty right after Google sign-in, before Onboarding adds any).
+  }, [isLoggedIn, location.pathname]);
   
   const handleLogout = () => {
     setMenuOpen(false);
