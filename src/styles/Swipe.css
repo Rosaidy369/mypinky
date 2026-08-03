@@ -164,6 +164,58 @@ background:white;
 
 }
 
+.swipe-ad-card{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:18px;
+
+padding:20px;
+
+box-sizing:border-box;
+
+cursor:default;
+
+}
+
+.swipe-ad-dismiss{
+
+padding:14px 28px;
+
+border:2px solid #ddd;
+
+border-radius:40px;
+
+background:white;
+
+color:#555;
+
+font-weight:700;
+
+font-size:14px;
+
+cursor:pointer;
+
+font-family:inherit;
+
+transition:.25s;
+
+}
+
+.swipe-ad-dismiss:hover{
+
+border-color:#ff3f87;
+
+color:#ff3f87;
+
+}
+
 .swipe-card-top:active{
 
 cursor:grabbing;
@@ -577,6 +629,34 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 /* ========================= */
 /* BADGES SUPERIORES DE LA CARD */
 /* ========================= */
+
+.swipe-online-dot{
+
+position:absolute;
+
+top:20px;
+
+right:20px;
+
+z-index:2;
+
+}
+
+.swipe-top-row .boosted-badge{
+
+position:static;
+
+}
+
+.swipe-top-left{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
 
 .swipe-top-row{
 

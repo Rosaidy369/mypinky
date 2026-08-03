@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
@@ -6,8 +6,11 @@ import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import HouseAdBanner from "../components/ads/HouseAdBanner";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
+
+const AD_EVERY_N_PROFILES = 6;
 
 function Explore() {
   const navigate = useNavigate();
@@ -27,6 +30,7 @@ function Explore() {
 
   const [favorites, setFavorites] = useState([]);
   const [isPremium, setIsPremium] = useState(false);
+  const [isVip, setIsVip] = useState(false);
 
   useEffect(() => {
     loadInitialData();
@@ -35,7 +39,7 @@ function Explore() {
   useEffect(() => {
     if (currentUserId) loadProfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance]);
+  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
 
   const loadInitialData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -48,11 +52,12 @@ function Explore() {
 
     const { data: myProfile } = await supabase
       .from("profiles")
-      .select("plan")
+      .select("plan, plan_expires_at")
       .eq("id", user.id)
       .single();
 
     setIsPremium(isPlanActive(myProfile));
+    setIsVip(isVipActive(myProfile));
 
     const { data: favoritesData } = await supabase
       .from("favorites")
@@ -74,6 +79,7 @@ function Explore() {
       p_max_distance_km: filters.maxDistance,
       p_exclude_swiped: false,
       p_limit: 60,
+      p_online_only: filters.onlineOnly,
     });
 
     if (error) {
@@ -149,7 +155,7 @@ function Explore() {
 
       </div>
 
-      <FilterBar filters={filters} onChange={updateFilter} isPremium={isPremium} />
+      <FilterBar filters={filters} onChange={updateFilter} isPremium={isPremium} isVip={isVip} />
 
       {loading ? (
 
@@ -166,9 +172,11 @@ function Explore() {
 
         <div className="profiles-grid">
 
-          {filteredProfiles.map((profile) => (
+          {filteredProfiles.map((profile, index) => (
 
-            <div className="profile-card" key={profile.id}>
+            <Fragment key={profile.id}>
+
+            <div className="profile-card">
 
               <div className="profile-image">
 
@@ -176,6 +184,12 @@ function Explore() {
                   src={profile.photos?.[0] || "https://via.placeholder.com/300"}
                   alt={profile.name}
                 />
+
+                {profile.is_online && <span className="online-dot" title="En línea"></span>}
+
+                {profile.is_boosted && (
+                  <span className="boosted-badge">🚀 Destacado</span>
+                )}
 
                 <div className="image-overlay">
 
@@ -231,6 +245,12 @@ function Explore() {
               </div>
 
             </div>
+
+            {!isPremium && (index + 1) % AD_EVERY_N_PROFILES === 0 && (
+              <HouseAdBanner variant="grid" />
+            )}
+
+            </Fragment>
 
           ))}
 

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
+import { isVipActive } from "../lib/plan";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Chat.css";
 
@@ -14,6 +15,7 @@ function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [isVip, setIsVip] = useState(false);
   const [loading, setLoading] = useState(true);
   const endRef = useRef(null);
 
@@ -39,6 +41,17 @@ function ChatRoom() {
           if (payload.new.sender_id !== currentUserId) {
             markMessagesReadForMatch(id);
           }
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "messages", filter: `match_id=eq.${id}` },
+        (payload) => {
+          // Lets a VIP sender see "Leído" appear live once the other
+          // person opens the chat, without needing to reload.
+          setMessages((prev) =>
+            prev.map((m) => (m.id === payload.new.id ? { ...m, read_at: payload.new.read_at } : m))
+          );
         }
       )
       .subscribe((status, err) => {
@@ -86,6 +99,10 @@ function ChatRoom() {
       otherProfileId: isOwner ? matchData.matched_profile_id : matchData.user_id,
       isPremiumMessagePayer: isOwner && matchData.created_via === "premium_message",
     });
+
+    // Read receipts ("Leído") are a VIP perk for the sender, not the
+    // recipient -- derived from data already fetched above, no extra query.
+    setIsVip(isVipActive(isOwner ? matchData.user_profile : matchData.matched_profile));
 
     const { data: messagesData } = await supabase
       .from("messages")
@@ -193,6 +210,14 @@ function ChatRoom() {
             className={`chat-bubble ${msg.sender_id === currentUserId ? "sent" : "received"}`}
           >
             {msg.text}
+
+            {msg.sender_id === currentUserId && (
+              <span className="chat-read-status">
+                {isVip && msg.read_at
+                  ? `Leído · ${new Date(msg.read_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+                  : "Enviado"}
+              </span>
+            )}
           </div>
         ))}
 

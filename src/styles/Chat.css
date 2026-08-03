@@ -232,6 +232,20 @@ border-bottom-right-radius:6px;
 
 }
 
+.chat-read-status{
+
+display:block;
+
+font-size:11px;
+
+margin-top:4px;
+
+text-align:right;
+
+opacity:.75;
+
+}
+
 .chat-bubble.received{
 
 align-self:flex-start;

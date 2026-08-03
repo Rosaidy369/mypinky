@@ -54,6 +54,7 @@ const plans = [
       { text: "Soporte prioritario", included: true },
       { text: "Insignia VIP en tu perfil", included: true },
       { text: "Ver lecturas de mensajes", included: true },
+      { text: "🎙️ Nota de voz en tu perfil", included: true },
     ],
   },
 ];

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LockIcon from "../ui/LockIcon";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import VipDiamond from "../ui/VipDiamond";
 
 const GENDER_OPTIONS = [
   { value: "Todos", label: "Todos" },
@@ -8,7 +9,7 @@ const GENDER_OPTIONS = [
   { value: "Hombre", label: "Hombres" },
 ];
 
-function FilterBar({ filters, onChange, isPremium }) {
+function FilterBar({ filters, onChange, isPremium, isVip }) {
   return (
     <div className="filter-bar">
 
@@ -101,17 +102,29 @@ function FilterBar({ filters, onChange, isPremium }) {
 
       )}
 
-      <label className="online-filter">
+      {isVip ? (
 
-        <input
-          type="checkbox"
-          checked={filters.onlineOnly}
-          onChange={(e) => onChange("onlineOnly", e.target.checked)}
-        />
-        <span className="toggle-track"></span>
-        <span className="toggle-label">🟢 Solo conectados</span>
+        <label className="online-filter">
 
-      </label>
+          <input
+            type="checkbox"
+            checked={filters.onlineOnly}
+            onChange={(e) => onChange("onlineOnly", e.target.checked)}
+          />
+          <span className="toggle-track"></span>
+          <span className="toggle-label">🟢 Solo conectados</span>
+
+        </label>
+
+      ) : (
+
+        <Link to="/premium" className="online-filter online-filter-locked">
+          <span className="online-filter-lock-icon"><LockIcon size={13} /></span>
+          <span className="toggle-label">🟢 Solo conectados</span>
+          <span className="online-filter-badge"><VipDiamond size={13} /> VIP</span>
+        </Link>
+
+      )}
 
     </div>
   );

@@ -33,6 +33,16 @@ const MOODS = [
   "🌙 No puedo dormir",
 ];
 
+const BOOST_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+
+function formatBoostCooldown(ms) {
+  const totalHours = Math.max(Math.ceil(ms / (1000 * 60 * 60)), 0);
+  const days = Math.floor(totalHours / 24);
+  const hours = totalHours % 24;
+  if (days > 0) return `${days}d ${hours}h`;
+  return `${hours}h`;
+}
+
 function calculateCompletion(user) {
   let score = 0;
   const total = 5;
@@ -60,6 +70,8 @@ function MyProfile() {
   const [cropImageSrc, setCropImageSrc] = useState(null);
   const [locationStatus, setLocationStatus] = useState("idle");
   const [locationError, setLocationError] = useState("");
+  const [boosting, setBoosting] = useState(false);
+  const [boostError, setBoostError] = useState("");
 
   const isVip = isVipActive(user);
   const isPremiumPlan = isPlanActive(user) && user?.plan === "premium";
@@ -105,6 +117,34 @@ function MyProfile() {
   if (!user) return null;
 
   const completion = calculateCompletion(user);
+
+  const isBoostedNow = user.boosted_until && new Date(user.boosted_until) > new Date();
+  const nextBoostAt = user.last_boost_used_at
+    ? new Date(new Date(user.last_boost_used_at).getTime() + BOOST_COOLDOWN_MS)
+    : null;
+  const canBoost = !nextBoostAt || nextBoostAt <= new Date();
+
+  const handleBoost = async () => {
+    setBoosting(true);
+    setBoostError("");
+
+    const { data, error } = await supabase.rpc("activate_boost");
+    const result = Array.isArray(data) ? data[0] : data;
+
+    setBoosting(false);
+
+    if (error) {
+      setBoostError("No se pudo impulsar tu perfil. Intenta de nuevo.");
+      console.error(error.message);
+      return;
+    }
+
+    if (!result?.activated) {
+      setBoostError("Todavía no puedes volver a impulsar tu perfil.");
+    }
+
+    loadProfile();
+  };
 
   const startEditing = () => {
     setDraft({ ...user, photos: user.photos || [], interests: user.interests || [], prompts: user.prompts || [] });
@@ -380,6 +420,28 @@ function MyProfile() {
                 <div className="voice-display">
                   <h2><MicIcon size={17} className="voice-title-icon" /> Nota de voz</h2>
                   <audio controls src={user.voice_note_url} className="voice-audio"></audio>
+                </div>
+              )}
+
+              {isVip && (
+                <div className="boost-section">
+
+                  <button
+                    className="boost-btn"
+                    onClick={handleBoost}
+                    disabled={boosting || (!canBoost && !isBoostedNow)}
+                  >
+                    {boosting
+                      ? "Impulsando..."
+                      : isBoostedNow
+                      ? "🚀 Perfil destacado activo"
+                      : canBoost
+                      ? "🚀 Impulsar mi perfil"
+                      : `Disponible en ${formatBoostCooldown(nextBoostAt - new Date())}`}
+                  </button>
+
+                  {boostError && <p className="boost-error">{boostError}</p>}
+
                 </div>
               )}
 

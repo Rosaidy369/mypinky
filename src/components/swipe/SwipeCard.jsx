@@ -94,11 +94,21 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           </>
         )}
 
+        {profile.is_online && <span className="online-dot swipe-online-dot" title="En línea"></span>}
+
         <div className="swipe-top-row">
 
-          {isPlanActive(profile) && (
-            <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
-          )}
+          <div className="swipe-top-left">
+
+            {profile.is_boosted && (
+              <span className="boosted-badge">🚀 Destacado</span>
+            )}
+
+            {isPlanActive(profile) && (
+              <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
+            )}
+
+          </div>
 
           <div className="swipe-top-right">
 

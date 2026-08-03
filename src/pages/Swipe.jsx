@@ -12,9 +12,12 @@ import XIcon from "../components/ui/XIcon";
 import RewindIcon from "../components/ui/RewindIcon";
 import HeartIcon from "../components/ui/HeartIcon";
 import MessageIcon from "../components/ui/MessageIcon";
+import HouseAdBanner from "../components/ads/HouseAdBanner";
 import "../styles/Swipe.css";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
+
+const AD_EVERY_N_SWIPES = 9;
 
 function formatCountdown(ms) {
   const totalMinutes = Math.max(Math.floor(ms / 60000), 0);
@@ -49,6 +52,7 @@ function Swipe() {
   const { filters } = useSwipeFilters();
   const [swipesLeft, setSwipesLeft] = useState(null);
   const [resetAt, setResetAt] = useState(null);
+  const [, setSwipesSinceAd] = useState(0);
 
   const isPremium = isPlanActive(currentUser);
   const filtersAreDefault =
@@ -144,6 +148,17 @@ function Swipe() {
         setStack((prev) => [card, ...prev]);
         return;
       }
+    }
+
+    if (!isPremium) {
+      setSwipesSinceAd((prev) => {
+        const next = prev + 1;
+        if (next >= AD_EVERY_N_SWIPES) {
+          setStack((prevStack) => [{ id: `housead-${Date.now()}`, isHouseAd: true }, ...prevStack]);
+          return 0;
+        }
+        return next;
+      });
     }
 
     if (direction === "right") {
@@ -301,16 +316,38 @@ function Swipe() {
 
           <div className="swipe-deck">
 
-            {visibleCards.map((card, index) => (
-              <SwipeCard
-                key={card.id}
-                profile={{ ...card, image: card.photos?.[0], country: card.city, distanceKm: card.distance_km }}
-                isTop={index === 0}
-                depth={index}
-                onSwipe={handleSwipe}
-                myInterests={currentUser?.interests || []}
-              />
-            ))}
+            {visibleCards.map((card, index) =>
+              card.isHouseAd ? (
+                <div
+                  key={card.id}
+                  className="swipe-card swipe-ad-card"
+                  style={
+                    index === 0
+                      ? { zIndex: 10 }
+                      : { transform: `scale(${1 - index * 0.05}) translateY(${index * 16}px)`, zIndex: 10 - index }
+                  }
+                >
+                  <HouseAdBanner variant="deck" />
+                  {index === 0 && (
+                    <button
+                      className="swipe-ad-dismiss"
+                      onClick={() => setStack((prev) => prev.filter((c) => c.id !== card.id))}
+                    >
+                      Seguir deslizando
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <SwipeCard
+                  key={card.id}
+                  profile={{ ...card, image: card.photos?.[0], country: card.city, distanceKm: card.distance_km }}
+                  isTop={index === 0}
+                  depth={index}
+                  onSwipe={handleSwipe}
+                  myInterests={currentUser?.interests || []}
+                />
+              )
+            )}
 
           </div>
 

@@ -1,10 +1,29 @@
+import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabaseClient";
 import SuspendedScreen from "./SuspendedScreen";
 
+const HEARTBEAT_INTERVAL_MS = 90000;
+
 function ProtectedRoute({ children }) {
-  const { isLoggedIn, loading, suspension, suspensionLoading } = useAuth();
+  const { isLoggedIn, loading, suspension, suspensionLoading, session } = useAuth();
   const location = useLocation();
+  const userId = session?.user?.id;
+
+  // Powers "Solo conectados": a simple heartbeat while the user is on any
+  // protected page, rather than tracking real presence/sockets.
+  useEffect(() => {
+    if (!userId || suspension) return;
+
+    const updateLastSeen = () => {
+      supabase.from("profiles").update({ last_seen_at: new Date().toISOString() }).eq("id", userId);
+    };
+
+    updateLastSeen();
+    const interval = setInterval(updateLastSeen, HEARTBEAT_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [userId, suspension]);
 
   if (loading || (isLoggedIn && suspensionLoading)) {
     return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
