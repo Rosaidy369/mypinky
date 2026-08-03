@@ -7,6 +7,7 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import HouseAdBanner from "../components/ads/HouseAdBanner";
+import BoostIcon from "../components/ui/BoostIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
 
@@ -188,7 +189,7 @@ function Explore() {
                 {profile.is_online && <span className="online-dot" title="En línea"></span>}
 
                 {profile.is_boosted && (
-                  <span className="boosted-badge">🚀 Destacado</span>
+                  <span className="boosted-badge"><BoostIcon size={13} /> Destacado</span>
                 )}
 
                 <div className="image-overlay">

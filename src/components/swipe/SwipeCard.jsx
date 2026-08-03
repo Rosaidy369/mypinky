@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { isPlanActive } from "../../lib/plan";
 import { hashId } from "../../lib/mockDistance";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import BoostIcon from "../ui/BoostIcon";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
 function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
@@ -101,7 +102,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           <div className="swipe-top-left">
 
             {profile.is_boosted && (
-              <span className="boosted-badge">🚀 Destacado</span>
+              <span className="boosted-badge"><BoostIcon size={13} /> Destacado</span>
             )}
 
             {isPlanActive(profile) && (

@@ -16,8 +16,15 @@ function ProtectedRoute({ children }) {
   useEffect(() => {
     if (!userId || suspension) return;
 
-    const updateLastSeen = () => {
-      supabase.from("profiles").update({ last_seen_at: new Date().toISOString() }).eq("id", userId);
+    const updateLastSeen = async () => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ last_seen_at: new Date().toISOString() })
+        .eq("id", userId);
+
+      if (error) {
+        console.error("Error actualizando last_seen_at:", error.message);
+      }
     };
 
     updateLastSeen();

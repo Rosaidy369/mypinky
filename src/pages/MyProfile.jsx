@@ -15,6 +15,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import CameraIcon from "../components/ui/CameraIcon";
 import PinIcon from "../components/ui/PinIcon";
 import CheckIcon from "../components/ui/CheckIcon";
+import BoostIcon from "../components/ui/BoostIcon";
 import { requestLocation } from "../lib/geolocation";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
@@ -140,7 +141,14 @@ function MyProfile() {
     }
 
     if (!result?.activated) {
-      setBoostError("Todavía no puedes volver a impulsar tu perfil.");
+      if (result?.reason === "not_vip") {
+        setBoostError("Tu plan VIP no está activo ahora mismo (puede haber vencido). Revisa tu plan en Configuración.");
+      } else if (result?.reason === "cooldown") {
+        setBoostError("Todavía no puedes volver a impulsar tu perfil.");
+      } else {
+        setBoostError("No se pudo impulsar tu perfil. Intenta de nuevo.");
+        console.error("activate_boost devolvió una razón inesperada:", result?.reason);
+      }
     }
 
     loadProfile();
@@ -431,13 +439,15 @@ function MyProfile() {
                     onClick={handleBoost}
                     disabled={boosting || (!canBoost && !isBoostedNow)}
                   >
-                    {boosting
-                      ? "Impulsando..."
-                      : isBoostedNow
-                      ? "🚀 Perfil destacado activo"
-                      : canBoost
-                      ? "🚀 Impulsar mi perfil"
-                      : `Disponible en ${formatBoostCooldown(nextBoostAt - new Date())}`}
+                    {boosting ? (
+                      "Impulsando..."
+                    ) : isBoostedNow ? (
+                      <><BoostIcon size={16} /> Perfil destacado activo</>
+                    ) : canBoost ? (
+                      <><BoostIcon size={16} /> Impulsar mi perfil</>
+                    ) : (
+                      `Disponible en ${formatBoostCooldown(nextBoostAt - new Date())}`
+                    )}
                   </button>
 
                   {boostError && <p className="boost-error">{boostError}</p>}
