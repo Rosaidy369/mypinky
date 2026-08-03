@@ -1,8 +1,8 @@
-import { useId } from "react";
-
-function BoostIcon({ size = 18, className = "" }) {
-  const gradId = useId();
-
+// Solid white by default -- every current usage sits on a colored gradient
+// background (the boost button, the boosted badge), where a brand-pink
+// icon reads as low-contrast pink-on-orange. White matches how the app's
+// other badge icons (PremiumDiamond's accents, etc.) stay legible on color.
+function BoostIcon({ size = 18, className = "", color = "white" }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -10,25 +10,18 @@ function BoostIcon({ size = 18, className = "" }) {
       height={size}
       className={className}
     >
-      <defs>
-        <linearGradient id={gradId} x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#ff3f87" />
-          <stop offset="100%" stopColor="#ff9dc3" />
-        </linearGradient>
-      </defs>
-
       <path
         d="M12 3l6 7h-4v8h-4v-8H6l6-7z"
-        fill={`url(#${gradId})`}
+        fill={color}
       />
 
       <path
         d="M3 15l3-3M3 19l4.5-4.5"
-        stroke={`url(#${gradId})`}
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
         fill="none"
-        opacity="0.6"
+        opacity="0.75"
       />
     </svg>
   );

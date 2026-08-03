@@ -204,7 +204,7 @@ function Explore() {
                 {profile.is_online && <span className="online-dot" title="En línea"></span>}
 
                 {profile.is_boosted && (
-                  <span className="boosted-badge"><BoostIcon size={13} /> Destacado</span>
+                  <span className="boosted-badge"><BoostIcon size={15} /> Destacado</span>
                 )}
 
                 <div className="image-overlay">

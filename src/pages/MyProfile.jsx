@@ -136,7 +136,10 @@ function MyProfile() {
 
     if (error) {
       setBoostError("No se pudo impulsar tu perfil. Intenta de nuevo.");
-      console.error(error.message);
+      // Temporary: log the full Supabase/Postgres error (code, details,
+      // hint), not just .message, to diagnose the real rejection reason
+      // instead of guessing again.
+      console.error("activate_boost error completo:", error);
       return;
     }
 
@@ -442,9 +445,9 @@ function MyProfile() {
                     {boosting ? (
                       "Impulsando..."
                     ) : isBoostedNow ? (
-                      <><BoostIcon size={16} /> Perfil destacado activo</>
+                      <><BoostIcon size={20} /> Perfil destacado activo</>
                     ) : canBoost ? (
-                      <><BoostIcon size={16} /> Impulsar mi perfil</>
+                      <><BoostIcon size={20} /> Impulsar mi perfil</>
                     ) : (
                       `Disponible en ${formatBoostCooldown(nextBoostAt - new Date())}`
                     )}
