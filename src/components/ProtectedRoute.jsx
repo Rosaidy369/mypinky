@@ -29,7 +29,22 @@ function ProtectedRoute({ children }) {
 
     updateLastSeen();
     const interval = setInterval(updateLastSeen, HEARTBEAT_INTERVAL_MS);
-    return () => clearInterval(interval);
+
+    // Mobile browsers throttle/pause timers once the tab loses focus or the
+    // screen locks, so the 90s interval alone can leave a stale last_seen_at
+    // for a while after switching back -- fire an extra update immediately
+    // when the app becomes visible again instead of waiting for the next tick.
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        updateLastSeen();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [userId, suspension]);
 
   if (loading || (isLoggedIn && suspensionLoading)) {

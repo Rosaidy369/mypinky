@@ -489,7 +489,9 @@ top:50%;
 
 transform:translateY(-50%);
 
-font-size:17px;
+display:flex;
+
+color:#999;
 
 pointer-events:none;
 

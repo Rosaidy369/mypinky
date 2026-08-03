@@ -8,6 +8,7 @@ import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import HouseAdBanner from "../components/ads/HouseAdBanner";
 import BoostIcon from "../components/ui/BoostIcon";
+import SearchIcon from "../components/ui/SearchIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
 
@@ -41,6 +42,20 @@ function Explore() {
     if (currentUserId) loadProfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
+
+  // Online status is a snapshot from whenever the query ran -- without this,
+  // "Solo conectados" would only ever reflect who was online at page load
+  // or the last filter change, not who's online right now while you watch.
+  useEffect(() => {
+    if (!currentUserId || !filters.onlineOnly) return;
+
+    const interval = setInterval(() => {
+      loadProfiles();
+    }, 30000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserId, filters.onlineOnly]);
 
   const loadInitialData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -143,7 +158,7 @@ function Explore() {
 
         <div className="search-box">
 
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"><SearchIcon size={17} /></span>
 
           <input
             type="text"
