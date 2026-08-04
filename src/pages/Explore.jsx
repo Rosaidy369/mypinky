@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
+import { useAuth } from "../hooks/useAuth";
 import { isPlanActive, isVipActive } from "../lib/plan";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
@@ -15,11 +16,19 @@ import "../styles/BackButton.css";
 const AD_EVERY_N_PROFILES = 6;
 
 function Explore() {
-  const navigate = useNavigate();
+  // ProtectedRoute already blocks rendering until useAuth's session is
+  // resolved, so reading the id straight from context here avoids a second,
+  // independent supabase.auth.getUser() network round-trip -- that redundant
+  // call was the confirmed cause of a mobile session reading isVip/isPremium
+  // as false for an account with a genuinely active VIP plan (a getUser()
+  // race against a not-yet-refreshed token that useAuth's own
+  // getSession()+onAuthStateChange flow doesn't have).
+  const { session } = useAuth();
+  const currentUserId = session?.user?.id ?? null;
+
   const [search, setSearch] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentUserId, setCurrentUserId] = useState(null);
 
   const [filters, setFilters] = useState({
     gender: "Todos",
@@ -40,8 +49,8 @@ function Explore() {
   const [queryDebug, setQueryDebug] = useState(null);
 
   useEffect(() => {
-    loadInitialData();
-  }, []);
+    if (currentUserId) loadInitialData(currentUserId);
+  }, [currentUserId]);
 
   useEffect(() => {
     if (currentUserId) loadProfiles();
@@ -76,28 +85,28 @@ function Explore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserId]);
 
-  const loadInitialData = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    setCurrentUserId(user.id);
-
-    const { data: myProfile } = await supabase
+  const loadInitialData = async (userId) => {
+    const { data: myProfile, error: profileError } = await supabase
       .from("profiles")
       .select("plan, plan_expires_at")
-      .eq("id", user.id)
+      .eq("id", userId)
       .single();
+
+    if (profileError) {
+      console.error("Error cargando el plan propio:", profileError.message, profileError);
+    }
 
     setIsPremium(isPlanActive(myProfile));
     setIsVip(isVipActive(myProfile));
 
-    const { data: favoritesData } = await supabase
+    const { data: favoritesData, error: favoritesError } = await supabase
       .from("favorites")
       .select("favorite_profile_id")
-      .eq("user_id", user.id);
+      .eq("user_id", userId);
+
+    if (favoritesError) {
+      console.error("Error cargando favoritos:", favoritesError.message, favoritesError);
+    }
 
     setFavorites((favoritesData || []).map((f) => f.favorite_profile_id));
   };
