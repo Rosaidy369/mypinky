@@ -16,9 +16,10 @@ const AD_EVERY_N_PROFILES = 6;
 
 function Explore() {
   const navigate = useNavigate();
-  // Temporary diagnostic for the iOS Safari "en línea" report -- visit
-  // /explore?debug=1 to see raw is_online values on-screen without dev tools.
-  const isDebug = new URLSearchParams(window.location.search).get("debug") === "1";
+  // Temporary diagnostic for the iOS Safari "en línea" report -- always on
+  // for now (the ?debug=1 gate turned out to be an unreliable variable to
+  // test on mobile), shows raw is_online values on-screen without dev tools.
+  const isDebug = true;
   const [search, setSearch] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
