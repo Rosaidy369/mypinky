@@ -164,6 +164,12 @@ background:white;
 
 }
 
+.swipe-card.is-boosted{
+
+box-shadow:0 0 0 3px #ff9f43, 0 0 30px 3px rgba(255,63,135,.45), 0 25px 60px rgba(0,0,0,.18);
+
+}
+
 .swipe-ad-card{
 
 display:flex;

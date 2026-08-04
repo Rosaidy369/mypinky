@@ -192,7 +192,7 @@ function Explore() {
 
             <Fragment key={profile.id}>
 
-            <div className="profile-card">
+            <div className={`profile-card ${profile.is_boosted ? "is-boosted" : ""}`}>
 
               <div className="profile-image">
 
@@ -202,10 +202,6 @@ function Explore() {
                 />
 
                 {profile.is_online && <span className="online-dot" title="En línea"></span>}
-
-                {profile.is_boosted && (
-                  <span className="boosted-badge"><BoostIcon size={15} /> Destacado</span>
-                )}
 
                 <div className="image-overlay">
 
@@ -220,6 +216,10 @@ function Explore() {
               </div>
 
               <div className="profile-info">
+
+                {profile.is_boosted && (
+                  <span className="boosted-tag"><BoostIcon size={12} /> Destacado</span>
+                )}
 
                 <div className="profile-top">
 

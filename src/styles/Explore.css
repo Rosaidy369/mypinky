@@ -234,17 +234,19 @@ z-index:2;
 
 }
 
-.boosted-badge{
+/* A glowing border instead of a corner badge -- corners are already taken
+   by the online dot and the plan badge, and a boosted profile is a paid
+   perk that deserves more than another sticker fighting for the same
+   4 pixels. */
+.profile-card.is-boosted{
 
-position:absolute;
+box-shadow:0 0 0 2px #ff9f43, 0 0 26px 2px rgba(255,63,135,.4), 0 14px 35px rgba(0,0,0,.08);
 
-top:14px;
+}
 
-left:14px;
+.boosted-tag{
 
-z-index:2;
-
-display:flex;
+display:inline-flex;
 
 align-items:center;
 
@@ -254,15 +256,15 @@ background:linear-gradient(135deg,#ff9f43,#ff6b6b);
 
 color:white;
 
-padding:6px 12px;
+padding:4px 10px;
 
 border-radius:30px;
 
-font-size:12px;
+font-size:11px;
 
 font-weight:700;
 
-box-shadow:0 6px 16px rgba(255,107,107,.4);
+margin-bottom:6px;
 
 }
 

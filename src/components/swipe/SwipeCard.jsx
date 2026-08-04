@@ -71,7 +71,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
   return (
     <div
-      className={`swipe-card ${isTop ? "swipe-card-top" : ""}`}
+      className={`swipe-card ${isTop ? "swipe-card-top" : ""} ${profile.is_boosted ? "is-boosted" : ""}`}
       style={cardStyle}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -101,10 +101,6 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
           <div className="swipe-top-left">
 
-            {profile.is_boosted && (
-              <span className="boosted-badge"><BoostIcon size={15} /> Destacado</span>
-            )}
-
             {isPlanActive(profile) && (
               <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
             )}
@@ -120,6 +116,10 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
         </div>
 
         <div className="swipe-card-overlay">
+
+          {profile.is_boosted && (
+            <span className="boosted-tag"><BoostIcon size={12} /> Destacado</span>
+          )}
 
           <div className="swipe-name-row">
             <h2>{profile.name}, {profile.age}</h2>
