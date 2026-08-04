@@ -48,6 +48,13 @@ function Explore() {
   // vs VIP+PC side by side without needing Safari dev tools.
   const [queryDebug, setQueryDebug] = useState(null);
 
+  // Temporary diagnostic for the isVip-reads-false report -- shows the raw
+  // plan/plan_expires_at this client actually received for its own profile
+  // (vs. what the database really has), so a mismatch here (not an error,
+  // just wrong data) would point at something like a stale cached response
+  // rather than a query failure.
+  const [planDebug, setPlanDebug] = useState(null);
+
   useEffect(() => {
     if (currentUserId) loadInitialData(currentUserId);
   }, [currentUserId]);
@@ -95,6 +102,16 @@ function Explore() {
     if (profileError) {
       console.error("Error cargando el plan propio:", profileError.message, profileError);
     }
+
+    setPlanDebug({
+      time: new Date().toLocaleTimeString(),
+      userId,
+      rawPlan: myProfile?.plan ?? null,
+      rawPlanExpiresAt: myProfile?.plan_expires_at ?? null,
+      error: profileError?.message || null,
+      computedIsVip: isVipActive(myProfile),
+      computedIsPremium: isPlanActive(myProfile),
+    });
 
     setIsPremium(isPlanActive(myProfile));
     setIsVip(isVipActive(myProfile));
@@ -193,7 +210,7 @@ function Explore() {
 
       <BackButton />
 
-      {queryDebug && (
+      {(queryDebug || planDebug) && (
         <div
           style={{
             position: "fixed",
@@ -223,6 +240,17 @@ function Explore() {
           <div>
             profiles: {queryDebug.profiles.map((p) => `${p.name}=${p.is_online}`).join(", ")}
           </div>
+
+          {planDebug && (
+            <>
+              <div style={{ fontWeight: "bold", marginTop: "6px", marginBottom: "4px", color: "#7fd4ff" }}>
+                planDebug @ {planDebug.time}
+              </div>
+              <div>rawPlan: {String(planDebug.rawPlan)} · rawPlanExpiresAt: {String(planDebug.rawPlanExpiresAt)}</div>
+              <div>error: {planDebug.error || "ninguno"}</div>
+              <div>computedIsVip: {String(planDebug.computedIsVip)} · computedIsPremium: {String(planDebug.computedIsPremium)}</div>
+            </>
+          )}
         </div>
       )}
 
