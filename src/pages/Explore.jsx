@@ -48,19 +48,33 @@ function Explore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
 
-  // Online status is a snapshot from whenever the query ran -- without this,
-  // "Solo conectados" would only ever reflect who was online at page load
-  // or the last filter change, not who's online right now while you watch.
+  // is_online is a snapshot from whenever the query ran -- without this, the
+  // green dot would only ever reflect who was online at page load or the
+  // last filter change, and would silently go stale the longer the page
+  // stays open without a manual refresh (confirmed: this, not any VIP- or
+  // device-specific branch, is what caused the "no se ve conectado" reports --
+  // the debug panel showed a query 3 minutes old on a 2-minute threshold).
   useEffect(() => {
-    if (!currentUserId || !filters.onlineOnly) return;
+    if (!currentUserId) return;
 
     const interval = setInterval(() => {
       loadProfiles();
     }, 30000);
 
-    return () => clearInterval(interval);
+    // Also refresh immediately when the tab/app regains focus, so coming
+    // back after switching apps or locking the screen doesn't leave a stale
+    // snapshot on screen until the next 30s tick.
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") loadProfiles();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId, filters.onlineOnly]);
+  }, [currentUserId]);
 
   const loadInitialData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
