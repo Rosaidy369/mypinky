@@ -43,18 +43,6 @@ function Explore() {
   const [isPremium, setIsPremium] = useState(false);
   const [isVip, setIsVip] = useState(false);
 
-  // Temporary diagnostic for the "en línea" report -- shows exactly what
-  // this specific client/session sent and got back, to compare VIP+phone
-  // vs VIP+PC side by side without needing Safari dev tools.
-  const [queryDebug, setQueryDebug] = useState(null);
-
-  // Temporary diagnostic for the isVip-reads-false report -- shows the raw
-  // plan/plan_expires_at this client actually received for its own profile
-  // (vs. what the database really has), so a mismatch here (not an error,
-  // just wrong data) would point at something like a stale cached response
-  // rather than a query failure.
-  const [planDebug, setPlanDebug] = useState(null);
-
   useEffect(() => {
     if (currentUserId) loadInitialData(currentUserId);
   }, [currentUserId]);
@@ -67,9 +55,7 @@ function Explore() {
   // is_online is a snapshot from whenever the query ran -- without this, the
   // green dot would only ever reflect who was online at page load or the
   // last filter change, and would silently go stale the longer the page
-  // stays open without a manual refresh (confirmed: this, not any VIP- or
-  // device-specific branch, is what caused the "no se ve conectado" reports --
-  // the debug panel showed a query 3 minutes old on a 2-minute threshold).
+  // stays open without a manual refresh.
   useEffect(() => {
     if (!currentUserId) return;
 
@@ -102,16 +88,6 @@ function Explore() {
     if (profileError) {
       console.error("Error cargando el plan propio:", profileError.message, profileError);
     }
-
-    setPlanDebug({
-      time: new Date().toLocaleTimeString(),
-      userId,
-      rawPlan: myProfile?.plan ?? null,
-      rawPlanExpiresAt: myProfile?.plan_expires_at ?? null,
-      error: profileError?.message || null,
-      computedIsVip: isVipActive(myProfile),
-      computedIsPremium: isPlanActive(myProfile),
-    });
 
     setIsPremium(isPlanActive(myProfile));
     setIsVip(isVipActive(myProfile));
@@ -150,17 +126,6 @@ function Explore() {
     } else {
       setProfiles(profilesData || []);
     }
-
-    setQueryDebug({
-      time: new Date().toLocaleTimeString(),
-      currentUserId,
-      isVip,
-      isPremium,
-      rpcParams,
-      error: error?.message || null,
-      count: profilesData?.length ?? 0,
-      profiles: (profilesData || []).map((p) => ({ name: p.name, is_online: p.is_online })),
-    });
 
     setLoading(false);
   };
@@ -209,50 +174,6 @@ function Explore() {
       </div>
 
       <BackButton />
-
-      {(queryDebug || planDebug) && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 99999,
-            background: "#0d1b3d",
-            color: "#eaf1ff",
-            fontSize: "11px",
-            padding: "8px 10px",
-            fontFamily: "monospace",
-            maxHeight: "40vh",
-            overflowY: "auto",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}
-        >
-          <div style={{ fontWeight: "bold", marginBottom: "4px", color: "#7fd4ff" }}>
-            queryDebug @ {queryDebug.time}
-          </div>
-          <div>currentUserId: {queryDebug.currentUserId}</div>
-          <div>isVip: {String(queryDebug.isVip)} · isPremium: {String(queryDebug.isPremium)}</div>
-          <div>rpcParams: {JSON.stringify(queryDebug.rpcParams)}</div>
-          <div>error: {queryDebug.error || "ninguno"}</div>
-          <div>count: {queryDebug.count}</div>
-          <div>
-            profiles: {queryDebug.profiles.map((p) => `${p.name}=${p.is_online}`).join(", ")}
-          </div>
-
-          {planDebug && (
-            <>
-              <div style={{ fontWeight: "bold", marginTop: "6px", marginBottom: "4px", color: "#7fd4ff" }}>
-                planDebug @ {planDebug.time}
-              </div>
-              <div>rawPlan: {String(planDebug.rawPlan)} · rawPlanExpiresAt: {String(planDebug.rawPlanExpiresAt)}</div>
-              <div>error: {planDebug.error || "ninguno"}</div>
-              <div>computedIsVip: {String(planDebug.computedIsVip)} · computedIsPremium: {String(planDebug.computedIsPremium)}</div>
-            </>
-          )}
-        </div>
-      )}
 
       <div className="explore-header">
 
