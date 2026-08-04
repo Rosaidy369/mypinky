@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
@@ -11,10 +11,18 @@ function ProtectedRoute({ children }) {
   const location = useLocation();
   const userId = session?.user?.id;
 
+  // Temporary on-screen diagnostic for the "en línea" report -- shows
+  // whether the heartbeat effect is actually running and succeeding on
+  // this exact device/session, without needing console access.
+  const [heartbeatDebug, setHeartbeatDebug] = useState("aún no se ha ejecutado");
+
   // Powers "Solo conectados": a simple heartbeat while the user is on any
   // protected page, rather than tracking real presence/sockets.
   useEffect(() => {
-    if (!userId || suspension) return;
+    if (!userId || suspension) {
+      setHeartbeatDebug(`detenido (userId: ${userId ? "sí" : "no"}, suspendido: ${suspension ? "sí" : "no"})`);
+      return;
+    }
 
     const updateLastSeen = async () => {
       const { error } = await supabase
@@ -24,6 +32,9 @@ function ProtectedRoute({ children }) {
 
       if (error) {
         console.error("Error actualizando last_seen_at:", error.message);
+        setHeartbeatDebug(`ERROR: ${error.message} (${new Date().toLocaleTimeString()})`);
+      } else {
+        setHeartbeatDebug(`OK: enviado a las ${new Date().toLocaleTimeString()}`);
       }
     };
 
@@ -60,7 +71,28 @@ function ProtectedRoute({ children }) {
     return <SuspendedScreen suspension={suspension} />;
   }
 
-  return children;
+  return (
+    <>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 99999,
+          background: "#e63946",
+          color: "white",
+          fontSize: "12px",
+          padding: "6px 10px",
+          textAlign: "center",
+          fontFamily: "monospace",
+        }}
+      >
+        HEARTBEAT: {heartbeatDebug}
+      </div>
+      {children}
+    </>
+  );
 }
 
 export default ProtectedRoute;
