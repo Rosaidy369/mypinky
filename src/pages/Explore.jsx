@@ -16,10 +16,6 @@ const AD_EVERY_N_PROFILES = 6;
 
 function Explore() {
   const navigate = useNavigate();
-  // Temporary diagnostic for the iOS Safari "en línea" report -- always on
-  // for now (the ?debug=1 gate turned out to be an unreliable variable to
-  // test on mobile), shows raw is_online values on-screen without dev tools.
-  const isDebug = true;
   const [search, setSearch] = useState("");
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,13 +102,6 @@ function Explore() {
       console.error("Error cargando perfiles:", error.message);
     } else {
       setProfiles(profilesData || []);
-
-      // Temporary diagnostic for the iOS Safari "en línea" report -- visit
-      // /explore?debug=1 to see this on-screen (no dev tools needed).
-      console.log(
-        "get_discoverable_profiles is_online por perfil:",
-        (profilesData || []).map((p) => ({ name: p.name, is_online: p.is_online }))
-      );
     }
 
     setLoading(false);
@@ -246,12 +235,6 @@ function Explore() {
                   📍 {profile.city}
                   {typeof profile.distance_km === "number" && ` · ${Math.round(profile.distance_km)} km`}
                 </p>
-
-                {isDebug && (
-                  <p style={{ fontSize: "11px", color: "#e63946", fontFamily: "monospace" }}>
-                    DEBUG is_online: {String(profile.is_online)}
-                  </p>
-                )}
 
                 <div className="mood-badge">
                   {profile.mood}
