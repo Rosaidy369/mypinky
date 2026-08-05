@@ -6,6 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <title>mypinky</title>
+
+    <!-- Consent Mode v2: defaults must be set before gtag.js processes any
+         hit, so nothing is stored/sent beyond a cookieless ping until the
+         visitor explicitly accepts via the CookieConsent banner. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA_MEASUREMENT_ID%"></script>
+    <script>
+      gtag('js', new Date());
+      // send_page_view disabled -- Analytics.jsx sends the page_view for the
+      // initial load and every client-side route change, so this avoids a
+      // duplicate hit for the first page.
+      gtag('config', '%VITE_GA_MEASUREMENT_ID%', { send_page_view: false });
+    </script>
   </head>
   <body>
     <div id="root"></div>
