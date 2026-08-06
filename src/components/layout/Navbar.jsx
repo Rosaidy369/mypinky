@@ -18,7 +18,7 @@ import "../../styles/Explore.css";
 const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
 
 function Navbar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isLoggedIn, logout } = useAuth();
   const { badges } = useNotifications();
   const { filters, updateFilter, showFilters, setShowFilters } = useSwipeFilters();
@@ -298,6 +298,24 @@ function Navbar() {
               <span className="label-full">{t("nav.register")}</span>
               <span className="label-short">{t("nav.registerShort")}</span>
             </Link>
+
+            <div className="lang-switcher">
+              <button
+                type="button"
+                className={i18n.language === "es" ? "active" : ""}
+                onClick={() => i18n.changeLanguage("es")}
+              >
+                ES
+              </button>
+              <span className="lang-switcher-divider">|</span>
+              <button
+                type="button"
+                className={i18n.language === "en" ? "active" : ""}
+                onClick={() => i18n.changeLanguage("en")}
+              >
+                EN
+              </button>
+            </div>
           </>
 
         )}

@@ -278,6 +278,50 @@ box-shadow:0 18px 35px rgba(255,63,135,.40);
 
 /* ===================== */
 
+.lang-switcher{
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
+
+margin-left:4px;
+
+}
+
+.lang-switcher button{
+
+background:none;
+
+border:none;
+
+padding:2px 4px;
+
+font-size:13px;
+
+font-weight:700;
+
+color:#9aa0a6;
+
+}
+
+.lang-switcher button.active{
+
+color:#ff3f87;
+
+}
+
+.lang-switcher-divider{
+
+color:#d7d7d7;
+
+font-size:12px;
+
+}
+
+/* ===================== */
+
 .logout-btn{
 
 height:48px;
@@ -397,6 +441,12 @@ padding:0 12px;
 .register{
 
 padding:0 16px;
+
+}
+
+.lang-switcher{
+
+margin-left:0;
 
 }
 

@@ -33,7 +33,7 @@ function Settings() {
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [cancelSuccess, setCancelSuccess] = useState(false);
-  const { logout } = useAuth();
+  const { logout, session } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,9 +76,24 @@ function Settings() {
   const expiresAt = profile?.plan_expires_at ? new Date(profile.plan_expires_at).getTime() : 0;
   const daysLeft = Math.max(0, Math.ceil((expiresAt - Date.now()) / (1000 * 60 * 60 * 24)));
 
+  // Writes straight off the session's user id instead of gating on
+  // `profile` -- this page's own profile fetch can still be in flight when
+  // someone touches the selector, and the previous `if (profile)` guard
+  // made the save silently no-op in that window (i18n still switched
+  // visually, so nothing looked wrong, but nothing was ever persisted).
   const changeLanguage = (value) => {
     i18n.changeLanguage(value);
-    if (profile) commitProfileField("preferred_language", value);
+
+    const userId = session?.user?.id;
+    if (!userId) return;
+
+    supabase
+      .from("profiles")
+      .update({ preferred_language: value })
+      .eq("id", userId)
+      .then(({ error }) => {
+        if (error) console.error("Error guardando preferred_language:", error.message);
+      });
   };
 
   // Discrete controls (pills, checkboxes) commit to Supabase right away.
