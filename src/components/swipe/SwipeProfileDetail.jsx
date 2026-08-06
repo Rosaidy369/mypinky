@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { isPlanActive } from "../../lib/plan";
 import { moodLabel, interestLabel, promptQuestionLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import MicIcon from "../ui/MicIcon";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
@@ -121,6 +122,13 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
               ))}
             </div>
           </div>
+
+          {profile.voice_note_url && (
+            <div className="detail-section">
+              <h3><MicIcon size={15} className="voice-title-icon" /> Nota de voz</h3>
+              <audio controls src={profile.voice_note_url} className="voice-audio"></audio>
+            </div>
+          )}
 
         </div>
 
