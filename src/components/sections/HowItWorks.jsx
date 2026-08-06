@@ -1,55 +1,43 @@
+import { useTranslation } from "react-i18next";
 import PersonIcon from "../ui/PersonIcon";
 import SearchIcon from "../ui/SearchIcon";
 import MatchHeartIcon from "../ui/MatchHeartIcon";
 import MessageIcon from "../ui/MessageIcon";
 import "../../styles/HowItWorks.css";
 
-const STEPS = [
-  {
-    Icon: PersonIcon,
-    title: "Crea tu perfil",
-    description: "Sube tus fotos, cuéntanos quién eres y qué buscas",
-  },
-  {
-    Icon: SearchIcon,
-    title: "Descubre personas",
-    description: "Explora perfiles reales, filtra por lo que te importa",
-  },
-  {
-    Icon: MatchHeartIcon,
-    title: "Haz match",
-    description: "Cuando el interés es mutuo, se abre la conversación",
-  },
-  {
-    Icon: MessageIcon,
-    title: "Empieza a conversar",
-    description: "Rompe el hielo y conoce a alguien especial",
-  },
-];
+// Text lives in the locale files (home.howItWorks.steps); icons don't
+// translate, so they're kept here in the same order and zipped by index.
+const STEP_ICONS = [PersonIcon, SearchIcon, MatchHeartIcon, MessageIcon];
 
 function HowItWorks() {
+  const { t } = useTranslation();
+  const steps = t("home.howItWorks.steps", { returnObjects: true });
+
   return (
     <section className="how-it-works">
 
-      <h2>Cómo funciona</h2>
+      <h2>{t("home.howItWorks.title")}</h2>
 
       <div className="steps-timeline">
 
-        {STEPS.map(({ Icon, title, description }, i) => (
-          <div className="step" key={title}>
+        {steps.map(({ title, description }, i) => {
+          const Icon = STEP_ICONS[i];
+          return (
+            <div className="step" key={i}>
 
-            <div className="step-marker">
-              <div className="step-icon"><Icon size={26} /></div>
-              {i < STEPS.length - 1 && <span className="step-connector"></span>}
+              <div className="step-marker">
+                <div className="step-icon"><Icon size={26} /></div>
+                {i < steps.length - 1 && <span className="step-connector"></span>}
+              </div>
+
+              <div className="step-content">
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+
             </div>
-
-            <div className="step-content">
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-
-          </div>
-        ))}
+          );
+        })}
 
       </div>
 

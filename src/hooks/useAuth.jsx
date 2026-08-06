@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
+import i18n from "../lib/i18n";
 
 const AuthContext = createContext();
 
@@ -39,7 +40,7 @@ export function AuthProvider({ children }) {
 
     supabase
       .from("profiles")
-      .select("suspended_until, suspension_reason")
+      .select("suspended_until, suspension_reason, preferred_language")
       .eq("id", userId)
       .single()
       .then(({ data, error }) => {
@@ -55,6 +56,13 @@ export function AuthProvider({ children }) {
           isActive ? { until: data.suspended_until, reason: data.suspension_reason } : null
         );
         setSuspensionLoading(false);
+
+        // Cross-device sync: an explicit stored preference wins over
+        // whatever localStorage/browser default this particular device
+        // detected on its own.
+        if (data?.preferred_language && data.preferred_language !== i18n.language) {
+          i18n.changeLanguage(data.preferred_language);
+        }
       });
 
     return () => {

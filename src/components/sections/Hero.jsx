@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import HeartIcon from "../ui/HeartIcon";
 import NoAdsIcon from "../ui/NoAdsIcon";
 import PinIcon from "../ui/PinIcon";
@@ -6,37 +7,37 @@ import VerifiedIcon from "../ui/VerifiedIcon";
 import "../../styles/Hero.css";
 
 function Hero() {
+  const { t } = useTranslation();
+
   return (
     <section className="hero">
 
       <div className="hero-left">
 
         <span className="badge">
-          <HeartIcon size={14} className="badge-heart" /> Encuentra a alguien con quien realmente conectar
+          <HeartIcon size={14} className="badge-heart" /> {t("home.hero.badge")}
         </span>
 
         <h1>
-          Conoce personas.
+          {t("home.hero.titleLine1")}
           <br />
-          Habla.
+          {t("home.hero.titleLine2")}
           <br />
-          Diviértete.
+          {t("home.hero.titleLine3")}
         </h1>
 
         <p>
-          Descubre personas nuevas, inicia conversaciones auténticas
-          y disfruta de una comunidad donde siempre hay alguien con
-          quien hablar.
+          {t("home.hero.subtitle")}
         </p>
 
         <div className="buttons">
 
           <Link to="/register" className="primary">
-            Crear cuenta
+            {t("home.hero.ctaRegister")}
           </Link>
 
           <Link to="/explore" className="secondary">
-            Explorar perfiles
+            {t("home.hero.ctaExplore")}
           </Link>
 
         </div>
@@ -45,17 +46,17 @@ function Hero() {
 
           <div className="stat-item">
             <span className="stat-icon"><NoAdsIcon size={20} /></span>
-            <span className="stat-label">Sin anuncios</span>
+            <span className="stat-label">{t("home.hero.statNoAds")}</span>
           </div>
 
           <div className="stat-item">
             <span className="stat-icon"><PinIcon size={20} /></span>
-            <span className="stat-label">Búsqueda por distancia gratis</span>
+            <span className="stat-label">{t("home.hero.statFreeDistance")}</span>
           </div>
 
           <div className="stat-item">
             <span className="stat-icon"><VerifiedIcon size={20} /></span>
-            <span className="stat-label">Perfiles verificados</span>
+            <span className="stat-label">{t("home.hero.statVerified")}</span>
           </div>
 
         </div>

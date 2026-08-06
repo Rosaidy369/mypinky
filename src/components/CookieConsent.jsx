@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/CookieConsent.css";
 
 const STORAGE_KEY = "mypinky_cookie_consent";
@@ -8,6 +9,7 @@ function loadStoredConsent() {
 }
 
 function CookieConsent() {
+  const { t } = useTranslation();
   const [choice, setChoice] = useState(loadStoredConsent);
 
   // A returning visitor who already granted consent gets denied-by-default
@@ -38,16 +40,15 @@ function CookieConsent() {
   return (
     <div className="cookie-consent">
       <p>
-        Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla.
-        Puedes aceptarlas o rechazarlas.
+        {t("cookieConsent.message")}
       </p>
 
       <div className="cookie-consent-actions">
         <button className="cookie-consent-reject" onClick={reject}>
-          Rechazar
+          {t("cookieConsent.reject")}
         </button>
         <button className="cookie-consent-accept" onClick={accept}>
-          Aceptar
+          {t("cookieConsent.accept")}
         </button>
       </div>
     </div>

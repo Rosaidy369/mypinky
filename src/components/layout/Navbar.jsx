@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth";
 import { useNotifications } from "../../hooks/useNotifications";
 import { useSwipeFilters } from "../../hooks/useSwipeFilters";
@@ -17,6 +18,7 @@ import "../../styles/Explore.css";
 const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
 
 function Navbar() {
+  const { t } = useTranslation();
   const { isLoggedIn, logout } = useAuth();
   const { badges } = useNotifications();
   const { filters, updateFilter, showFilters, setShowFilters } = useSwipeFilters();
@@ -284,17 +286,17 @@ function Navbar() {
           <>
             <Link to="/premium" className="nav-link premium-link">
               <StarIcon size={18} className="nav-link-icon" />
-              <span className="nav-link-label">Premium</span>
+              <span className="nav-link-label">{t("nav.premium")}</span>
             </Link>
 
             <Link to="/login" className="login">
-              <span className="label-full">Iniciar sesión</span>
-              <span className="label-short">Entrar</span>
+              <span className="label-full">{t("nav.login")}</span>
+              <span className="label-short">{t("nav.loginShort")}</span>
             </Link>
 
             <Link to="/register" className="register">
-              <span className="label-full">Crear cuenta</span>
-              <span className="label-short">Registro</span>
+              <span className="label-full">{t("nav.register")}</span>
+              <span className="label-short">{t("nav.registerShort")}</span>
             </Link>
           </>
 

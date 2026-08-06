@@ -1,0 +1,128 @@
+{
+  "nav": {
+    "premium": "Premium",
+    "login": "Log in",
+    "loginShort": "Log in",
+    "register": "Create account",
+    "registerShort": "Sign up"
+  },
+  "cookieConsent": {
+    "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
+    "reject": "Decline",
+    "accept": "Accept"
+  },
+  "home": {
+    "hero": {
+      "badge": "Find someone you can really connect with",
+      "titleLine1": "Meet people.",
+      "titleLine2": "Talk.",
+      "titleLine3": "Have fun.",
+      "subtitle": "Discover new people, start genuine conversations, and enjoy a community where there's always someone to talk to.",
+      "ctaRegister": "Create account",
+      "ctaExplore": "Explore profiles",
+      "statNoAds": "No ads",
+      "statFreeDistance": "Free distance search",
+      "statVerified": "Verified profiles"
+    },
+    "featuredProfiles": {
+      "title": "Featured profiles",
+      "subtitle": "Discover people ready to chat.",
+      "premiumBadge": "Premium",
+      "viewProfile": "View profile",
+      "ageCountry": "{{age}} years old • {{country}}",
+      "disclaimer": "The images shown are for illustrative purposes only and do not represent real users of the platform."
+    },
+    "benefits": {
+      "title": "Why choose MyPinky?",
+      "item1": { "title": "Real conversations", "body": "Meet people to share moments and talk with." },
+      "item2": { "title": "More privacy", "body": "You decide who to talk to and when." },
+      "item3": { "title": "Premium experience", "body": "A fast, modern platform designed for adults." }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "steps": [
+        { "title": "Create your profile", "description": "Upload your photos, tell us who you are and what you're looking for" },
+        { "title": "Discover people", "description": "Browse real profiles, filter by what matters to you" },
+        { "title": "Get a match", "description": "When the interest is mutual, the conversation opens up" },
+        { "title": "Start chatting", "description": "Break the ice and meet someone special" }
+      ]
+    },
+    "ourMission": {
+      "title": "Our mission",
+      "lede": "I created MyPinky because I wanted a dating app that was safe, but also more human.",
+      "body1": "I've seen how other platforms end up unfairly banning their users, often without a clear explanation, and without giving them a chance to come back — even over small mistakes. That doesn't feel right to me.",
+      "body2": "My idea with MyPinky is simple: keep safety as a priority — no fake profiles, with clear rules that must be respected — but with a more flexible, human approach toward the people who are part of this community. We want you to feel free to be yourself, as long as you also respect others.",
+      "body3": "This is just the beginning, and I'm really excited to build it with you from the start.",
+      "signature": "— {{name}}, founder of MyPinky"
+    }
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "support": "Support",
+    "contact": "Contact",
+    "followUs": "Follow us",
+    "copyright": "© {{year}} MyPinky. All rights reserved."
+  },
+  "premium": {
+    "eyebrow": "MyPinky Premium",
+    "title": "Find your person, faster",
+    "subtitle": "Unlock MyPinky's full potential and connect without limits.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "saveBadge": "Save 33%",
+    "mostPopular": "Most popular",
+    "pricePerMonth": "/mo",
+    "billedYearly": "Billed ${{price}}/year",
+    "currentPlan": "Your current plan",
+    "choosePlan": "Choose {{plan}}",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "features": [
+          "Limited likes",
+          "See featured profiles",
+          "Chat with matches",
+          "See who liked you",
+          "Unlimited likes",
+          "Rewind swipe",
+          "Invisible mode"
+        ]
+      },
+      "premium": {
+        "name": "Premium",
+        "features": [
+          "Unlimited likes",
+          "Search by country and city",
+          "See who liked you",
+          "Rewind swipe",
+          "5 Super Likes a day",
+          "No ads",
+          "Invisible mode",
+          "Featured profile"
+        ]
+      },
+      "vip": {
+        "name": "VIP",
+        "features": [
+          "Everything in Premium",
+          "Invisible mode",
+          "Featured profile 1x a week",
+          "Unlimited Super Likes",
+          "Priority support",
+          "VIP badge on your profile",
+          "See message read receipts",
+          "Voice note on your profile"
+        ]
+      }
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        { "q": "Can I cancel anytime?", "a": "Yes, you can cancel your subscription at any time from your profile." },
+        { "q": "How do Super Likes work?", "a": "A Super Like shows that person you're very interested, making you stand out from the rest." },
+        { "q": "What is invisible mode?", "a": "It lets you browse and like without your profile showing up in other people's Explore, until you like them first." }
+      ]
+    }
+  }
+}

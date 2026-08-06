@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
@@ -16,13 +17,8 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
-function loadLocalSettings() {
-  const raw = localStorage.getItem("mypinky_settings");
-  return raw ? JSON.parse(raw) : { language: "Español" };
-}
-
 function Settings() {
-  const [localSettings, setLocalSettings] = useState(loadLocalSettings);
+  const { i18n } = useTranslation();
 
   const [profile, setProfile] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
@@ -80,10 +76,9 @@ function Settings() {
   const expiresAt = profile?.plan_expires_at ? new Date(profile.plan_expires_at).getTime() : 0;
   const daysLeft = Math.max(0, Math.ceil((expiresAt - Date.now()) / (1000 * 60 * 60 * 24)));
 
-  const updateLocalSetting = (key, value) => {
-    const updated = { ...localSettings, [key]: value };
-    setLocalSettings(updated);
-    localStorage.setItem("mypinky_settings", JSON.stringify(updated));
+  const changeLanguage = (value) => {
+    i18n.changeLanguage(value);
+    if (profile) commitProfileField("preferred_language", value);
   };
 
   // Discrete controls (pills, checkboxes) commit to Supabase right away.
@@ -363,13 +358,11 @@ function Settings() {
 
           <select
             className="settings-select"
-            value={localSettings.language}
-            onChange={(e) => updateLocalSetting("language", e.target.value)}
+            value={i18n.language}
+            onChange={(e) => changeLanguage(e.target.value)}
           >
-            <option>Español</option>
-            <option>English</option>
-            <option>Français</option>
-            <option>Português</option>
+            <option value="es">Español</option>
+            <option value="en">English</option>
           </select>
 
         </div>

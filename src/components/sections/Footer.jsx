@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import HeartIcon from "../ui/HeartIcon";
 import InstagramIcon from "../ui/InstagramIcon";
 import TikTokIcon from "../ui/TikTokIcon";
@@ -14,6 +15,8 @@ const SOCIAL_LINKS = [
 ];
 
 function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer">
 
@@ -23,19 +26,19 @@ function Footer() {
 
       <div className="footer-links">
 
-        <Link to="/privacidad">Privacidad</Link>
+        <Link to="/privacidad">{t("footer.privacy")}</Link>
 
-        <Link to="/terminos">Términos</Link>
+        <Link to="/terminos">{t("footer.terms")}</Link>
 
-        <Link to="/soporte">Soporte</Link>
+        <Link to="/soporte">{t("footer.support")}</Link>
 
-        <Link to="/contacto">Contacto</Link>
+        <Link to="/contacto">{t("footer.contact")}</Link>
 
       </div>
 
       <div className="footer-social">
 
-        <p className="footer-social-title">Síguenos</p>
+        <p className="footer-social-title">{t("footer.followUs")}</p>
 
         <div className="footer-social-icons">
           {SOCIAL_LINKS.map(({ name, Icon, url }) => (
@@ -55,7 +58,7 @@ function Footer() {
       </div>
 
       <p>
-        © 2026 MyPinky. Todos los derechos reservados.
+        {t("footer.copyright", { year: new Date().getFullYear() })}
       </p>
 
     </footer>
