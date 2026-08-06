@@ -124,5 +124,171 @@
         { "q": "What is invisible mode?", "a": "It lets you browse and like without your profile showing up in other people's Explore, until you like them first." }
       ]
     }
+  },
+  "auth": {
+    "register": {
+      "heading": "Create your account",
+      "subtitle": "Sign up and start meeting new people.",
+      "namePlaceholder": "Full name",
+      "agePlaceholder": "Age",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "termsAgreePrefix": "I agree to the ",
+      "termsLink": "terms and conditions",
+      "submit": "Create account",
+      "separator": "or",
+      "googleButton": "Continue with Google",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "backHome": "← Back to home",
+      "passwordMismatch": "Passwords don't match.",
+      "emailTaken": "An account with that email already exists.",
+      "genericError": "An error occurred while creating your account.",
+      "confirmHeading": "Check your email!",
+      "confirmMessagePrefix": "We sent a confirmation link to ",
+      "confirmMessageSuffix": ". Open it to activate your account (check your spam folder too).",
+      "confirmGoToLogin": "Go to login"
+    },
+    "login": {
+      "heading": "Welcome back!",
+      "subtitle": "Log in to keep meeting people.",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "submit": "Log in",
+      "forgotPassword": "Forgot your password?",
+      "separator": "or",
+      "googleButton": "Continue with Google",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create account",
+      "backHome": "← Back to home",
+      "notConfirmed": "You need to confirm your email before logging in. Check your inbox (and spam folder).",
+      "invalidCredentials": "Incorrect email or password.",
+      "genericError": "An error occurred while logging in. Try again."
+    },
+    "forgotPassword": {
+      "heading": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a link to reset it.",
+      "emailPlaceholder": "Email",
+      "submitSending": "Sending...",
+      "submit": "Send link",
+      "backToLogin": "← Back to login",
+      "sentHeading": "Check your email!",
+      "sentMessagePrefix": "If an account exists with ",
+      "sentMessageSuffix": ", we sent a link to reset your password (check your spam folder too).",
+      "goToLogin": "Go to login",
+      "genericError": "An error occurred while sending the link. Try again."
+    },
+    "resetPassword": {
+      "heading": "Create a new password",
+      "newPasswordPlaceholder": "New password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "submitSaving": "Saving...",
+      "submit": "Save password",
+      "doneHeading": "Password updated!",
+      "doneMessage": "You can now log in with your new password.",
+      "goToLogin": "Go to login",
+      "invalidHeading": "Invalid or expired link",
+      "invalidMessage": "Request a new link to reset your password.",
+      "requestNewLink": "Request new link",
+      "passwordTooShort": "Password must be at least 6 characters.",
+      "passwordMismatch": "Passwords don't match.",
+      "updateError": "Couldn't update your password. The link may have expired."
+    }
+  },
+  "onboarding": {
+    "back": "Back",
+    "saving": "Saving...",
+    "finish": "Finish",
+    "continue": "Continue",
+    "saveError": "An error occurred while saving your profile. Try again.",
+    "progress": "Step {{step}} of {{totalSteps}}",
+    "basicInfo": {
+      "heading": "Tell us about yourself",
+      "subtitle": "This information will appear on your profile.",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "ageLabel": "Age",
+      "agePlaceholder": "Your age",
+      "genderLabel": "Gender",
+      "cityLabel": "City",
+      "cityPlaceholder": "Where do you live?",
+      "locationGranted": "Location shared",
+      "locationLoading": "Getting your location...",
+      "locationShare": "Share my location (optional)",
+      "locationHint": "It helps us show your real distance to other people. It's optional — if you don't share it, you'll still be shown by city as usual.",
+      "locationErrorUnsupported": "Your browser doesn't support sharing location.",
+      "locationErrorDenied": "You didn't grant location permission. You can keep using MyPinky as usual.",
+      "locationErrorFailed": "Couldn't get your location. Try again."
+    },
+    "photos": {
+      "heading": "Add your photos",
+      "subtitle": "Upload up to 7 photos. The first one will be your main photo.",
+      "uploading": "Uploading photos...",
+      "photoAlt": "Photo {{index}}",
+      "mainBadge": "Main"
+    },
+    "bio": {
+      "heading": "Write your bio",
+      "subtitle": "Share something about yourself that stands out.",
+      "placeholder": "E.g.: Coffee lover, into travel and good conversations..."
+    },
+    "interests": {
+      "heading": "Your interests",
+      "subtitle": "Choose at least 3 (you can choose more)."
+    },
+    "lookingFor": {
+      "heading": "What are you looking for?",
+      "subtitle": "This helps match you with like-minded people."
+    },
+    "prompts": {
+      "heading": "Icebreaker prompts",
+      "subtitle": "Choose up to 2 questions and answer them so others can get to know you better.",
+      "subtitleOptional": " This step is optional, you can add it later from your profile.",
+      "questionLabel": "Question {{index}}",
+      "choosePrompt": "Choose a question",
+      "answerPlaceholder": "Your answer..."
+    }
+  },
+  "profileOptions": {
+    "genders": {
+      "woman": "Woman",
+      "man": "Man",
+      "nonbinary": "Non-binary"
+    },
+    "genderFilterAll": "All",
+    "interests": {
+      "coffee": "Coffee",
+      "music": "Music",
+      "travel": "Travel",
+      "movies": "Movies",
+      "beach": "Beach",
+      "dogs": "Dogs",
+      "reading": "Reading",
+      "art": "Art",
+      "pizza": "Pizza",
+      "photography": "Photography",
+      "gym": "Gym",
+      "videogames": "Video games",
+      "nightlife": "Nightlife",
+      "yoga": "Yoga",
+      "cooking": "Cooking"
+    },
+    "moods": {
+      "chat": { "label": "I want to chat", "desc": "Meet people and talk" },
+      "laugh": { "label": "I want to laugh", "desc": "Have a good time" },
+      "company": { "label": "Looking for company", "desc": "Someone to hang out with" },
+      "night_owl": { "label": "Can't sleep", "desc": "Late-night chats" }
+    },
+    "prompts": {
+      "ideal_date": "My ideal date would be...",
+      "cant_live_without": "I can't live without...",
+      "fun_fact": "A fun fact about me...",
+      "fastest_way": "The fastest way to win me over is...",
+      "favorite_book": "My favorite book or movie is...",
+      "looking_for": "I'm looking for...",
+      "dream_destination": "My next dream destination is...",
+      "unknown_fact": "Something people don't know about me..."
+    }
   }
 }

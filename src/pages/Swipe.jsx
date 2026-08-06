@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import { useSwipeFilters } from "../hooks/useSwipeFilters";
+import { GENDER_FILTER_ALL } from "../data/profileOptions";
 import SwipeCard from "../components/swipe/SwipeCard";
 import BackButton from "../components/ui/BackButton";
 import StarIcon from "../components/ui/StarIcon";
@@ -56,7 +57,7 @@ function Swipe() {
 
   const isPremium = isPlanActive(currentUser);
   const filtersAreDefault =
-    filters.gender === "Todos" && filters.ageMin === 18 && filters.ageMax === 90 && filters.maxDistance === 100;
+    filters.gender === GENDER_FILTER_ALL && filters.ageMin === 18 && filters.ageMax === 90 && filters.maxDistance === 100;
 
   useEffect(() => {
     loadCurrentUser();
@@ -100,7 +101,7 @@ function Swipe() {
     // Server-side: never returns anyone else's exact coordinates, only the
     // already-computed distance_km (or null if either side lacks location).
     const { data: candidateProfiles, error } = await supabase.rpc("get_discoverable_profiles", {
-      p_gender: filters.gender,
+      p_gender: filters.gender === GENDER_FILTER_ALL ? null : filters.gender,
       p_min_age: filters.ageMin,
       p_max_age: filters.ageMax,
       p_max_distance_km: filters.maxDistance,

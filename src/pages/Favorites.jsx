@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
@@ -10,6 +12,7 @@ import "../styles/Favorites.css";
 import "../styles/BackButton.css";
 
 function Favorites() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [favoriteProfiles, setFavoriteProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -130,7 +133,7 @@ function Favorites() {
                 </p>
 
                 <div className="mood-badge">
-                  {profile.mood}
+                  {moodLabel(t, profile.mood)}
                 </div>
 
                 <div className="profile-actions">

@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
 import "../styles/Register.css";
 
 function Register() {
+  const { t } = useTranslation();
   const { register } = useAuth();
-  const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", age: "", email: "", password: "", confirmPassword: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const [registered, setRegistered] = useState(false);
@@ -21,17 +22,17 @@ function Register() {
     setErrorMsg("");
 
     if (form.password !== form.confirmPassword) {
-      setErrorMsg("Las contraseñas no coinciden.");
+      setErrorMsg(t("auth.register.passwordMismatch"));
       return;
     }
 
     const { error } = await register(form.email, form.password, form.name, Number(form.age));
 
     if (error) {
-      console.log("ERROR REAL DE SUPABASE:", error.message);
+      console.error("Error de registro:", error.message);
       setErrorMsg(error.message === "User already registered"
-        ? "Ya existe una cuenta con ese correo."
-        : "Ocurrió un error al crear tu cuenta.");
+        ? t("auth.register.emailTaken")
+        : t("auth.register.genericError"));
       return;
     }
 
@@ -58,13 +59,12 @@ function Register() {
 
           <div className="confirm-email-message">
             <EmailSentIcon size={64} />
-            <h2>¡Revisa tu correo!</h2>
+            <h2>{t("auth.register.confirmHeading")}</h2>
             <p>
-              Te enviamos un enlace de confirmación a <strong>{form.email}</strong>.
-              Ábrelo para activar tu cuenta (revisa también la carpeta de spam).
+              {t("auth.register.confirmMessagePrefix")}<strong>{form.email}</strong>{t("auth.register.confirmMessageSuffix")}
             </p>
             <Link to="/login" className="confirm-email-btn">
-              Ir a iniciar sesión
+              {t("auth.register.confirmGoToLogin")}
             </Link>
           </div>
 
@@ -85,10 +85,10 @@ function Register() {
             My<span>Pinky</span>
           </h1>
 
-          <h2>Crea tu cuenta</h2>
+          <h2>{t("auth.register.heading")}</h2>
 
           <p>
-            Regístrate y empieza a conocer personas nuevas.
+            {t("auth.register.subtitle")}
           </p>
 
         </div>
@@ -97,7 +97,7 @@ function Register() {
 
           <input
             type="text"
-            placeholder="Nombre completo"
+            placeholder={t("auth.register.namePlaceholder")}
             value={form.name}
             onChange={(e) => updateField("name", e.target.value)}
             required
@@ -105,7 +105,7 @@ function Register() {
 
           <input
             type="number"
-            placeholder="Edad"
+            placeholder={t("auth.register.agePlaceholder")}
             min="18"
             value={form.age}
             onChange={(e) => updateField("age", e.target.value)}
@@ -114,7 +114,7 @@ function Register() {
 
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder={t("auth.register.emailPlaceholder")}
             value={form.email}
             onChange={(e) => updateField("email", e.target.value)}
             required
@@ -122,7 +122,7 @@ function Register() {
 
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder={t("auth.register.passwordPlaceholder")}
             value={form.password}
             onChange={(e) => updateField("password", e.target.value)}
             required
@@ -131,7 +131,7 @@ function Register() {
 
           <input
             type="password"
-            placeholder="Confirmar contraseña"
+            placeholder={t("auth.register.confirmPasswordPlaceholder")}
             value={form.confirmPassword}
             onChange={(e) => updateField("confirmPassword", e.target.value)}
             required
@@ -142,9 +142,9 @@ function Register() {
             <input type="checkbox" required />
 
             <span>
-              Acepto los{" "}
+              {t("auth.register.termsAgreePrefix")}
               <Link to="/terminos" target="_blank" rel="noopener noreferrer">
-                términos y condiciones
+                {t("auth.register.termsLink")}
               </Link>
             </span>
 
@@ -153,13 +153,13 @@ function Register() {
           {errorMsg && <p className="register-error">{errorMsg}</p>}
 
           <button type="submit">
-            Crear cuenta
+            {t("auth.register.submit")}
           </button>
 
         </form>
 
         <div className="separator">
-          <span>o</span>
+          <span>{t("auth.register.separator")}</span>
         </div>
 
         <button type="button" className="google-btn" onClick={handleGoogleRegister}>
@@ -169,22 +169,22 @@ function Register() {
             alt="Google"
           />
 
-          Continuar con Google
+          {t("auth.register.googleButton")}
 
         </button>
 
         <p className="login-redirect">
 
-          ¿Ya tienes cuenta?
+          {t("auth.register.haveAccount")}
 
           <Link to="/login">
-            Iniciar sesión
+            {t("auth.register.loginLink")}
           </Link>
 
         </p>
 
         <p className="back-home">
-          <Link to="/">← Volver al inicio</Link>
+          <Link to="/">{t("auth.register.backHome")}</Link>
         </p>
 
       </div>

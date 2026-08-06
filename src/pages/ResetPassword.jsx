@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import "../styles/Login.css";
 import "../styles/Register.css";
 
 function ResetPassword() {
+  const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -32,12 +34,12 @@ function ResetPassword() {
     setErrorMsg("");
 
     if (password.length < 6) {
-      setErrorMsg("La contraseña debe tener al menos 6 caracteres.");
+      setErrorMsg(t("auth.resetPassword.passwordTooShort"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setErrorMsg("Las contraseñas no coinciden.");
+      setErrorMsg(t("auth.resetPassword.passwordMismatch"));
       return;
     }
 
@@ -46,7 +48,7 @@ function ResetPassword() {
     setSaving(false);
 
     if (error) {
-      setErrorMsg("No se pudo actualizar tu contraseña. El enlace puede haber expirado.");
+      setErrorMsg(t("auth.resetPassword.updateError"));
       return;
     }
 
@@ -64,10 +66,10 @@ function ResetPassword() {
 
           <div className="confirm-email-message">
             <div className="success-icon"><SuccessCheck size={48} /></div>
-            <h2>¡Contraseña actualizada!</h2>
-            <p>Ya puedes iniciar sesión con tu nueva contraseña.</p>
+            <h2>{t("auth.resetPassword.doneHeading")}</h2>
+            <p>{t("auth.resetPassword.doneMessage")}</p>
             <Link to="/login" className="confirm-email-btn">
-              Ir a iniciar sesión
+              {t("auth.resetPassword.goToLogin")}
             </Link>
           </div>
 
@@ -87,10 +89,10 @@ function ResetPassword() {
 
           <div className="confirm-email-message">
             <div className="confirm-email-icon">⚠️</div>
-            <h2>Enlace inválido o expirado</h2>
-            <p>Solicita un nuevo enlace para restablecer tu contraseña.</p>
+            <h2>{t("auth.resetPassword.invalidHeading")}</h2>
+            <p>{t("auth.resetPassword.invalidMessage")}</p>
             <Link to="/olvide-contrasena" className="confirm-email-btn">
-              Solicitar enlace nuevo
+              {t("auth.resetPassword.requestNewLink")}
             </Link>
           </div>
 
@@ -105,14 +107,14 @@ function ResetPassword() {
 
         <div className="login-header">
           <h1 className="auth-logo">My<span>Pinky</span></h1>
-          <h2>Crea una nueva contraseña</h2>
+          <h2>{t("auth.resetPassword.heading")}</h2>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
 
           <input
             type="password"
-            placeholder="Nueva contraseña"
+            placeholder={t("auth.resetPassword.newPasswordPlaceholder")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -121,7 +123,7 @@ function ResetPassword() {
 
           <input
             type="password"
-            placeholder="Confirmar nueva contraseña"
+            placeholder={t("auth.resetPassword.confirmPasswordPlaceholder")}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -130,7 +132,7 @@ function ResetPassword() {
           {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" disabled={saving}>
-            {saving ? "Guardando..." : "Guardar contraseña"}
+            {saving ? t("auth.resetPassword.submitSaving") : t("auth.resetPassword.submit")}
           </button>
 
         </form>

@@ -1,28 +1,28 @@
-const ALL_INTERESTS = [
-  "☕ Café", "🎵 Música", "✈️ Viajar", "🎬 Películas", "🏖 Playa",
-  "🐶 Perros", "📚 Lectura", "🎨 Arte", "🍕 Pizza", "📸 Fotografía",
-  "🏋️ Gym", "🎮 Videojuegos", "🥂 Vida nocturna", "🧘 Yoga", "🍳 Cocina"
-];
+import { useTranslation } from "react-i18next";
+import { INTERESTS } from "../../data/profileOptions";
+import { interestLabel } from "../../lib/profileLabels";
 
 function StepInterests({ selected, onToggle }) {
+  const { t } = useTranslation();
+
   return (
     <div className="step-content">
 
-      <h2>Tus intereses</h2>
+      <h2>{t("onboarding.interests.heading")}</h2>
       <p className="step-subtitle">
-        Elige al menos 3 (puedes elegir más).
+        {t("onboarding.interests.subtitle")}
       </p>
 
       <div className="interest-grid">
 
-        {ALL_INTERESTS.map((interest) => (
+        {INTERESTS.map(({ code }) => (
           <button
             type="button"
-            key={interest}
-            className={`interest-chip ${selected.includes(interest) ? "selected" : ""}`}
-            onClick={() => onToggle(interest)}
+            key={code}
+            className={`interest-chip ${selected.includes(code) ? "selected" : ""}`}
+            onClick={() => onToggle(code)}
           >
-            {interest}
+            {interestLabel(t, code)}
           </button>
         ))}
 

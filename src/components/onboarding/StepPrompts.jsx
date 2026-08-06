@@ -1,9 +1,13 @@
-import PROMPT_OPTIONS from "../../data/promptOptions";
+import { useTranslation } from "react-i18next";
+import { PROMPT_QUESTIONS } from "../../data/profileOptions";
+import { promptQuestionLabel } from "../../lib/profileLabels";
 
 // `isEditing` distinguishes the onboarding wizard from being reused inside
 // MyProfile.jsx's edit form — "add this later from your profile" makes no
 // sense when the person is already there editing.
 function StepPrompts({ prompts, onChange, isEditing = false }) {
+  const { t } = useTranslation();
+
   const updateSlot = (index, field, value) => {
     const updated = [...prompts];
     if (!updated[index]) updated[index] = { question: "", answer: "" };
@@ -14,10 +18,10 @@ function StepPrompts({ prompts, onChange, isEditing = false }) {
   return (
     <div className="step-content">
 
-      <h2>Preguntas rompehielo</h2>
+      <h2>{t("onboarding.prompts.heading")}</h2>
       <p className="step-subtitle">
-        Elige hasta 2 preguntas y respóndelas para que otras personas te conozcan mejor.
-        {!isEditing && " Este paso es opcional, puedes agregarlo después desde tu perfil."}
+        {t("onboarding.prompts.subtitle")}
+        {!isEditing && t("onboarding.prompts.subtitleOptional")}
       </p>
 
       {[0, 1].map((index) => {
@@ -29,21 +33,21 @@ function StepPrompts({ prompts, onChange, isEditing = false }) {
         return (
           <div className="prompt-slot" key={index}>
 
-            <label className="field-label">Pregunta {index + 1}</label>
+            <label className="field-label">{t("onboarding.prompts.questionLabel", { index: index + 1 })}</label>
 
             <select
               value={prompt.question}
               onChange={(e) => updateSlot(index, "question", e.target.value)}
             >
-              <option value="">Elige una pregunta</option>
-              {PROMPT_OPTIONS.filter((q) => !usedElsewhere.includes(q)).map((q) => (
-                <option key={q} value={q}>{q}</option>
+              <option value="">{t("onboarding.prompts.choosePrompt")}</option>
+              {PROMPT_QUESTIONS.filter((code) => !usedElsewhere.includes(code)).map((code) => (
+                <option key={code} value={code}>{promptQuestionLabel(t, code)}</option>
               ))}
             </select>
 
             {prompt.question && (
               <textarea
-                placeholder="Tu respuesta..."
+                placeholder={t("onboarding.prompts.answerPlaceholder")}
                 rows={3}
                 maxLength={150}
                 value={prompt.answer}

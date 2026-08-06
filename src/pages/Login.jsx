@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import "../styles/Login.css";
 
 function Login() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -19,11 +21,11 @@ function Login() {
 
     if (error) {
       if (error.message === "Email not confirmed") {
-        setErrorMsg("Debes confirmar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada (y la carpeta de spam).");
+        setErrorMsg(t("auth.login.notConfirmed"));
       } else if (error.message === "Invalid login credentials") {
-        setErrorMsg("Correo o contraseña incorrectos.");
+        setErrorMsg(t("auth.login.invalidCredentials"));
       } else {
-        setErrorMsg("Ocurrió un error al iniciar sesión. Intenta de nuevo.");
+        setErrorMsg(t("auth.login.genericError"));
       }
       return;
     }
@@ -56,10 +58,10 @@ function Login() {
             My<span>Pinky</span>
           </h1>
 
-          <h2>¡Bienvenido de nuevo!</h2>
+          <h2>{t("auth.login.heading")}</h2>
 
           <p>
-            Inicia sesión para seguir conociendo personas.
+            {t("auth.login.subtitle")}
           </p>
 
         </div>
@@ -68,7 +70,7 @@ function Login() {
 
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder={t("auth.login.emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -76,7 +78,7 @@ function Login() {
 
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder={t("auth.login.passwordPlaceholder")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -85,7 +87,7 @@ function Login() {
           {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit">
-            Iniciar sesión
+            {t("auth.login.submit")}
           </button>
 
         </form>
@@ -93,14 +95,14 @@ function Login() {
         <div className="login-links">
 
           <Link to="/olvide-contrasena">
-            ¿Olvidaste tu contraseña?
+            {t("auth.login.forgotPassword")}
           </Link>
 
         </div>
 
         <div className="separator">
 
-          <span>o</span>
+          <span>{t("auth.login.separator")}</span>
 
         </div>
 
@@ -111,16 +113,16 @@ function Login() {
     alt="Google"
   />
 
-  Continuar con Google
+  {t("auth.login.googleButton")}
 
 </button>
 
         <p className="login-register-link">
 
-          ¿No tienes cuenta?
+          {t("auth.login.noAccount")}
 
           <Link to="/register">
-            Crear cuenta
+            {t("auth.login.registerLink")}
           </Link>
 
         </p>
@@ -128,7 +130,7 @@ function Login() {
         <p className="back-home">
 
   <Link to="/">
-    ← Volver al inicio
+    {t("auth.login.backHome")}
   </Link>
 
 </p>

@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { GENDERS, GENDER_FILTER_ALL } from "../data/profileOptions";
+import { genderLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import LockIcon from "../components/ui/LockIcon";
@@ -18,7 +20,7 @@ import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
 function Settings() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [profile, setProfile] = useState(null);
   const [loadingProfile, setLoadingProfile] = useState(true);
@@ -216,7 +218,7 @@ function Settings() {
             <span>Mostrar</span>
 
             <div className="settings-pills">
-              {["Todos", "Mujer", "Hombre"].map((option) => (
+              {[GENDER_FILTER_ALL, ...GENDERS].map((option) => (
                 <button
                   key={option}
                   className={`settings-pill ${profile?.search_gender === option ? "selected" : ""}`}
@@ -225,7 +227,7 @@ function Settings() {
                     commitProfileField("search_gender", option);
                   }}
                 >
-                  {option}
+                  {option === GENDER_FILTER_ALL ? t("profileOptions.genderFilterAll") : genderLabel(t, option)}
                 </button>
               ))}
             </div>

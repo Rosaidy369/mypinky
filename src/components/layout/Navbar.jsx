@@ -12,10 +12,12 @@ import PersonIcon from "../ui/PersonIcon";
 import SearchIcon from "../ui/SearchIcon";
 import MessageIcon from "../ui/MessageIcon";
 import FilterIcon from "../ui/FilterIcon";
+import { GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
+import { genderLabel } from "../../lib/profileLabels";
 import "../../styles/Navbar.css";
 import "../../styles/Explore.css";
 
-const GENDER_FILTER_OPTIONS = ["Todos", "Mujer", "Hombre"];
+const GENDER_FILTER_OPTIONS = [GENDER_FILTER_ALL, ...GENDERS];
 
 function Navbar() {
   const { t, i18n } = useTranslation();
@@ -177,7 +179,7 @@ function Navbar() {
                           className={`filter-gender-pill ${filters.gender === option ? "selected" : ""}`}
                           onClick={() => updateFilter("gender", option)}
                         >
-                          {option}
+                          {option === GENDER_FILTER_ALL ? t("profileOptions.genderFilterAll") : genderLabel(t, option)}
                         </button>
                       ))}
                     </div>

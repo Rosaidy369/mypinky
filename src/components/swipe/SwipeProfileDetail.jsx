@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 import { isPlanActive } from "../../lib/plan";
+import { moodLabel, interestLabel, promptQuestionLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
+  const { t } = useTranslation();
   const photos = profile.photos && profile.photos.length > 0
     ? profile.photos
     : [profile.image];
@@ -80,7 +83,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
           <p className="detail-location">📍 {profile.country}</p>
 
-          <div className="detail-mood">{profile.mood}</div>
+          <div className="detail-mood">{moodLabel(t, profile.mood)}</div>
 
           {sharedCount > 0 && (
             <div className="detail-compatibility">
@@ -97,7 +100,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
             <div className="detail-section">
               {prompts.map((p, i) => (
                 <div className="prompt-card" key={i}>
-                  <p className="prompt-question">{p.question}</p>
+                  <p className="prompt-question">{promptQuestionLabel(t, p.question)}</p>
                   <p className="prompt-answer">{p.answer}</p>
                 </div>
               ))}
@@ -112,7 +115,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
                   key={i}
                   className={myInterests.includes(interest) ? "tag-shared" : ""}
                 >
-                  {interest}
+                  {interestLabel(t, interest)}
                   {myInterests.includes(interest) && " ✓"}
                 </span>
               ))}

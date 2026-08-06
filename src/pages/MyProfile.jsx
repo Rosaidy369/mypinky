@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { INTERESTS, MOODS } from "../data/profileOptions";
+import { moodLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
 import VoiceRecorder from "../components/profile/VoiceRecorder";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import PhotoCropModal from "../components/profile/PhotoCropModal";
@@ -21,18 +24,15 @@ import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
 
-const ALL_INTERESTS = [
-  "☕ Café", "🎵 Música", "✈️ Viajar", "🎬 Películas", "🏖 Playa",
-  "🐶 Perros", "📚 Lectura", "🎨 Arte", "🍕 Pizza", "📸 Fotografía",
-  "🏋️ Gym", "🎮 Videojuegos", "🥂 Vida nocturna", "🧘 Yoga", "🍳 Cocina"
-];
-
-const MOODS = [
-  "💬 Quiero conversar",
-  "😂 Quiero reír",
-  "☕ Busco compañía",
-  "🌙 No puedo dormir",
-];
+// Same generic messages as StepBasicInfo.jsx's onboarding step -- reused
+// here since geolocation.js rejects with a code, not a message, and this
+// mapping is the same regardless of whether location is shared during
+// onboarding or from here.
+const LOCATION_ERROR_KEYS = {
+  unsupported: "onboarding.basicInfo.locationErrorUnsupported",
+  denied: "onboarding.basicInfo.locationErrorDenied",
+  failed: "onboarding.basicInfo.locationErrorFailed",
+};
 
 const BOOST_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -58,6 +58,7 @@ function calculateCompletion(user) {
 }
 
 function MyProfile() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -212,7 +213,7 @@ function MyProfile() {
       setLocationStatus("granted");
     } catch (err) {
       setLocationStatus("idle");
-      setLocationError(err.message);
+      setLocationError(t(LOCATION_ERROR_KEYS[err.code] || LOCATION_ERROR_KEYS.failed));
     }
   };
 
@@ -400,7 +401,7 @@ function MyProfile() {
 
               </div>
 
-              <div className="mood">{user.mood}</div>
+              <div className="mood">{moodLabel(t, user.mood)}</div>
 
               <div className="about">
                 <h2>Sobre mí</h2>
@@ -411,7 +412,7 @@ function MyProfile() {
                 <h2>Intereses</h2>
                 <div className="tags">
                   {(user.interests || []).map((interest, i) => (
-                    <span key={i}>{interest}</span>
+                    <span key={i}>{interestLabel(t, interest)}</span>
                   ))}
                 </div>
               </div>
@@ -420,7 +421,7 @@ function MyProfile() {
                 <div className="about">
                   {user.prompts.filter((p) => p.question && p.answer).map((p, i) => (
                     <div className="prompt-card" key={i}>
-                      <p className="prompt-question">{p.question}</p>
+                      <p className="prompt-question">{promptQuestionLabel(t, p.question)}</p>
                       <p className="prompt-answer">{p.answer}</p>
                     </div>
                   ))}
@@ -569,28 +570,28 @@ function MyProfile() {
 
             <label className="field-label">¿Qué buscas?</label>
             <div className="option-pills">
-              {MOODS.map((option) => (
+              {MOODS.map(({ code }) => (
                 <button
                   type="button"
-                  key={option}
-                  className={`option-pill ${draft.mood === option ? "selected" : ""}`}
-                  onClick={() => updateDraft("mood", option)}
+                  key={code}
+                  className={`option-pill ${draft.mood === code ? "selected" : ""}`}
+                  onClick={() => updateDraft("mood", code)}
                 >
-                  {option}
+                  {moodLabel(t, code)}
                 </button>
               ))}
             </div>
 
             <label className="field-label">Intereses</label>
             <div className="interest-grid">
-              {ALL_INTERESTS.map((interest) => (
+              {INTERESTS.map(({ code }) => (
                 <button
                   type="button"
-                  key={interest}
-                  className={`interest-chip ${draft.interests.includes(interest) ? "selected" : ""}`}
-                  onClick={() => toggleInterest(interest)}
+                  key={code}
+                  className={`interest-chip ${draft.interests.includes(code) ? "selected" : ""}`}
+                  onClick={() => toggleInterest(code)}
                 >
-                  {interest}
+                  {interestLabel(t, code)}
                 </button>
               ))}
             </div>

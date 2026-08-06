@@ -1,27 +1,28 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import LockIcon from "../ui/LockIcon";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
+import { GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
+import { genderLabel } from "../../lib/profileLabels";
 
-const GENDER_OPTIONS = [
-  { value: "Todos", label: "Todos" },
-  { value: "Mujer", label: "Mujeres" },
-  { value: "Hombre", label: "Hombres" },
-];
+const GENDER_OPTIONS = [GENDER_FILTER_ALL, ...GENDERS];
 
 function FilterBar({ filters, onChange, isPremium, isVip }) {
+  const { t } = useTranslation();
+
   return (
     <div className="filter-bar">
 
       <div className="filter-gender-pills">
         {GENDER_OPTIONS.map((option) => (
           <button
-            key={option.value}
+            key={option}
             type="button"
-            className={`filter-gender-pill ${filters.gender === option.value ? "selected" : ""}`}
-            onClick={() => onChange("gender", option.value)}
+            className={`filter-gender-pill ${filters.gender === option ? "selected" : ""}`}
+            onClick={() => onChange("gender", option)}
           >
-            {option.label}
+            {option === GENDER_FILTER_ALL ? t("profileOptions.genderFilterAll") : genderLabel(t, option)}
           </button>
         ))}
       </div>

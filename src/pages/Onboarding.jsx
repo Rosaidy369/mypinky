@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import ProgressBar from "../components/onboarding/ProgressBar";
 import StepBasicInfo from "../components/onboarding/StepBasicInfo";
@@ -13,6 +14,7 @@ import "../styles/Onboarding.css";
 const TOTAL_STEPS = 6;
 
 function Onboarding() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
@@ -104,7 +106,7 @@ function Onboarding() {
     setSaving(false);
 
     if (error) {
-      setSaveError("Ocurrió un error al guardar tu perfil. Intenta de nuevo.");
+      setSaveError(t("onboarding.saveError"));
       console.error(error.message);
       return;
     }
@@ -169,7 +171,7 @@ function Onboarding() {
 
           {step > 1 ? (
             <button className="onboarding-back-btn" onClick={handleBack}>
-              Atrás
+              {t("onboarding.back")}
             </button>
           ) : (
             <span></span>
@@ -180,7 +182,7 @@ function Onboarding() {
             onClick={handleNext}
             disabled={!isStepValid() || saving}
           >
-            {saving ? "Guardando..." : step === TOTAL_STEPS ? "Finalizar" : "Continuar"}
+            {saving ? t("onboarding.saving") : step === TOTAL_STEPS ? t("onboarding.finish") : t("onboarding.continue")}
           </button>
 
         </div>

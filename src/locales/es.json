@@ -124,5 +124,171 @@
         { "q": "¿Qué es el modo invisible?", "a": "Te permite navegar y dar like sin que tu perfil aparezca en el Explorar de otras personas, hasta que tú les des like primero." }
       ]
     }
+  },
+  "auth": {
+    "register": {
+      "heading": "Crea tu cuenta",
+      "subtitle": "Regístrate y empieza a conocer personas nuevas.",
+      "namePlaceholder": "Nombre completo",
+      "agePlaceholder": "Edad",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "confirmPasswordPlaceholder": "Confirmar contraseña",
+      "termsAgreePrefix": "Acepto los ",
+      "termsLink": "términos y condiciones",
+      "submit": "Crear cuenta",
+      "separator": "o",
+      "googleButton": "Continuar con Google",
+      "haveAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Iniciar sesión",
+      "backHome": "← Volver al inicio",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "emailTaken": "Ya existe una cuenta con ese correo.",
+      "genericError": "Ocurrió un error al crear tu cuenta.",
+      "confirmHeading": "¡Revisa tu correo!",
+      "confirmMessagePrefix": "Te enviamos un enlace de confirmación a ",
+      "confirmMessageSuffix": ". Ábrelo para activar tu cuenta (revisa también la carpeta de spam).",
+      "confirmGoToLogin": "Ir a iniciar sesión"
+    },
+    "login": {
+      "heading": "¡Bienvenido de nuevo!",
+      "subtitle": "Inicia sesión para seguir conociendo personas.",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "separator": "o",
+      "googleButton": "Continuar con Google",
+      "noAccount": "¿No tienes cuenta?",
+      "registerLink": "Crear cuenta",
+      "backHome": "← Volver al inicio",
+      "notConfirmed": "Debes confirmar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada (y la carpeta de spam).",
+      "invalidCredentials": "Correo o contraseña incorrectos.",
+      "genericError": "Ocurrió un error al iniciar sesión. Intenta de nuevo."
+    },
+    "forgotPassword": {
+      "heading": "¿Olvidaste tu contraseña?",
+      "subtitle": "Escribe tu correo y te enviamos un enlace para restablecerla.",
+      "emailPlaceholder": "Correo electrónico",
+      "submitSending": "Enviando...",
+      "submit": "Enviar enlace",
+      "backToLogin": "← Volver a iniciar sesión",
+      "sentHeading": "¡Revisa tu correo!",
+      "sentMessagePrefix": "Si existe una cuenta con ",
+      "sentMessageSuffix": ", te enviamos un enlace para restablecer tu contraseña (revisa también la carpeta de spam).",
+      "goToLogin": "Ir a iniciar sesión",
+      "genericError": "Ocurrió un error al enviar el enlace. Intenta de nuevo."
+    },
+    "resetPassword": {
+      "heading": "Crea una nueva contraseña",
+      "newPasswordPlaceholder": "Nueva contraseña",
+      "confirmPasswordPlaceholder": "Confirmar nueva contraseña",
+      "submitSaving": "Guardando...",
+      "submit": "Guardar contraseña",
+      "doneHeading": "¡Contraseña actualizada!",
+      "doneMessage": "Ya puedes iniciar sesión con tu nueva contraseña.",
+      "goToLogin": "Ir a iniciar sesión",
+      "invalidHeading": "Enlace inválido o expirado",
+      "invalidMessage": "Solicita un nuevo enlace para restablecer tu contraseña.",
+      "requestNewLink": "Solicitar enlace nuevo",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "updateError": "No se pudo actualizar tu contraseña. El enlace puede haber expirado."
+    }
+  },
+  "onboarding": {
+    "back": "Atrás",
+    "saving": "Guardando...",
+    "finish": "Finalizar",
+    "continue": "Continuar",
+    "saveError": "Ocurrió un error al guardar tu perfil. Intenta de nuevo.",
+    "progress": "Paso {{step}} de {{totalSteps}}",
+    "basicInfo": {
+      "heading": "Cuéntanos sobre ti",
+      "subtitle": "Esta información aparecerá en tu perfil.",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Tu nombre",
+      "ageLabel": "Edad",
+      "agePlaceholder": "Tu edad",
+      "genderLabel": "Género",
+      "cityLabel": "Ciudad",
+      "cityPlaceholder": "¿Dónde vives?",
+      "locationGranted": "Ubicación compartida",
+      "locationLoading": "Obteniendo ubicación...",
+      "locationShare": "Compartir mi ubicación (opcional)",
+      "locationHint": "Nos ayuda a mostrarte la distancia real con otras personas. Es opcional — si no la compartes, seguirás viendo tu ciudad con normalidad.",
+      "locationErrorUnsupported": "Tu navegador no soporta compartir ubicación.",
+      "locationErrorDenied": "No diste permiso de ubicación. Puedes seguir usando MyPinky con normalidad.",
+      "locationErrorFailed": "No se pudo obtener tu ubicación. Intenta de nuevo."
+    },
+    "photos": {
+      "heading": "Agrega tus fotos",
+      "subtitle": "Sube hasta 7 fotos. La primera será tu foto principal.",
+      "uploading": "Subiendo fotos...",
+      "photoAlt": "Foto {{index}}",
+      "mainBadge": "Principal"
+    },
+    "bio": {
+      "heading": "Escribe tu biografía",
+      "subtitle": "Cuenta algo sobre ti que llame la atención.",
+      "placeholder": "Ej: Amante del café, los viajes y las buenas conversaciones..."
+    },
+    "interests": {
+      "heading": "Tus intereses",
+      "subtitle": "Elige al menos 3 (puedes elegir más)."
+    },
+    "lookingFor": {
+      "heading": "¿Qué estás buscando?",
+      "subtitle": "Esto ayuda a encontrarte con personas afines."
+    },
+    "prompts": {
+      "heading": "Preguntas rompehielo",
+      "subtitle": "Elige hasta 2 preguntas y respóndelas para que otras personas te conozcan mejor.",
+      "subtitleOptional": " Este paso es opcional, puedes agregarlo después desde tu perfil.",
+      "questionLabel": "Pregunta {{index}}",
+      "choosePrompt": "Elige una pregunta",
+      "answerPlaceholder": "Tu respuesta..."
+    }
+  },
+  "profileOptions": {
+    "genders": {
+      "woman": "Mujer",
+      "man": "Hombre",
+      "nonbinary": "No binario"
+    },
+    "genderFilterAll": "Todos",
+    "interests": {
+      "coffee": "Café",
+      "music": "Música",
+      "travel": "Viajar",
+      "movies": "Películas",
+      "beach": "Playa",
+      "dogs": "Perros",
+      "reading": "Lectura",
+      "art": "Arte",
+      "pizza": "Pizza",
+      "photography": "Fotografía",
+      "gym": "Gym",
+      "videogames": "Videojuegos",
+      "nightlife": "Vida nocturna",
+      "yoga": "Yoga",
+      "cooking": "Cocina"
+    },
+    "moods": {
+      "chat": { "label": "Quiero conversar", "desc": "Conocer gente y platicar" },
+      "laugh": { "label": "Quiero reír", "desc": "Pasar un buen rato" },
+      "company": { "label": "Busco compañía", "desc": "Alguien con quien salir" },
+      "night_owl": { "label": "No puedo dormir", "desc": "Charlas nocturnas" }
+    },
+    "prompts": {
+      "ideal_date": "Mi cita ideal sería...",
+      "cant_live_without": "No puedo vivir sin...",
+      "fun_fact": "Un dato curioso sobre mí...",
+      "fastest_way": "La forma más rápida de conquistarme es...",
+      "favorite_book": "Mi libro o película favorita es...",
+      "looking_for": "Estoy buscando...",
+      "dream_destination": "Mi próximo destino soñado es...",
+      "unknown_fact": "Algo que la gente no sabe de mí..."
+    }
   }
 }

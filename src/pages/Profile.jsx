@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { moodLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
@@ -16,6 +18,7 @@ import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
 
 function Profile() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -182,7 +185,7 @@ function Profile() {
 
           <div className="mood">
 
-            {profile.mood}
+            {moodLabel(t, profile.mood)}
 
           </div>
 
@@ -206,7 +209,7 @@ function Profile() {
             <div className="about">
               {profile.prompts.filter((p) => p.question && p.answer).map((p, i) => (
                 <div className="prompt-card" key={i}>
-                  <p className="prompt-question">{p.question}</p>
+                  <p className="prompt-question">{promptQuestionLabel(t, p.question)}</p>
                   <p className="prompt-answer">{p.answer}</p>
                 </div>
               ))}
@@ -224,7 +227,7 @@ function Profile() {
                   key={i}
                   className={myInterests.includes(interest) ? "tag-shared" : ""}
                 >
-                  {interest}
+                  {interestLabel(t, interest)}
                   {myInterests.includes(interest) && " ✓"}
                 </span>
               ))}

@@ -1,28 +1,27 @@
-const MOODS = [
-  { label: "💬 Quiero conversar", desc: "Conocer gente y platicar" },
-  { label: "😂 Quiero reír", desc: "Pasar un buen rato" },
-  { label: "☕ Busco compañía", desc: "Alguien con quien salir" },
-  { label: "🌙 No puedo dormir", desc: "Charlas nocturnas" },
-];
+import { useTranslation } from "react-i18next";
+import { MOODS } from "../../data/profileOptions";
+import { moodLabel, moodDesc } from "../../lib/profileLabels";
 
 function StepLookingFor({ mood, onChange }) {
+  const { t } = useTranslation();
+
   return (
     <div className="step-content">
 
-      <h2>¿Qué estás buscando?</h2>
-      <p className="step-subtitle">Esto ayuda a encontrarte con personas afines.</p>
+      <h2>{t("onboarding.lookingFor.heading")}</h2>
+      <p className="step-subtitle">{t("onboarding.lookingFor.subtitle")}</p>
 
       <div className="mood-options">
 
-        {MOODS.map((option) => (
+        {MOODS.map(({ code }) => (
           <button
             type="button"
-            key={option.label}
-            className={`mood-option ${mood === option.label ? "selected" : ""}`}
-            onClick={() => onChange(option.label)}
+            key={code}
+            className={`mood-option ${mood === code ? "selected" : ""}`}
+            onClick={() => onChange(code)}
           >
-            <span className="mood-option-title">{option.label}</span>
-            <span className="mood-option-desc">{option.desc}</span>
+            <span className="mood-option-title">{moodLabel(t, code)}</span>
+            <span className="mood-option-desc">{moodDesc(t, code)}</span>
           </button>
         ))}
 

@@ -1,11 +1,14 @@
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { isPlanActive } from "../../lib/plan";
 import { hashId } from "../../lib/mockDistance";
+import { moodLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import BoostIcon from "../ui/BoostIcon";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
 function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
+  const { t } = useTranslation();
   const [dragging, setDragging] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -130,7 +133,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
           <div className="swipe-bottom-row">
 
-            <div className="swipe-mood">{profile.mood}</div>
+            <div className="swipe-mood">{moodLabel(t, profile.mood)}</div>
 
             {isTop && (
               <button

@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
+import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import "../styles/Matches.css";
 import "../styles/BackButton.css";
 
 function Matches() {
+  const { t } = useTranslation();
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchToDelete, setMatchToDelete] = useState(null);
@@ -106,7 +109,7 @@ function Matches() {
                 <img src={match.otherProfile?.photos?.[0] || "https://via.placeholder.com/200"} alt={match.otherProfile?.name} />
                 <div className="match-info">
                   <h3>{match.otherProfile?.name}</h3>
-                  <p>{match.otherProfile?.mood}</p>
+                  <p>{moodLabel(t, match.otherProfile?.mood)}</p>
                 </div>
               </div>
 

@@ -1,8 +1,11 @@
 import { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { useAuth } from "../hooks/useAuth";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { GENDER_FILTER_ALL } from "../data/profileOptions";
+import { moodLabel } from "../lib/profileLabels";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -23,6 +26,7 @@ function Explore() {
   // as false for an account with a genuinely active VIP plan (a getUser()
   // race against a not-yet-refreshed token that useAuth's own
   // getSession()+onAuthStateChange flow doesn't have).
+  const { t } = useTranslation();
   const { session } = useAuth();
   const currentUserId = session?.user?.id ?? null;
 
@@ -31,7 +35,7 @@ function Explore() {
   const [loading, setLoading] = useState(true);
 
   const [filters, setFilters] = useState({
-    gender: "Todos",
+    gender: GENDER_FILTER_ALL,
     maxDistance: 100,
     ageMin: 18,
     ageMax: 90,
@@ -108,7 +112,7 @@ function Explore() {
     setLoading(true);
 
     const rpcParams = {
-      p_gender: filters.gender,
+      p_gender: filters.gender === GENDER_FILTER_ALL ? null : filters.gender,
       p_min_age: filters.ageMin,
       p_max_age: filters.ageMax,
       p_max_distance_km: filters.maxDistance,
@@ -260,7 +264,7 @@ function Explore() {
                 </p>
 
                 <div className="mood-badge">
-                  {profile.mood}
+                  {moodLabel(t, profile.mood)}
                 </div>
 
                 <div className="profile-actions">

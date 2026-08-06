@@ -1,9 +1,19 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { requestLocation } from "../../lib/geolocation";
+import { GENDERS } from "../../data/profileOptions";
+import { genderLabel } from "../../lib/profileLabels";
 import PinIcon from "../ui/PinIcon";
 import CheckIcon from "../ui/CheckIcon";
 
+const LOCATION_ERROR_KEYS = {
+  unsupported: "onboarding.basicInfo.locationErrorUnsupported",
+  denied: "onboarding.basicInfo.locationErrorDenied",
+  failed: "onboarding.basicInfo.locationErrorFailed",
+};
+
 function StepBasicInfo({ data, onChange }) {
+  const { t } = useTranslation();
   const [locationStatus, setLocationStatus] = useState("idle");
   const [locationError, setLocationError] = useState("");
 
@@ -18,53 +28,53 @@ function StepBasicInfo({ data, onChange }) {
       setLocationStatus("granted");
     } catch (err) {
       setLocationStatus("idle");
-      setLocationError(err.message);
+      setLocationError(t(LOCATION_ERROR_KEYS[err.code] || LOCATION_ERROR_KEYS.failed));
     }
   };
 
   return (
     <div className="step-content">
 
-      <h2>Cuéntanos sobre ti</h2>
-      <p className="step-subtitle">Esta información aparecerá en tu perfil.</p>
+      <h2>{t("onboarding.basicInfo.heading")}</h2>
+      <p className="step-subtitle">{t("onboarding.basicInfo.subtitle")}</p>
 
-      <label className="field-label">Nombre</label>
+      <label className="field-label">{t("onboarding.basicInfo.nameLabel")}</label>
       <input
         type="text"
-        placeholder="Tu nombre"
+        placeholder={t("onboarding.basicInfo.namePlaceholder")}
         value={data.name}
         onChange={(e) => onChange("name", e.target.value)}
       />
 
-      <label className="field-label">Edad</label>
+      <label className="field-label">{t("onboarding.basicInfo.ageLabel")}</label>
       <input
         type="number"
-        placeholder="Tu edad"
+        placeholder={t("onboarding.basicInfo.agePlaceholder")}
         min="18"
         value={data.age}
         onChange={(e) => onChange("age", e.target.value)}
       />
 
-      <label className="field-label">Género</label>
+      <label className="field-label">{t("onboarding.basicInfo.genderLabel")}</label>
       <div className="option-pills">
 
-        {["Mujer", "Hombre", "No binario"].map((option) => (
+        {GENDERS.map((code) => (
           <button
             type="button"
-            key={option}
-            className={`option-pill ${data.gender === option ? "selected" : ""}`}
-            onClick={() => onChange("gender", option)}
+            key={code}
+            className={`option-pill ${data.gender === code ? "selected" : ""}`}
+            onClick={() => onChange("gender", code)}
           >
-            {option}
+            {genderLabel(t, code)}
           </button>
         ))}
 
       </div>
 
-      <label className="field-label">Ciudad</label>
+      <label className="field-label">{t("onboarding.basicInfo.cityLabel")}</label>
       <input
         type="text"
-        placeholder="¿Dónde vives?"
+        placeholder={t("onboarding.basicInfo.cityPlaceholder")}
         value={data.city}
         onChange={(e) => onChange("city", e.target.value)}
       />
@@ -78,14 +88,14 @@ function StepBasicInfo({ data, onChange }) {
           disabled={locationStatus === "loading"}
         >
           {data.latitude ? (
-            <><CheckIcon size={15} /> Ubicación compartida</>
+            <><CheckIcon size={15} /> {t("onboarding.basicInfo.locationGranted")}</>
           ) : (
-            <><PinIcon size={15} /> {locationStatus === "loading" ? "Obteniendo ubicación..." : "Compartir mi ubicación (opcional)"}</>
+            <><PinIcon size={15} /> {locationStatus === "loading" ? t("onboarding.basicInfo.locationLoading") : t("onboarding.basicInfo.locationShare")}</>
           )}
         </button>
 
         <p className="location-share-hint">
-          Nos ayuda a mostrarte la distancia real con otras personas. Es opcional — si no la compartes, seguirás viendo tu ciudad con normalidad.
+          {t("onboarding.basicInfo.locationHint")}
         </p>
 
         {locationError && <p className="location-share-error">{locationError}</p>}

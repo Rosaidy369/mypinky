@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function ProgressBar({ step, totalSteps }) {
+  const { t } = useTranslation();
   const percent = (step / totalSteps) * 100;
 
   return (
@@ -9,7 +12,7 @@ function ProgressBar({ step, totalSteps }) {
       </div>
 
       <span className="progress-label">
-        Paso {step} de {totalSteps}
+        {t("onboarding.progress", { step, totalSteps })}
       </span>
 
     </div>

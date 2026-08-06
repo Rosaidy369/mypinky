@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
 import "../styles/Login.css";
 import "../styles/Register.css";
 
 function ForgotPassword() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [sending, setSending] = useState(false);
@@ -23,7 +25,7 @@ function ForgotPassword() {
     setSending(false);
 
     if (error) {
-      setErrorMsg("Ocurrió un error al enviar el enlace. Intenta de nuevo.");
+      setErrorMsg(t("auth.forgotPassword.genericError"));
       return;
     }
 
@@ -41,13 +43,12 @@ function ForgotPassword() {
 
           <div className="confirm-email-message">
             <EmailSentIcon size={64} />
-            <h2>¡Revisa tu correo!</h2>
+            <h2>{t("auth.forgotPassword.sentHeading")}</h2>
             <p>
-              Si existe una cuenta con <strong>{email}</strong>, te enviamos un enlace
-              para restablecer tu contraseña (revisa también la carpeta de spam).
+              {t("auth.forgotPassword.sentMessagePrefix")}<strong>{email}</strong>{t("auth.forgotPassword.sentMessageSuffix")}
             </p>
             <Link to="/login" className="confirm-email-btn">
-              Ir a iniciar sesión
+              {t("auth.forgotPassword.goToLogin")}
             </Link>
           </div>
 
@@ -62,15 +63,15 @@ function ForgotPassword() {
 
         <div className="login-header">
           <h1 className="auth-logo">My<span>Pinky</span></h1>
-          <h2>¿Olvidaste tu contraseña?</h2>
-          <p>Escribe tu correo y te enviamos un enlace para restablecerla.</p>
+          <h2>{t("auth.forgotPassword.heading")}</h2>
+          <p>{t("auth.forgotPassword.subtitle")}</p>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
 
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder={t("auth.forgotPassword.emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -79,13 +80,13 @@ function ForgotPassword() {
           {errorMsg && <p className="login-error">{errorMsg}</p>}
 
           <button type="submit" disabled={sending}>
-            {sending ? "Enviando..." : "Enviar enlace"}
+            {sending ? t("auth.forgotPassword.submitSending") : t("auth.forgotPassword.submit")}
           </button>
 
         </form>
 
         <p className="back-home">
-          <Link to="/login">← Volver a iniciar sesión</Link>
+          <Link to="/login">{t("auth.forgotPassword.backToLogin")}</Link>
         </p>
 
       </div>

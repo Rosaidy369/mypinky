@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../lib/supabaseClient";
 
 function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
+  const { t } = useTranslation();
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = async (e) => {
@@ -38,12 +40,12 @@ function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
   return (
     <div className="step-content">
 
-      <h2>Agrega tus fotos</h2>
+      <h2>{t("onboarding.photos.heading")}</h2>
       <p className="step-subtitle">
-        Sube hasta 7 fotos. La primera será tu foto principal.
+        {t("onboarding.photos.subtitle")}
       </p>
 
-      {uploading && <p className="uploading-hint">Subiendo fotos...</p>}
+      {uploading && <p className="uploading-hint">{t("onboarding.photos.uploading")}</p>}
 
       <div className="photo-grid">
 
@@ -55,7 +57,7 @@ function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
 
               {photo ? (
                 <>
-                  <img src={photo} alt={`Foto ${i + 1}`} />
+                  <img src={photo} alt={t("onboarding.photos.photoAlt", { index: i + 1 })} />
 
                   <button
                     type="button"
@@ -65,7 +67,7 @@ function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
                     ✕
                   </button>
 
-                  {i === 0 && <span className="main-tag">Principal</span>}
+                  {i === 0 && <span className="main-tag">{t("onboarding.photos.mainBadge")}</span>}
                 </>
               ) : (
                 <label className="add-photo-label">
