@@ -4,17 +4,13 @@ import InstagramIcon from "../ui/InstagramIcon";
 import TikTokIcon from "../ui/TikTokIcon";
 import XIcon from "../ui/XIcon";
 import FacebookIcon from "../ui/FacebookIcon";
-import YouTubeIcon from "../ui/YouTubeIcon";
-import PinterestIcon from "../ui/PinterestIcon";
 import "../../styles/Footer.css";
 
 const SOCIAL_LINKS = [
-  { name: "Instagram", Icon: InstagramIcon },
-  { name: "TikTok", Icon: TikTokIcon },
-  { name: "X", Icon: XIcon },
-  { name: "Facebook", Icon: FacebookIcon },
-  { name: "YouTube", Icon: YouTubeIcon },
-  { name: "Pinterest", Icon: PinterestIcon },
+  { name: "Instagram", Icon: InstagramIcon, url: "https://instagram.com/mypinky.app" },
+  { name: "TikTok", Icon: TikTokIcon, url: "https://www.tiktok.com/@mypinky.app" },
+  { name: "X", Icon: XIcon, url: "https://x.com/mypinkyapp" },
+  { name: "Facebook", Icon: FacebookIcon, url: "https://www.facebook.com/mypinkyapp" },
 ];
 
 function Footer() {
@@ -42,8 +38,15 @@ function Footer() {
         <p className="footer-social-title">Síguenos</p>
 
         <div className="footer-social-icons">
-          {SOCIAL_LINKS.map(({ name, Icon }) => (
-            <a href="#" className="social-icon-link" aria-label={name} key={name}>
+          {SOCIAL_LINKS.map(({ name, Icon, url }) => (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon-link"
+              aria-label={name}
+              key={name}
+            >
               <Icon size={16} />
             </a>
           ))}
