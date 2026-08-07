@@ -146,7 +146,17 @@ function Explore() {
     // Server-side: never returns anyone else's exact coordinates, only the
     // already-computed distance_km (or null if either side lacks location).
     const calledAt = Date.now();
-    const { data: profilesData, error } = await supabase.rpc("get_discoverable_profiles", rpcParams);
+    const [profilesResult, serverTimeResult] = await Promise.all([
+      supabase.rpc("get_discoverable_profiles", rpcParams),
+      // get_server_time() is a diagnostic-only RPC (see chat) -- if it
+      // hasn't been created yet in this DB, this just errors out silently
+      // below and the rest of the panel still works.
+      supabase.rpc("get_server_time"),
+    ]);
+    const respondedAt = Date.now();
+
+    const { data: profilesData, error } = profilesResult;
+    const { data: serverTimeData, error: serverTimeError } = serverTimeResult;
 
     if (error) {
       console.error("Error cargando perfiles:", error.message);
@@ -161,6 +171,12 @@ function Explore() {
       plan: p.plan,
     }));
 
+    const serverNow = serverTimeError ? null : new Date(serverTimeData).getTime();
+    const roundTripMs = respondedAt - calledAt;
+    // Rough estimate assuming symmetric latency: the server likely evaluated
+    // "now()" around the midpoint of the request/response round trip.
+    const estimatedSkewMs = serverNow ? serverNow - (calledAt + roundTripMs / 2) : null;
+
     setDebugInfo((prev) => ({
       at: calledAt,
       reason,
@@ -170,6 +186,10 @@ function Explore() {
       rowCount: rows.length,
       pollCount: (prev?.pollCount || 0) + 1,
       rows,
+      serverTimeError: serverTimeError?.message || null,
+      serverNow,
+      roundTripMs,
+      estimatedSkewMs,
     }));
 
     setDebugLog((prev) => [{ at: calledAt, reason, rowCount: rows.length, rows }, ...prev].slice(0, 8));
@@ -399,6 +419,18 @@ function Explore() {
             {lastVisChangeAt && ` (último hace ${Math.round((Date.now() - lastVisChangeAt) / 1000)}s)`}
           </div>
           {debugInfo?.error && <div style={{ color: "#f66" }}><b>error:</b> {debugInfo.error}</div>}
+          <div>
+            <b>server now:</b>{" "}
+            {debugInfo?.serverTimeError
+              ? `error: ${debugInfo.serverTimeError} (corre la migración de get_server_time)`
+              : debugInfo?.serverNow
+              ? new Date(debugInfo.serverNow).toLocaleTimeString(undefined, { hour12: false, second: "2-digit", minute: "2-digit", hour: "2-digit", fractionalSecondDigits: 3 })
+              : "—"}
+          </div>
+          <div>
+            <b>round-trip:</b> {debugInfo?.roundTripMs ?? "—"}ms ·{" "}
+            <b>skew estimado:</b> {debugInfo?.estimatedSkewMs != null ? `${debugInfo.estimatedSkewMs}ms` : "—"}
+          </div>
           <div><b>rowCount:</b> {debugInfo?.rowCount ?? "—"}</div>
           <div><b>rpcParams:</b> {JSON.stringify(debugInfo?.rpcParams)}</div>
           <div style={{ marginTop: "6px" }}>
