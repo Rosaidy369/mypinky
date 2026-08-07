@@ -404,7 +404,7 @@ font-size:20px;
 
 .menu{
 
-gap:2px;
+gap:1px;
 
 }
 
@@ -418,9 +418,9 @@ font-size:13px;
 
 }
 
-.nav-link{
+.menu a.nav-link{
 
-padding:0 4px;
+padding:0 2px;
 
 gap:2px;
 
@@ -432,15 +432,15 @@ display:none;
 
 }
 
-.login{
+.menu a.login{
 
-padding:0 10px;
+padding:0 6px;
 
 }
 
-.register{
+.menu a.register{
 
-padding:0 12px;
+padding:0 8px;
 
 }
 
@@ -448,7 +448,7 @@ padding:0 12px;
 
 margin-left:0;
 
-gap:2px;
+gap:1px;
 
 }
 
@@ -456,7 +456,7 @@ gap:2px;
 
 font-size:11px;
 
-padding:2px 3px;
+padding:1px 2px;
 
 }
 
@@ -511,6 +511,34 @@ display:none;
 .hamburger-dropdown a.matches-mobile-link{
 
 display:flex;
+
+}
+
+}
+
+@media(max-width:360px){
+
+.menu a.login{
+
+padding:0 5px;
+
+font-size:12px;
+
+}
+
+.menu a.register{
+
+padding:0 6px;
+
+font-size:12px;
+
+}
+
+.lang-switcher button{
+
+font-size:10px;
+
+padding:1px;
 
 }
 

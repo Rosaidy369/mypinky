@@ -47,6 +47,19 @@ function Explore() {
   const [isPremium, setIsPremium] = useState(false);
   const [isVip, setIsVip] = useState(false);
 
+  // Temporary on-screen diagnostic for the asymmetric online-status bug --
+  // no Safari devtools access on the phone, so this surfaces the exact RPC
+  // params/response/timing directly on screen instead. Remove once resolved.
+  const [debugOpen, setDebugOpen] = useState(false);
+  const [debugInfo, setDebugInfo] = useState(null);
+  const [, forceTick] = useState(0);
+
+  useEffect(() => {
+    if (!debugOpen) return;
+    const tick = setInterval(() => forceTick((x) => x + 1), 1000);
+    return () => clearInterval(tick);
+  }, [debugOpen]);
+
   useEffect(() => {
     if (currentUserId) loadInitialData(currentUserId);
   }, [currentUserId]);
@@ -123,6 +136,7 @@ function Explore() {
 
     // Server-side: never returns anyone else's exact coordinates, only the
     // already-computed distance_km (or null if either side lacks location).
+    const calledAt = Date.now();
     const { data: profilesData, error } = await supabase.rpc("get_discoverable_profiles", rpcParams);
 
     if (error) {
@@ -130,6 +144,21 @@ function Explore() {
     } else {
       setProfiles(profilesData || []);
     }
+
+    setDebugInfo((prev) => ({
+      at: calledAt,
+      currentUserId,
+      rpcParams,
+      error: error?.message || null,
+      rowCount: (profilesData || []).length,
+      pollCount: (prev?.pollCount || 0) + 1,
+      rows: (profilesData || []).map((p) => ({
+        id: p.id,
+        name: p.name,
+        is_online: p.is_online,
+        plan: p.plan,
+      })),
+    }));
 
     setLoading(false);
   };
@@ -299,6 +328,92 @@ function Explore() {
 
         </div>
 
+      )}
+
+      <button
+        type="button"
+        onClick={() => setDebugOpen((prev) => !prev)}
+        style={{
+          position: "fixed",
+          bottom: "16px",
+          left: "16px",
+          zIndex: 5000,
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          border: "none",
+          background: "#222",
+          color: "#fff",
+          fontSize: "16px",
+          opacity: 0.55,
+        }}
+      >
+        🔍
+      </button>
+
+      {debugOpen && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "60px",
+            left: "16px",
+            zIndex: 5000,
+            width: "min(340px, calc(100vw - 32px))",
+            maxHeight: "70vh",
+            overflowY: "auto",
+            background: "rgba(20,20,20,.95)",
+            color: "#0f0",
+            fontFamily: "monospace",
+            fontSize: "11px",
+            padding: "10px",
+            borderRadius: "10px",
+            lineHeight: 1.5,
+          }}
+        >
+          <div><b>currentUserId:</b> {debugInfo?.currentUserId || "—"}</div>
+          <div><b>isVip / isPremium:</b> {String(isVip)} / {String(isPremium)}</div>
+          <div><b>pollCount:</b> {debugInfo?.pollCount ?? 0}</div>
+          <div>
+            <b>lastFetch:</b>{" "}
+            {debugInfo?.at
+              ? `${new Date(debugInfo.at).toLocaleTimeString()} (hace ${Math.round((Date.now() - debugInfo.at) / 1000)}s)`
+              : "—"}
+          </div>
+          {debugInfo?.error && <div style={{ color: "#f66" }}><b>error:</b> {debugInfo.error}</div>}
+          <div><b>rowCount:</b> {debugInfo?.rowCount ?? "—"}</div>
+          <div><b>rpcParams:</b> {JSON.stringify(debugInfo?.rpcParams)}</div>
+          <div style={{ marginTop: "6px" }}>
+            <b>search filter:</b> "{search}"
+          </div>
+          <div style={{ marginTop: "4px", borderTop: "1px solid #444", paddingTop: "6px" }}>
+            {(debugInfo?.rows || [])
+              .filter((r) => !search || r.name?.toLowerCase().includes(search.toLowerCase()))
+              .map((r) => (
+                <div key={r.id}>
+                  {r.is_online ? "🟢" : "⚪"} {r.name} · plan={r.plan || "free"} · id={r.id.slice(0, 8)}
+                </div>
+              ))}
+            {search && !(debugInfo?.rows || []).some((r) => r.name?.toLowerCase().includes(search.toLowerCase())) && (
+              <div style={{ color: "#f66" }}>"{search}" no aparece en esta respuesta ({debugInfo?.rowCount ?? 0} filas totales)</div>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={loadProfiles}
+            style={{
+              marginTop: "8px",
+              padding: "6px 10px",
+              background: "#ff3f87",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              fontFamily: "inherit",
+              fontSize: "11px",
+            }}
+          >
+            Refetch ahora
+          </button>
+        </div>
       )}
 
     </div>
