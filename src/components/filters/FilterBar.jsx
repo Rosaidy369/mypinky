@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import LockIcon from "../ui/LockIcon";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
-import { GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
+import { GENDER_FILTER_GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
 import { genderLabel } from "../../lib/profileLabels";
 
-const GENDER_OPTIONS = [GENDER_FILTER_ALL, ...GENDERS];
+const GENDER_OPTIONS = [GENDER_FILTER_ALL, ...GENDER_FILTER_GENDERS];
 
 function FilterBar({ filters, onChange, isPremium, isVip }) {
   const { t } = useTranslation();

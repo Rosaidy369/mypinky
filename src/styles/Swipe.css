@@ -638,13 +638,7 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 
 .swipe-online-dot{
 
-position:absolute;
-
-top:20px;
-
-right:20px;
-
-z-index:2;
+flex-shrink:0;
 
 }
 

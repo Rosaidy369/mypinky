@@ -99,8 +99,6 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           </>
         )}
 
-        {profile.is_online && <span className="online-dot swipe-online-dot" title="En línea"></span>}
-
         <div className="swipe-top-row">
 
           <div className="swipe-top-left">
@@ -114,6 +112,8 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           </div>
 
           <div className="swipe-top-right">
+
+            {profile.is_online && <span className="online-dot swipe-online-dot" title="En línea"></span>}
 
             <span className="swipe-match">🔥 {compatibility}% match</span>
 

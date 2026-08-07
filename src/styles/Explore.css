@@ -465,6 +465,9 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
 
   .filter-gender-pill{
     flex:1;
+    padding:10px 8px;
+    font-size:13px;
+    white-space:nowrap;
   }
 
 }

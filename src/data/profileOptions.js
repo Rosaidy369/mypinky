@@ -10,6 +10,11 @@ export const GENDERS = ["woman", "man", "nonbinary"];
 // `null` right before the get_discoverable_profiles RPC call.
 export const GENDER_FILTER_ALL = "all";
 
+// Explore's own gender filter only offers woman/man buckets -- "nonbinary"
+// stays a valid self-identification choice in Onboarding/MyProfile, it's
+// just not offered as a search filter option.
+export const GENDER_FILTER_GENDERS = GENDERS.filter((g) => g !== "nonbinary");
+
 export const INTERESTS = [
   { code: "coffee", emoji: "☕" },
   { code: "music", emoji: "🎵" },
