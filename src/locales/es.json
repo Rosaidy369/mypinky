@@ -194,6 +194,12 @@
       "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
       "passwordMismatch": "Las contraseñas no coinciden.",
       "updateError": "No se pudo actualizar tu contraseña. El enlace puede haber expirado."
+    },
+    "emailConfirmed": {
+      "heading": "¡Tu correo fue verificado!",
+      "message": "Tu cuenta ya está activa. Sigamos armando tu perfil.",
+      "continueButton": "Continuar",
+      "goToLogin": "Ir a iniciar sesión"
     }
   },
   "onboarding": {
@@ -211,6 +217,7 @@
       "ageLabel": "Edad",
       "agePlaceholder": "Tu edad",
       "genderLabel": "Género",
+      "nameAgeLocked": "Nombre y edad no se pueden editar por seguridad y verificación.",
       "cityLabel": "Ciudad",
       "cityPlaceholder": "¿Dónde vives?",
       "locationGranted": "Ubicación compartida",

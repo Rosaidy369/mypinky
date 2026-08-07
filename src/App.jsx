@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import EmailConfirmed from "./pages/EmailConfirmed";
 import Profile from "./pages/Profile";
 import Premium from "./pages/Premium";
 import Onboarding from "./pages/Onboarding";
@@ -48,6 +49,8 @@ function App() {
             <Route path="/olvide-contrasena" element={<ForgotPassword />} />
 
             <Route path="/restablecer-contrasena" element={<ResetPassword />} />
+
+            <Route path="/correo-verificado" element={<EmailConfirmed />} />
 
             <Route path="/premium" element={<Premium />} />
 

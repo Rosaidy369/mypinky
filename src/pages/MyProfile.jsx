@@ -44,17 +44,54 @@ function formatBoostCooldown(ms) {
   return `${hours}h`;
 }
 
-function calculateCompletion(user) {
+// Weighted, not just "5 boxes checked" -- otherwise the minimum bar (1
+// photo, 3 interests, a mood, a city, any bio) already reads 100% even
+// with 6 empty photo slots and no prompts answered, which doesn't
+// encourage anyone to keep going. Voice note only counts toward the
+// total for VIP users, since only they can record one -- everyone else's
+// 100% is scored against what's actually available to them.
+function calculateCompletion(user, isVip) {
+  const PHOTO_WEIGHT = 25;
+  const PHOTOS_FOR_FULL_CREDIT = 5; // out of 7 slots -- a cap, not all 7 required
+  const BIO_WEIGHT = 15;
+  const INTERESTS_WEIGHT = 15;
+  const MOOD_WEIGHT = 10;
+  const CITY_WEIGHT = 10;
+  const PROMPTS_WEIGHT = 15;
+  const PROMPTS_FOR_FULL_CREDIT = 2;
+  const VOICE_WEIGHT = 10;
+
+  const promptsAnswered = (user.prompts || []).filter(
+    (p) => p.question && p.answer && p.answer.trim().length > 0
+  ).length;
+
   let score = 0;
-  const total = 5;
+  let maxPossible = 0;
 
-  if (user.photos && user.photos.length > 0) score++;
-  if (user.bio && user.bio.trim().length > 0) score++;
-  if (user.interests && user.interests.length >= 3) score++;
-  if (user.mood) score++;
-  if (user.city) score++;
+  score += Math.min((user.photos?.length || 0) / PHOTOS_FOR_FULL_CREDIT, 1) * PHOTO_WEIGHT;
+  maxPossible += PHOTO_WEIGHT;
 
-  return Math.round((score / total) * 100);
+  if (user.bio && user.bio.trim().length > 0) score += BIO_WEIGHT;
+  maxPossible += BIO_WEIGHT;
+
+  if (user.interests && user.interests.length >= 3) score += INTERESTS_WEIGHT;
+  maxPossible += INTERESTS_WEIGHT;
+
+  if (user.mood) score += MOOD_WEIGHT;
+  maxPossible += MOOD_WEIGHT;
+
+  if (user.city) score += CITY_WEIGHT;
+  maxPossible += CITY_WEIGHT;
+
+  score += Math.min(promptsAnswered / PROMPTS_FOR_FULL_CREDIT, 1) * PROMPTS_WEIGHT;
+  maxPossible += PROMPTS_WEIGHT;
+
+  if (isVip) {
+    if (user.voice_note_url) score += VOICE_WEIGHT;
+    maxPossible += VOICE_WEIGHT;
+  }
+
+  return Math.round((score / maxPossible) * 100);
 }
 
 function MyProfile() {
@@ -118,7 +155,7 @@ function MyProfile() {
 
   if (!user) return null;
 
-  const completion = calculateCompletion(user);
+  const completion = calculateCompletion(user, isVip);
 
   const isBoostedNow = user.boosted_until && new Date(user.boosted_until) > new Date();
   const nextBoostAt = user.last_boost_used_at

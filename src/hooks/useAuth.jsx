@@ -76,6 +76,7 @@ export function AuthProvider({ children }) {
       password,
       options: {
         data: { name, age },
+        emailRedirectTo: `${window.location.origin}/correo-verificado`,
       },
     });
     return { data, error };

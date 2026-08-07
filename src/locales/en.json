@@ -194,6 +194,12 @@
       "passwordTooShort": "Password must be at least 6 characters.",
       "passwordMismatch": "Passwords don't match.",
       "updateError": "Couldn't update your password. The link may have expired."
+    },
+    "emailConfirmed": {
+      "heading": "Your email is verified!",
+      "message": "Your account is now active. Let's finish setting up your profile.",
+      "continueButton": "Continue",
+      "goToLogin": "Go to login"
     }
   },
   "onboarding": {
@@ -211,6 +217,7 @@
       "ageLabel": "Age",
       "agePlaceholder": "Your age",
       "genderLabel": "Gender",
+      "nameAgeLocked": "Name and age can't be edited, for security and verification.",
       "cityLabel": "City",
       "cityPlaceholder": "Where do you live?",
       "locationGranted": "Location shared",

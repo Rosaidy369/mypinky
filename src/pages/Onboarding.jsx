@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
@@ -17,6 +17,8 @@ function Onboarding() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [nameAgeLocked, setNameAgeLocked] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -31,6 +33,46 @@ function Onboarding() {
     mood: "",
     prompts: [],
   });
+
+  // Registro ya guarda name/age (via el trigger que crea la fila de
+  // profiles al registrarse) -- sin esto, el paso 1 siempre arrancaba
+  // vacío como si nada se hubiera guardado, aunque sí estuviera ahí.
+  useEffect(() => {
+    loadExistingProfile();
+  }, []);
+
+  const loadExistingProfile = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("name, age")
+      .eq("id", user.id)
+      .single();
+
+    if (error) {
+      console.error("Error cargando perfil existente:", error.message);
+    } else if (data) {
+      const hasName = !!data.name && data.name.trim().length > 0;
+      const hasAge = data.age !== null && data.age !== undefined;
+
+      if (hasName || hasAge) {
+        setFormData((prev) => ({
+          ...prev,
+          name: hasName ? data.name : prev.name,
+          age: hasAge ? String(data.age) : prev.age,
+        }));
+      }
+
+      setNameAgeLocked(hasName && hasAge);
+    }
+
+    setLoading(false);
+  };
 
   const updateField = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -124,6 +166,10 @@ function Onboarding() {
     if (step > 1) setStep(step - 1);
   };
 
+  if (loading) {
+    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+  }
+
   return (
     <div className="onboarding-page">
 
@@ -132,7 +178,7 @@ function Onboarding() {
         <ProgressBar step={step} totalSteps={TOTAL_STEPS} />
 
         {step === 1 && (
-          <StepBasicInfo data={formData} onChange={updateField} />
+          <StepBasicInfo data={formData} onChange={updateField} nameAgeLocked={nameAgeLocked} />
         )}
 
         {step === 2 && (

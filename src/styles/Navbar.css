@@ -404,7 +404,7 @@ font-size:20px;
 
 .menu{
 
-gap:4px;
+gap:2px;
 
 }
 
@@ -420,9 +420,9 @@ font-size:13px;
 
 .nav-link{
 
-padding:0 6px;
+padding:0 4px;
 
-gap:4px;
+gap:2px;
 
 }
 
@@ -434,19 +434,35 @@ display:none;
 
 .login{
 
-padding:0 12px;
+padding:0 10px;
 
 }
 
 .register{
 
-padding:0 16px;
+padding:0 12px;
 
 }
 
 .lang-switcher{
 
 margin-left:0;
+
+gap:2px;
+
+}
+
+.lang-switcher button{
+
+font-size:11px;
+
+padding:2px 3px;
+
+}
+
+.lang-switcher-divider{
+
+display:none;
 
 }
 

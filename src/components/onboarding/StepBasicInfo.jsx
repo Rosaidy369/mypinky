@@ -5,6 +5,7 @@ import { GENDERS } from "../../data/profileOptions";
 import { genderLabel } from "../../lib/profileLabels";
 import PinIcon from "../ui/PinIcon";
 import CheckIcon from "../ui/CheckIcon";
+import LockIcon from "../ui/LockIcon";
 
 const LOCATION_ERROR_KEYS = {
   unsupported: "onboarding.basicInfo.locationErrorUnsupported",
@@ -12,7 +13,7 @@ const LOCATION_ERROR_KEYS = {
   failed: "onboarding.basicInfo.locationErrorFailed",
 };
 
-function StepBasicInfo({ data, onChange }) {
+function StepBasicInfo({ data, onChange, nameAgeLocked = false }) {
   const { t } = useTranslation();
   const [locationStatus, setLocationStatus] = useState("idle");
   const [locationError, setLocationError] = useState("");
@@ -38,12 +39,19 @@ function StepBasicInfo({ data, onChange }) {
       <h2>{t("onboarding.basicInfo.heading")}</h2>
       <p className="step-subtitle">{t("onboarding.basicInfo.subtitle")}</p>
 
+      {nameAgeLocked && (
+        <div className="locked-fields-notice">
+          <LockIcon size={14} /> {t("onboarding.basicInfo.nameAgeLocked")}
+        </div>
+      )}
+
       <label className="field-label">{t("onboarding.basicInfo.nameLabel")}</label>
       <input
         type="text"
         placeholder={t("onboarding.basicInfo.namePlaceholder")}
         value={data.name}
         onChange={(e) => onChange("name", e.target.value)}
+        disabled={nameAgeLocked}
       />
 
       <label className="field-label">{t("onboarding.basicInfo.ageLabel")}</label>
@@ -53,6 +61,7 @@ function StepBasicInfo({ data, onChange }) {
         min="18"
         value={data.age}
         onChange={(e) => onChange("age", e.target.value)}
+        disabled={nameAgeLocked}
       />
 
       <label className="field-label">{t("onboarding.basicInfo.genderLabel")}</label>
