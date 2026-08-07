@@ -47,31 +47,12 @@ function Explore() {
   const [isPremium, setIsPremium] = useState(false);
   const [isVip, setIsVip] = useState(false);
 
-  // Temporary on-screen diagnostic for the asymmetric online-status bug --
-  // no Safari devtools access on the phone, so this surfaces the exact RPC
-  // params/response/timing directly on screen instead. Remove once resolved.
-  const [debugOpen, setDebugOpen] = useState(false);
-  const [debugInfo, setDebugInfo] = useState(null);
-  const [debugLog, setDebugLog] = useState([]);
-  const [visEvents, setVisEvents] = useState(0);
-  const [lastVisChangeAt, setLastVisChangeAt] = useState(null);
-  const [lastVisState, setLastVisState] = useState(
-    typeof document !== "undefined" ? document.visibilityState : "unknown"
-  );
-  const [, forceTick] = useState(0);
-
-  useEffect(() => {
-    if (!debugOpen) return;
-    const tick = setInterval(() => forceTick((x) => x + 1), 1000);
-    return () => clearInterval(tick);
-  }, [debugOpen]);
-
   useEffect(() => {
     if (currentUserId) loadInitialData(currentUserId);
   }, [currentUserId]);
 
   useEffect(() => {
-    if (currentUserId) loadProfiles("mount/filters");
+    if (currentUserId) loadProfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
 
@@ -83,17 +64,14 @@ function Explore() {
     if (!currentUserId) return;
 
     const interval = setInterval(() => {
-      loadProfiles("interval");
+      loadProfiles();
     }, 30000);
 
     // Also refresh immediately when the tab/app regains focus, so coming
     // back after switching apps or locking the screen doesn't leave a stale
     // snapshot on screen until the next 30s tick.
     const handleVisibilityChange = () => {
-      setVisEvents((prev) => prev + 1);
-      setLastVisChangeAt(Date.now());
-      setLastVisState(document.visibilityState);
-      if (document.visibilityState === "visible") loadProfiles("visibilitychange");
+      if (document.visibilityState === "visible") loadProfiles();
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
@@ -130,7 +108,7 @@ function Explore() {
     setFavorites((favoritesData || []).map((f) => f.favorite_profile_id));
   };
 
-  const loadProfiles = async (reason = "unknown") => {
+  const loadProfiles = async () => {
     setLoading(true);
 
     const rpcParams = {
@@ -145,54 +123,13 @@ function Explore() {
 
     // Server-side: never returns anyone else's exact coordinates, only the
     // already-computed distance_km (or null if either side lacks location).
-    const calledAt = Date.now();
-    const [profilesResult, serverTimeResult] = await Promise.all([
-      supabase.rpc("get_discoverable_profiles", rpcParams),
-      // get_server_time() is a diagnostic-only RPC (see chat) -- if it
-      // hasn't been created yet in this DB, this just errors out silently
-      // below and the rest of the panel still works.
-      supabase.rpc("get_server_time"),
-    ]);
-    const respondedAt = Date.now();
-
-    const { data: profilesData, error } = profilesResult;
-    const { data: serverTimeData, error: serverTimeError } = serverTimeResult;
+    const { data: profilesData, error } = await supabase.rpc("get_discoverable_profiles", rpcParams);
 
     if (error) {
       console.error("Error cargando perfiles:", error.message);
     } else {
       setProfiles(profilesData || []);
     }
-
-    const rows = (profilesData || []).map((p) => ({
-      id: p.id,
-      name: p.name,
-      is_online: p.is_online,
-      plan: p.plan,
-    }));
-
-    const serverNow = serverTimeError ? null : new Date(serverTimeData).getTime();
-    const roundTripMs = respondedAt - calledAt;
-    // Rough estimate assuming symmetric latency: the server likely evaluated
-    // "now()" around the midpoint of the request/response round trip.
-    const estimatedSkewMs = serverNow ? serverNow - (calledAt + roundTripMs / 2) : null;
-
-    setDebugInfo((prev) => ({
-      at: calledAt,
-      reason,
-      currentUserId,
-      rpcParams,
-      error: error?.message || null,
-      rowCount: rows.length,
-      pollCount: (prev?.pollCount || 0) + 1,
-      rows,
-      serverTimeError: serverTimeError?.message || null,
-      serverNow,
-      roundTripMs,
-      estimatedSkewMs,
-    }));
-
-    setDebugLog((prev) => [{ at: calledAt, reason, rowCount: rows.length, rows }, ...prev].slice(0, 8));
 
     setLoading(false);
   };
@@ -362,121 +299,6 @@ function Explore() {
 
         </div>
 
-      )}
-
-      <button
-        type="button"
-        onClick={() => setDebugOpen((prev) => !prev)}
-        style={{
-          position: "fixed",
-          bottom: "16px",
-          left: "16px",
-          zIndex: 5000,
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          border: "none",
-          background: "#222",
-          color: "#fff",
-          fontSize: "16px",
-          opacity: 0.55,
-        }}
-      >
-        🔍
-      </button>
-
-      {debugOpen && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "60px",
-            left: "16px",
-            zIndex: 5000,
-            width: "min(340px, calc(100vw - 32px))",
-            maxHeight: "70vh",
-            overflowY: "auto",
-            background: "rgba(20,20,20,.95)",
-            color: "#0f0",
-            fontFamily: "monospace",
-            fontSize: "11px",
-            padding: "10px",
-            borderRadius: "10px",
-            lineHeight: 1.5,
-          }}
-        >
-          <div><b>currentUserId:</b> {debugInfo?.currentUserId || "—"}</div>
-          <div><b>isVip / isPremium:</b> {String(isVip)} / {String(isPremium)}</div>
-          <div><b>pollCount:</b> {debugInfo?.pollCount ?? 0}</div>
-          <div>
-            <b>lastFetch:</b>{" "}
-            {debugInfo?.at
-              ? `${new Date(debugInfo.at).toLocaleTimeString()} (hace ${Math.round((Date.now() - debugInfo.at) / 1000)}s, causa: ${debugInfo.reason})`
-              : "—"}
-          </div>
-          <div>
-            <b>visibilityState:</b> {lastVisState} ·{" "}
-            <b>cambios:</b> {visEvents}
-            {lastVisChangeAt && ` (último hace ${Math.round((Date.now() - lastVisChangeAt) / 1000)}s)`}
-          </div>
-          {debugInfo?.error && <div style={{ color: "#f66" }}><b>error:</b> {debugInfo.error}</div>}
-          <div>
-            <b>server now:</b>{" "}
-            {debugInfo?.serverTimeError
-              ? `error: ${debugInfo.serverTimeError} (corre la migración de get_server_time)`
-              : debugInfo?.serverNow
-              ? new Date(debugInfo.serverNow).toLocaleTimeString(undefined, { hour12: false, second: "2-digit", minute: "2-digit", hour: "2-digit", fractionalSecondDigits: 3 })
-              : "—"}
-          </div>
-          <div>
-            <b>round-trip:</b> {debugInfo?.roundTripMs ?? "—"}ms ·{" "}
-            <b>skew estimado:</b> {debugInfo?.estimatedSkewMs != null ? `${debugInfo.estimatedSkewMs}ms` : "—"}
-          </div>
-          <div><b>rowCount:</b> {debugInfo?.rowCount ?? "—"}</div>
-          <div><b>rpcParams:</b> {JSON.stringify(debugInfo?.rpcParams)}</div>
-          <div style={{ marginTop: "6px" }}>
-            <b>search filter:</b> "{search}"
-          </div>
-          <div style={{ marginTop: "4px", borderTop: "1px solid #444", paddingTop: "6px" }}>
-            {(debugInfo?.rows || [])
-              .filter((r) => !search || r.name?.toLowerCase().includes(search.toLowerCase()))
-              .map((r) => (
-                <div key={r.id}>
-                  {r.is_online ? "🟢" : "⚪"} {r.name} · plan={r.plan || "free"} · id={r.id.slice(0, 8)}
-                </div>
-              ))}
-            {search && !(debugInfo?.rows || []).some((r) => r.name?.toLowerCase().includes(search.toLowerCase())) && (
-              <div style={{ color: "#f66" }}>"{search}" no aparece en esta respuesta ({debugInfo?.rowCount ?? 0} filas totales)</div>
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={() => loadProfiles("manual")}
-            style={{
-              marginTop: "8px",
-              padding: "6px 10px",
-              background: "#ff3f87",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              fontFamily: "inherit",
-              fontSize: "11px",
-            }}
-          >
-            Refetch ahora
-          </button>
-          <div style={{ marginTop: "8px", borderTop: "1px solid #444", paddingTop: "6px" }}>
-            <b>historial (últimos {debugLog.length}):</b>
-            {debugLog.map((entry, i) => {
-              const match = search && entry.rows.find((r) => r.name?.toLowerCase().includes(search.toLowerCase()));
-              return (
-                <div key={i}>
-                  {new Date(entry.at).toLocaleTimeString()} · {entry.reason} · {entry.rowCount} filas
-                  {search && (match ? ` · "${search}": ${match.is_online ? "🟢" : "⚪"}` : ` · "${search}": no aparece`)}
-                </div>
-              );
-            })}
-          </div>
-        </div>
       )}
 
     </div>
