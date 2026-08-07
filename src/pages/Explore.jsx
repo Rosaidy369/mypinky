@@ -52,6 +52,12 @@ function Explore() {
   // params/response/timing directly on screen instead. Remove once resolved.
   const [debugOpen, setDebugOpen] = useState(false);
   const [debugInfo, setDebugInfo] = useState(null);
+  const [debugLog, setDebugLog] = useState([]);
+  const [visEvents, setVisEvents] = useState(0);
+  const [lastVisChangeAt, setLastVisChangeAt] = useState(null);
+  const [lastVisState, setLastVisState] = useState(
+    typeof document !== "undefined" ? document.visibilityState : "unknown"
+  );
   const [, forceTick] = useState(0);
 
   useEffect(() => {
@@ -65,7 +71,7 @@ function Explore() {
   }, [currentUserId]);
 
   useEffect(() => {
-    if (currentUserId) loadProfiles();
+    if (currentUserId) loadProfiles("mount/filters");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
 
@@ -77,14 +83,17 @@ function Explore() {
     if (!currentUserId) return;
 
     const interval = setInterval(() => {
-      loadProfiles();
+      loadProfiles("interval");
     }, 30000);
 
     // Also refresh immediately when the tab/app regains focus, so coming
     // back after switching apps or locking the screen doesn't leave a stale
     // snapshot on screen until the next 30s tick.
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") loadProfiles();
+      setVisEvents((prev) => prev + 1);
+      setLastVisChangeAt(Date.now());
+      setLastVisState(document.visibilityState);
+      if (document.visibilityState === "visible") loadProfiles("visibilitychange");
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
@@ -121,7 +130,7 @@ function Explore() {
     setFavorites((favoritesData || []).map((f) => f.favorite_profile_id));
   };
 
-  const loadProfiles = async () => {
+  const loadProfiles = async (reason = "unknown") => {
     setLoading(true);
 
     const rpcParams = {
@@ -145,20 +154,25 @@ function Explore() {
       setProfiles(profilesData || []);
     }
 
+    const rows = (profilesData || []).map((p) => ({
+      id: p.id,
+      name: p.name,
+      is_online: p.is_online,
+      plan: p.plan,
+    }));
+
     setDebugInfo((prev) => ({
       at: calledAt,
+      reason,
       currentUserId,
       rpcParams,
       error: error?.message || null,
-      rowCount: (profilesData || []).length,
+      rowCount: rows.length,
       pollCount: (prev?.pollCount || 0) + 1,
-      rows: (profilesData || []).map((p) => ({
-        id: p.id,
-        name: p.name,
-        is_online: p.is_online,
-        plan: p.plan,
-      })),
+      rows,
     }));
+
+    setDebugLog((prev) => [{ at: calledAt, reason, rowCount: rows.length, rows }, ...prev].slice(0, 8));
 
     setLoading(false);
   };
@@ -376,8 +390,13 @@ function Explore() {
           <div>
             <b>lastFetch:</b>{" "}
             {debugInfo?.at
-              ? `${new Date(debugInfo.at).toLocaleTimeString()} (hace ${Math.round((Date.now() - debugInfo.at) / 1000)}s)`
+              ? `${new Date(debugInfo.at).toLocaleTimeString()} (hace ${Math.round((Date.now() - debugInfo.at) / 1000)}s, causa: ${debugInfo.reason})`
               : "—"}
+          </div>
+          <div>
+            <b>visibilityState:</b> {lastVisState} ·{" "}
+            <b>cambios:</b> {visEvents}
+            {lastVisChangeAt && ` (último hace ${Math.round((Date.now() - lastVisChangeAt) / 1000)}s)`}
           </div>
           {debugInfo?.error && <div style={{ color: "#f66" }}><b>error:</b> {debugInfo.error}</div>}
           <div><b>rowCount:</b> {debugInfo?.rowCount ?? "—"}</div>
@@ -399,7 +418,7 @@ function Explore() {
           </div>
           <button
             type="button"
-            onClick={loadProfiles}
+            onClick={() => loadProfiles("manual")}
             style={{
               marginTop: "8px",
               padding: "6px 10px",
@@ -413,6 +432,18 @@ function Explore() {
           >
             Refetch ahora
           </button>
+          <div style={{ marginTop: "8px", borderTop: "1px solid #444", paddingTop: "6px" }}>
+            <b>historial (últimos {debugLog.length}):</b>
+            {debugLog.map((entry, i) => {
+              const match = search && entry.rows.find((r) => r.name?.toLowerCase().includes(search.toLowerCase()));
+              return (
+                <div key={i}>
+                  {new Date(entry.at).toLocaleTimeString()} · {entry.reason} · {entry.rowCount} filas
+                  {search && (match ? ` · "${search}": ${match.is_online ? "🟢" : "⚪"}` : ` · "${search}": no aparece`)}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
