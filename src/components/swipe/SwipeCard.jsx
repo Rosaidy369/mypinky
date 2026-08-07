@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { isPlanActive } from "../../lib/plan";
+import { isPlanActive, isVipActive } from "../../lib/plan";
 import { hashId } from "../../lib/mockDistance";
 import { moodLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import VipDiamond from "../ui/VipDiamond";
 import BoostIcon from "../ui/BoostIcon";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
@@ -104,9 +105,11 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
           <div className="swipe-top-left">
 
-            {isPlanActive(profile) && (
+            {isVipActive(profile) ? (
+              <span className="swipe-premium"><VipDiamond size={14} /> VIP</span>
+            ) : isPlanActive(profile) && profile.plan === "premium" ? (
               <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
-            )}
+            ) : null}
 
           </div>
 

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { isPlanActive } from "../../lib/plan";
+import { isPlanActive, isVipActive } from "../../lib/plan";
 import { moodLabel, interestLabel, promptQuestionLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
+import VipDiamond from "../ui/VipDiamond";
 import MicIcon from "../ui/MicIcon";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
@@ -70,9 +71,11 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
             </>
           )}
 
-          {isPlanActive(profile) && (
+          {isVipActive(profile) ? (
+            <span className="detail-premium"><VipDiamond size={14} /> VIP</span>
+          ) : isPlanActive(profile) && profile.plan === "premium" ? (
             <span className="detail-premium"><PremiumDiamond size={14} /> Premium</span>
-          )}
+          ) : null}
 
         </div>
 
