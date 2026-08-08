@@ -24,6 +24,50 @@
     "locationSearchPlaceholderLocked": "Search by country or city",
     "vip": "VIP"
   },
+  "swipe": {
+    "loading": "Loading profiles...",
+    "header": {
+      "title": "Discover",
+      "subtitle": "Swipe to meet new people"
+    },
+    "paywall": {
+      "title": "Keep meeting people!",
+      "bodyPrefix": "With ",
+      "bodySuffix": " you get unlimited swipes, no waiting.",
+      "unlockButton": "Unlock Premium",
+      "countdown": "or swipe free again in {{time}}"
+    },
+    "empty": {
+      "title": "😅 No more profiles for now",
+      "bodyDefault": "Check back later for new people",
+      "bodyFiltered": "No one matches your filters — try widening them."
+    },
+    "keepSwiping": "Keep swiping",
+    "card": {
+      "like": "LIKE",
+      "nope": "NOPE",
+      "vip": "VIP",
+      "premium": "Premium",
+      "onlineTitle": "Online",
+      "matchPercent": "{{percent}}% match",
+      "boosted": "Featured",
+      "moreInfoAria": "View more information"
+    },
+    "match": {
+      "superlikeBadge": "Special match: there was a Super Like",
+      "selfAlt": "You",
+      "title": "It's a Match!",
+      "subtitle": "You and {{name}} liked each other",
+      "sendMessage": "Send message"
+    },
+    "detail": {
+      "aboutMe": "About me",
+      "interests": "Interests",
+      "voiceNote": "Voice note",
+      "sharedInterests_one": "{{count}} shared interest with you",
+      "sharedInterests_other": "{{count}} shared interests with you"
+    }
+  },
   "cookieConsent": {
     "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
     "reject": "Decline",

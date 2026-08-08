@@ -24,6 +24,50 @@
     "locationSearchPlaceholderLocked": "Buscar por país o ciudad",
     "vip": "VIP"
   },
+  "swipe": {
+    "loading": "Cargando perfiles...",
+    "header": {
+      "title": "Descubrir",
+      "subtitle": "Desliza para conocer gente nueva"
+    },
+    "paywall": {
+      "title": "¡Sigue conociendo personas!",
+      "bodyPrefix": "Con ",
+      "bodySuffix": " tienes deslizados ilimitados, sin esperas.",
+      "unlockButton": "Desbloquear Premium",
+      "countdown": "o vuelve a deslizar gratis en {{time}}"
+    },
+    "empty": {
+      "title": "😅 No hay más perfiles por ahora",
+      "bodyDefault": "Vuelve más tarde para ver gente nueva",
+      "bodyFiltered": "Nadie coincide con tus filtros — prueba ampliándolos."
+    },
+    "keepSwiping": "Seguir deslizando",
+    "card": {
+      "like": "LIKE",
+      "nope": "NOPE",
+      "vip": "VIP",
+      "premium": "Premium",
+      "onlineTitle": "En línea",
+      "matchPercent": "{{percent}}% match",
+      "boosted": "Destacado",
+      "moreInfoAria": "Ver más información"
+    },
+    "match": {
+      "superlikeBadge": "Match especial: hubo un Super Like",
+      "selfAlt": "Tú",
+      "title": "¡Es un Match!",
+      "subtitle": "Tú y {{name}} se gustaron mutuamente",
+      "sendMessage": "Enviar mensaje"
+    },
+    "detail": {
+      "aboutMe": "Sobre mí",
+      "interests": "Intereses",
+      "voiceNote": "Nota de voz",
+      "sharedInterests_one": "{{count}} interés en común contigo",
+      "sharedInterests_other": "{{count}} intereses en común contigo"
+    }
+  },
   "cookieConsent": {
     "message": "Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla. Puedes aceptarlas o rechazarlas.",
     "reject": "Rechazar",

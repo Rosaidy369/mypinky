@@ -90,11 +90,11 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
         {isTop && (
           <>
             <span className="swipe-badge like-badge" style={{ opacity: likeOpacity }}>
-              LIKE
+              {t("swipe.card.like")}
             </span>
 
             <span className="swipe-badge nope-badge" style={{ opacity: nopeOpacity }}>
-              NOPE
+              {t("swipe.card.nope")}
             </span>
           </>
         )}
@@ -104,18 +104,18 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           <div className="swipe-top-left">
 
             {isVipActive(profile) ? (
-              <span className="swipe-premium"><VipDiamond size={14} /> VIP</span>
+              <span className="swipe-premium"><VipDiamond size={14} /> {t("swipe.card.vip")}</span>
             ) : isPlanActive(profile) && profile.plan === "premium" ? (
-              <span className="swipe-premium"><PremiumDiamond size={14} /> Premium</span>
+              <span className="swipe-premium"><PremiumDiamond size={14} /> {t("swipe.card.premium")}</span>
             ) : null}
 
           </div>
 
           <div className="swipe-top-right">
 
-            {profile.is_online && <span className="online-dot swipe-online-dot" title="En línea"></span>}
+            {profile.is_online && <span className="online-dot swipe-online-dot" title={t("swipe.card.onlineTitle")}></span>}
 
-            <span className="swipe-match">🔥 {compatibility}% match</span>
+            <span className="swipe-match">🔥 {t("swipe.card.matchPercent", { percent: compatibility })}</span>
 
           </div>
 
@@ -124,7 +124,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
         <div className="swipe-card-overlay">
 
           {profile.is_boosted && (
-            <span className="boosted-tag"><BoostIcon size={12} /> Destacado</span>
+            <span className="boosted-tag"><BoostIcon size={12} /> {t("swipe.card.boosted")}</span>
           )}
 
           <div className="swipe-name-row">
@@ -145,7 +145,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
                   e.stopPropagation();
                   setShowDetail(true);
                 }}
-                aria-label="Ver más información"
+                aria-label={t("swipe.card.moreInfoAria")}
               >
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="9.5"></circle>

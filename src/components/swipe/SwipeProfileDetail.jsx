@@ -72,9 +72,9 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
           )}
 
           {isVipActive(profile) ? (
-            <span className="detail-premium"><VipDiamond size={14} /> VIP</span>
+            <span className="detail-premium"><VipDiamond size={14} /> {t("swipe.card.vip")}</span>
           ) : isPlanActive(profile) && profile.plan === "premium" ? (
-            <span className="detail-premium"><PremiumDiamond size={14} /> Premium</span>
+            <span className="detail-premium"><PremiumDiamond size={14} /> {t("swipe.card.premium")}</span>
           ) : null}
 
         </div>
@@ -91,12 +91,12 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
           {sharedCount > 0 && (
             <div className="detail-compatibility">
-              ✨ {sharedCount} {sharedCount === 1 ? "interés en común" : "intereses en común"} contigo
+              ✨ {t("swipe.detail.sharedInterests", { count: sharedCount })}
             </div>
           )}
 
           <div className="detail-section">
-            <h3>Sobre mí</h3>
+            <h3>{t("swipe.detail.aboutMe")}</h3>
             <p>{profile.bio}</p>
           </div>
 
@@ -112,7 +112,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
           )}
 
           <div className="detail-section">
-            <h3>Intereses</h3>
+            <h3>{t("swipe.detail.interests")}</h3>
             <div className="detail-tags">
               {interests.map((interest, i) => (
                 <span
@@ -128,7 +128,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
           {profile.voice_note_url && (
             <div className="detail-section">
-              <h3><MicIcon size={15} className="voice-title-icon" /> Nota de voz</h3>
+              <h3><MicIcon size={15} className="voice-title-icon" /> {t("swipe.detail.voiceNote")}</h3>
               <audio controls src={profile.voice_note_url} className="voice-audio"></audio>
             </div>
           )}

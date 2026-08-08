@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import { useSwipeFilters } from "../hooks/useSwipeFilters";
@@ -42,6 +43,7 @@ function GradientHeart({ id, from, to, size }) {
 }
 
 function Swipe() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -220,7 +222,7 @@ function Swipe() {
   const myPhoto = currentUser?.photos?.[0] || null;
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando perfiles...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("swipe.loading")}</div>;
   }
 
   return (
@@ -274,8 +276,8 @@ function Swipe() {
       </div>
 
       <div className="swipe-header">
-        <h1>Descubrir</h1>
-        <p>Desliza para conocer gente nueva</p>
+        <h1>{t("swipe.header.title")}</h1>
+        <p>{t("swipe.header.subtitle")}</p>
       </div>
 
       {isBlocked ? (
@@ -284,18 +286,18 @@ function Swipe() {
 
           <div className="paywall-icon"><PremiumDiamond size={44} /></div>
 
-          <h2>¡Sigue conociendo personas!</h2>
+          <h2>{t("swipe.paywall.title")}</h2>
 
           <p>
-            Con <strong>Premium</strong> tienes deslizados ilimitados, sin esperas.
+            {t("swipe.paywall.bodyPrefix")}<strong>{t("nav.premium")}</strong>{t("swipe.paywall.bodySuffix")}
           </p>
 
           <Link to="/premium" className="paywall-premium-btn">
-            <PremiumDiamond size={16} /> Desbloquear Premium
+            <PremiumDiamond size={16} /> {t("swipe.paywall.unlockButton")}
           </Link>
 
           <div className="paywall-countdown">
-            o vuelve a deslizar gratis en {formatCountdown(timeLeft)}
+            {t("swipe.paywall.countdown", { time: formatCountdown(timeLeft) })}
           </div>
 
         </div>
@@ -303,11 +305,11 @@ function Swipe() {
       ) : stack.length === 0 ? (
 
         <div className="swipe-empty">
-          <h2>😅 No hay más perfiles por ahora</h2>
+          <h2>{t("swipe.empty.title")}</h2>
           <p>
             {filtersAreDefault
-              ? "Vuelve más tarde para ver gente nueva"
-              : "Nadie coincide con tus filtros — prueba ampliándolos."}
+              ? t("swipe.empty.bodyDefault")
+              : t("swipe.empty.bodyFiltered")}
           </p>
         </div>
 
@@ -334,7 +336,7 @@ function Swipe() {
                       className="swipe-ad-dismiss"
                       onClick={() => setStack((prev) => prev.filter((c) => c.id !== card.id))}
                     >
-                      Seguir deslizando
+                      {t("swipe.keepSwiping")}
                     </button>
                   )}
                 </div>
@@ -426,7 +428,7 @@ function Swipe() {
 
               <div className="match-photo-circle mine">
                 {myPhoto ? (
-                  <img src={myPhoto} alt="Tú" />
+                  <img src={myPhoto} alt={t("swipe.match.selfAlt")} />
                 ) : (
                   <span className="match-photo-placeholder">👤</span>
                 )}
@@ -442,13 +444,13 @@ function Swipe() {
 
             {matchInfo.isSuperLikeMatch && (
               <span className="match-superlike-badge">
-                <StarIcon size={13} /> Match especial: hubo un Super Like
+                <StarIcon size={13} /> {t("swipe.match.superlikeBadge")}
               </span>
             )}
 
-            <h2>¡Es un Match!</h2>
+            <h2>{t("swipe.match.title")}</h2>
 
-            <p>Tú y {matchInfo.name} se gustaron mutuamente</p>
+            <p>{t("swipe.match.subtitle", { name: matchInfo.name })}</p>
 
             <div className="match-popup-actions">
 
@@ -456,14 +458,14 @@ function Swipe() {
                 className="match-popup-btn secondary"
                 onClick={() => setMatchInfo(null)}
               >
-                Seguir deslizando
+                {t("swipe.keepSwiping")}
               </button>
 
               <button
                 className="match-popup-btn primary"
                 onClick={() => navigate(`/chat/${matchInfo.id}`)}
               >
-                <MessageIcon size={15} /> Enviar mensaje
+                <MessageIcon size={15} /> {t("swipe.match.sendMessage")}
               </button>
 
             </div>
