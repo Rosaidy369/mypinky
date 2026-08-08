@@ -125,6 +125,32 @@
       "button": "Ver con Premium"
     }
   },
+  "chat": {
+    "list": {
+      "defaultLastMessage": "Di hola 👋",
+      "loading": "Cargando mensajes...",
+      "heading": "Mensajes",
+      "emptyTitle": "No tienes conversaciones",
+      "emptyBody": "Haz match con alguien para empezar a chatear.",
+      "premiumMessageTag": "Mensaje Premium",
+      "deleteAriaLabel": "Eliminar conversación",
+      "deleteModalTitle": "¿Eliminar esta conversación?",
+      "deleteModalBody": "Se borrará el chat con {{name}}. Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirmDelete": "Sí, eliminar"
+    },
+    "room": {
+      "loading": "Cargando conversación...",
+      "notFound": "Conversación no encontrada.",
+      "premiumBadge": "Mensaje Premium",
+      "premiumBannerPayer": "Pagaste para escribirle directamente a {{name}}.",
+      "premiumBannerReceiver": "{{name}} pagó para escribirte directamente.",
+      "emptyHint": "Es un match con {{name}}. ¡Rompe el hielo! 💬",
+      "readReceipt": "Leído · {{time}}",
+      "sentReceipt": "Enviado",
+      "inputPlaceholder": "Escribe un mensaje..."
+    }
+  },
   "cookieConsent": {
     "message": "Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla. Puedes aceptarlas o rechazarlas.",
     "reject": "Rechazar",

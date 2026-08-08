@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
 import { isVipActive } from "../lib/plan";
@@ -7,6 +8,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import "../styles/Chat.css";
 
 function ChatRoom() {
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { markMessagesReadForMatch } = useNotifications();
@@ -144,13 +146,13 @@ function ChatRoom() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando conversación...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("chat.room.loading")}</div>;
   }
 
   if (!match) {
     return (
       <div className="chatroom-page">
-        <p className="chat-not-found">Conversación no encontrada.</p>
+        <p className="chat-not-found">{t("chat.room.notFound")}</p>
       </div>
     );
   }
@@ -179,7 +181,7 @@ function ChatRoom() {
         </Link>
 
         {match.created_via === "premium_message" && (
-          <span className="premium-header-badge"><PremiumDiamond size={14} /> Mensaje Premium</span>
+          <span className="premium-header-badge"><PremiumDiamond size={14} /> {t("chat.room.premiumBadge")}</span>
         )}
 
       </div>
@@ -188,11 +190,11 @@ function ChatRoom() {
         <div className="premium-unlock-banner">
           <span className="premium-unlock-icon"><PremiumDiamond size={22} /></span>
           <div>
-            <strong>Mensaje Premium</strong>
+            <strong>{t("chat.room.premiumBadge")}</strong>
             <p>
               {match.isPremiumMessagePayer
-                ? `Pagaste para escribirle directamente a ${match.otherProfile?.name}.`
-                : `${match.otherProfile?.name} pagó para escribirte directamente.`}
+                ? t("chat.room.premiumBannerPayer", { name: match.otherProfile?.name })
+                : t("chat.room.premiumBannerReceiver", { name: match.otherProfile?.name })}
             </p>
           </div>
         </div>
@@ -201,7 +203,7 @@ function ChatRoom() {
       <div className="chatroom-messages">
 
         {messages.length === 0 && (
-          <p className="chat-empty-hint">Es un match con {match.otherProfile?.name}. ¡Rompe el hielo! 💬</p>
+          <p className="chat-empty-hint">{t("chat.room.emptyHint", { name: match.otherProfile?.name })}</p>
         )}
 
         {messages.map((msg) => (
@@ -214,8 +216,10 @@ function ChatRoom() {
             {msg.sender_id === currentUserId && (
               <span className="chat-read-status">
                 {isVip && msg.read_at
-                  ? `Leído · ${new Date(msg.read_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
-                  : "Enviado"}
+                  ? t("chat.room.readReceipt", {
+                      time: new Date(msg.read_at).toLocaleTimeString(i18n.language, { hour: "2-digit", minute: "2-digit" }),
+                    })
+                  : t("chat.room.sentReceipt")}
               </span>
             )}
           </div>
@@ -229,7 +233,7 @@ function ChatRoom() {
 
         <input
           type="text"
-          placeholder="Escribe un mensaje..."
+          placeholder={t("chat.room.inputPlaceholder")}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}

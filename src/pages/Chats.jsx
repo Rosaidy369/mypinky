@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
@@ -8,6 +9,7 @@ import "../styles/Chat.css";
 import "../styles/BackButton.css";
 
 function Chats() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,7 @@ function Chats() {
         return {
           ...match,
           otherProfile,
-          lastMessage: lastMsg?.text || "Di hola 👋",
+          lastMessage: lastMsg?.text || t("chat.list.defaultLastMessage"),
           unreadCount: unreadCount || 0,
         };
       })
@@ -84,7 +86,7 @@ function Chats() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando mensajes...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("chat.list.loading")}</div>;
   }
 
   return (
@@ -97,15 +99,15 @@ function Chats() {
 
       <div className="chats-header">
         <BackButton />
-        <h1>Mensajes</h1>
+        <h1>{t("chat.list.heading")}</h1>
       </div>
 
       {conversations.length === 0 ? (
 
         <div className="matches-empty">
           <div className="matches-empty-icon"><MessageIcon size={46} /></div>
-          <h2>No tienes conversaciones</h2>
-          <p>Haz match con alguien para empezar a chatear.</p>
+          <h2>{t("chat.list.emptyTitle")}</h2>
+          <p>{t("chat.list.emptyBody")}</p>
         </div>
 
       ) : (
@@ -124,7 +126,7 @@ function Chats() {
                   <h3>
                     {chat.otherProfile?.name}
                     {chat.created_via === "premium_message" && (
-                      <span className="premium-chat-tag" title="Mensaje Premium"><PremiumDiamond size={13} /></span>
+                      <span className="premium-chat-tag" title={t("chat.list.premiumMessageTag")}><PremiumDiamond size={13} /></span>
                     )}
                   </h3>
                   <p>{chat.lastMessage}</p>
@@ -135,7 +137,7 @@ function Chats() {
               <button
                 className="chat-delete-btn"
                 onClick={() => setToDelete(chat)}
-                aria-label="Eliminar conversación"
+                aria-label={t("chat.list.deleteAriaLabel")}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="3 6 5 6 21 6"></polyline>
@@ -157,15 +159,15 @@ function Chats() {
         <div className="delete-modal-backdrop" onClick={() => setToDelete(null)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>¿Eliminar esta conversación?</h2>
-            <p>Se borrará el chat con {toDelete.otherProfile?.name}. Esta acción no se puede deshacer.</p>
+            <h2>{t("chat.list.deleteModalTitle")}</h2>
+            <p>{t("chat.list.deleteModalBody", { name: toDelete.otherProfile?.name })}</p>
 
             <div className="delete-modal-actions">
               <button className="cancel-btn" onClick={() => setToDelete(null)}>
-                Cancelar
+                {t("chat.list.cancel")}
               </button>
               <button className="confirm-delete-btn" onClick={confirmDelete}>
-                Sí, eliminar
+                {t("chat.list.confirmDelete")}
               </button>
             </div>
 

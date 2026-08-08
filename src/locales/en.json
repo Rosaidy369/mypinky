@@ -125,6 +125,32 @@
       "button": "View with Premium"
     }
   },
+  "chat": {
+    "list": {
+      "defaultLastMessage": "Say hi 👋",
+      "loading": "Loading messages...",
+      "heading": "Messages",
+      "emptyTitle": "No conversations yet",
+      "emptyBody": "Match with someone to start chatting.",
+      "premiumMessageTag": "Premium message",
+      "deleteAriaLabel": "Delete conversation",
+      "deleteModalTitle": "Delete this conversation?",
+      "deleteModalBody": "This will delete the chat with {{name}}. This can't be undone.",
+      "cancel": "Cancel",
+      "confirmDelete": "Yes, delete"
+    },
+    "room": {
+      "loading": "Loading conversation...",
+      "notFound": "Conversation not found.",
+      "premiumBadge": "Premium message",
+      "premiumBannerPayer": "You paid to message {{name}} directly.",
+      "premiumBannerReceiver": "{{name}} paid to message you directly.",
+      "emptyHint": "It's a match with {{name}}. Break the ice! 💬",
+      "readReceipt": "Read · {{time}}",
+      "sentReceipt": "Sent",
+      "inputPlaceholder": "Type a message..."
+    }
+  },
   "cookieConsent": {
     "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
     "reject": "Decline",
