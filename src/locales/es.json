@@ -196,13 +196,15 @@
     "subtitle": "Personaliza tu experiencia en MyPinky",
     "vip": "VIP",
     "premium": "Premium",
-    "search": {
-      "title": "Preferencias de búsqueda",
-      "show": "Mostrar",
-      "ageRange": "Rango de edad",
-      "ageRangeValue": "{{min}} - {{max}} años",
-      "distance": "Distancia por defecto",
-      "distanceValue": "{{km}} km"
+    "linkedAccounts": {
+      "title": "Cuentas vinculadas",
+      "google": "Google",
+      "connected": "Conectada con {{email}}",
+      "notConnected": "No conectada"
+    },
+    "help": {
+      "title": "Ayuda y soporte",
+      "cta": "Ir al Centro de Soporte"
     },
     "privacy": {
       "title": "Privacidad",

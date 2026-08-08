@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
-import { GENDERS, GENDER_FILTER_ALL } from "../data/profileOptions";
-import { genderLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import LockIcon from "../components/ui/LockIcon";
@@ -16,6 +14,8 @@ import WarningIcon from "../components/ui/WarningIcon";
 import GlobeIcon from "../components/ui/GlobeIcon";
 import CardIcon from "../components/ui/CardIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import ShieldIcon from "../components/ui/ShieldIcon";
+import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
 
@@ -30,6 +30,7 @@ function Settings() {
   const [deletePassword, setDeletePassword] = useState("");
   const [deleteError, setDeleteError] = useState("");
   const [hasPassword, setHasPassword] = useState(true);
+  const [linkedAccounts, setLinkedAccounts] = useState({ google: false, email: "" });
   const [showRemoveCardConfirm, setShowRemoveCardConfirm] = useState(false);
   const [cardRemovedSuccess, setCardRemovedSuccess] = useState(false);
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
@@ -56,10 +57,11 @@ function Settings() {
     // fail. "email" among the linked providers means a password exists.
     const providers = user.identities?.map((i) => i.provider) ?? [user.app_metadata?.provider];
     setHasPassword(providers.includes("email"));
+    setLinkedAccounts({ google: providers.includes("google"), email: user.email || "" });
 
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, plan, plan_expires_at, plan_cancelled, is_invisible, search_gender, age_min, age_max, default_distance, notify_matches, notify_messages, notify_likes")
+      .select("id, plan, plan_expires_at, plan_cancelled, is_invisible, notify_matches, notify_messages, notify_likes")
       .eq("id", user.id)
       .single();
 
@@ -207,75 +209,32 @@ function Settings() {
         <h1>{t("settings.title")}</h1>
         <p className="settings-subtitle">{t("settings.subtitle")}</p>
 
-        {/* ===== PREFERENCIAS DE BÚSQUEDA ===== */}
+        {/* ===== CUENTAS VINCULADAS ===== */}
 
         <div className="settings-section">
 
-          <h2>{t("settings.search.title")}</h2>
+          <h2><ShieldIcon size={18} /> {t("settings.linkedAccounts.title")}</h2>
 
           <div className="settings-row">
-
-            <span>{t("settings.search.show")}</span>
-
-            <div className="settings-pills">
-              {[GENDER_FILTER_ALL, ...GENDERS].map((option) => (
-                <button
-                  key={option}
-                  className={`settings-pill ${profile?.search_gender === option ? "selected" : ""}`}
-                  onClick={() => {
-                    updateProfileField("search_gender", option);
-                    commitProfileField("search_gender", option);
-                  }}
-                >
-                  {option === GENDER_FILTER_ALL ? t("profileOptions.genderFilterAll") : genderLabel(t, option)}
-                </button>
-              ))}
-            </div>
-
+            <span>{t("settings.linkedAccounts.google")}</span>
+            <span className="settings-value">
+              {linkedAccounts.google
+                ? t("settings.linkedAccounts.connected", { email: linkedAccounts.email })
+                : t("settings.linkedAccounts.notConnected")}
+            </span>
           </div>
 
-          <div className="settings-row">
-            <span>{t("settings.search.ageRange")}</span>
-            <span className="settings-value">{t("settings.search.ageRangeValue", { min: profile?.age_min, max: profile?.age_max })}</span>
-          </div>
+        </div>
 
-          <input
-            type="range"
-            min="18"
-            max="90"
-            value={profile?.age_min ?? 18}
-            onChange={(e) => updateProfileField("age_min", Number(e.target.value))}
-            onMouseUp={(e) => commitProfileField("age_min", Number(e.target.value))}
-            onTouchEnd={(e) => commitProfileField("age_min", Number(e.target.value))}
-            className="settings-slider"
-          />
+        {/* ===== AYUDA Y SOPORTE ===== */}
 
-          <input
-            type="range"
-            min="18"
-            max="90"
-            value={profile?.age_max ?? 45}
-            onChange={(e) => updateProfileField("age_max", Number(e.target.value))}
-            onMouseUp={(e) => commitProfileField("age_max", Number(e.target.value))}
-            onTouchEnd={(e) => commitProfileField("age_max", Number(e.target.value))}
-            className="settings-slider"
-          />
+        <div className="settings-section">
 
-          <div className="settings-row">
-            <span>{t("settings.search.distance")}</span>
-            <span className="settings-value">{t("settings.search.distanceValue", { km: profile?.default_distance })}</span>
-          </div>
+          <h2><MessageIcon size={18} /> {t("settings.help.title")}</h2>
 
-          <input
-            type="range"
-            min="1"
-            max="100"
-            value={profile?.default_distance ?? 50}
-            onChange={(e) => updateProfileField("default_distance", Number(e.target.value))}
-            onMouseUp={(e) => commitProfileField("default_distance", Number(e.target.value))}
-            onTouchEnd={(e) => commitProfileField("default_distance", Number(e.target.value))}
-            className="settings-slider"
-          />
+          <Link to="/soporte" className="neutral-btn">
+            {t("settings.help.cta")}
+          </Link>
 
         </div>
 

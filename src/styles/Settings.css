@@ -646,6 +646,18 @@ color:#ff3f87;
 
 }
 
+a.neutral-btn{
+
+display:block;
+
+box-sizing:border-box;
+
+text-align:center;
+
+text-decoration:none;
+
+}
+
 .plan-status{
 
 background:#fafafa;

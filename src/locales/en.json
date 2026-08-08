@@ -196,13 +196,15 @@
     "subtitle": "Customize your MyPinky experience",
     "vip": "VIP",
     "premium": "Premium",
-    "search": {
-      "title": "Search preferences",
-      "show": "Show",
-      "ageRange": "Age range",
-      "ageRangeValue": "{{min}} - {{max}} years",
-      "distance": "Default distance",
-      "distanceValue": "{{km}} km"
+    "linkedAccounts": {
+      "title": "Linked accounts",
+      "google": "Google",
+      "connected": "Connected with {{email}}",
+      "notConnected": "Not connected"
+    },
+    "help": {
+      "title": "Help and support",
+      "cta": "Go to Support Center"
     },
     "privacy": {
       "title": "Privacy",
