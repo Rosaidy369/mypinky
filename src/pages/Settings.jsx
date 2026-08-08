@@ -144,7 +144,7 @@ function Settings() {
 
     if (hasPassword) {
       if (!deletePassword) {
-        setDeleteError("Ingresa tu contraseña para confirmar.");
+        setDeleteError(t("settings.deleteModal.errorPasswordRequired"));
         return;
       }
 
@@ -160,7 +160,7 @@ function Settings() {
 
       if (reauthError) {
         setDeletingAccount(false);
-        setDeleteError("Contraseña incorrecta.");
+        setDeleteError(t("settings.deleteModal.errorWrongPassword"));
         return;
       }
     } else {
@@ -178,7 +178,7 @@ function Settings() {
 
     if (error || data?.error) {
       setDeletingAccount(false);
-      setDeleteError("No se pudo eliminar tu cuenta. Intenta de nuevo.");
+      setDeleteError(t("settings.deleteModal.errorGeneric"));
       console.error(error?.message || data?.error);
       return;
     }
@@ -189,7 +189,7 @@ function Settings() {
   }
 
   if (loadingProfile) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando configuración...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("settings.loading")}</div>;
   }
 
   return (
@@ -204,18 +204,18 @@ function Settings() {
 
         <BackButton />
 
-        <h1>Configuración</h1>
-        <p className="settings-subtitle">Personaliza tu experiencia en MyPinky</p>
+        <h1>{t("settings.title")}</h1>
+        <p className="settings-subtitle">{t("settings.subtitle")}</p>
 
         {/* ===== PREFERENCIAS DE BÚSQUEDA ===== */}
 
         <div className="settings-section">
 
-          <h2>Preferencias de búsqueda</h2>
+          <h2>{t("settings.search.title")}</h2>
 
           <div className="settings-row">
 
-            <span>Mostrar</span>
+            <span>{t("settings.search.show")}</span>
 
             <div className="settings-pills">
               {[GENDER_FILTER_ALL, ...GENDERS].map((option) => (
@@ -235,8 +235,8 @@ function Settings() {
           </div>
 
           <div className="settings-row">
-            <span>Rango de edad</span>
-            <span className="settings-value">{profile?.age_min} - {profile?.age_max} años</span>
+            <span>{t("settings.search.ageRange")}</span>
+            <span className="settings-value">{t("settings.search.ageRangeValue", { min: profile?.age_min, max: profile?.age_max })}</span>
           </div>
 
           <input
@@ -262,8 +262,8 @@ function Settings() {
           />
 
           <div className="settings-row">
-            <span>Distancia por defecto</span>
-            <span className="settings-value">{profile?.default_distance} km</span>
+            <span>{t("settings.search.distance")}</span>
+            <span className="settings-value">{t("settings.search.distanceValue", { km: profile?.default_distance })}</span>
           </div>
 
           <input
@@ -283,13 +283,13 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2><LockIcon size={18} /> Privacidad</h2>
+          <h2><LockIcon size={18} /> {t("settings.privacy.title")}</h2>
 
           <div className="settings-toggle-row">
 
             <div>
-              <span className="toggle-title">Modo invisible</span>
-              <p className="toggle-desc">Navega sin aparecer en Explorar hasta que des like</p>
+              <span className="toggle-title">{t("settings.privacy.invisibleMode")}</span>
+              <p className="toggle-desc">{t("settings.privacy.invisibleModeDesc")}</p>
             </div>
 
             {isPremium ? (
@@ -306,7 +306,7 @@ function Settings() {
               </label>
             ) : (
               <button className="premium-lock-btn" onClick={() => navigate("/premium")}>
-                <PremiumDiamond size={14} /> Premium
+                <PremiumDiamond size={14} /> {t("settings.premium")}
               </button>
             )}
 
@@ -318,10 +318,10 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2><BellIcon size={18} /> Notificaciones</h2>
+          <h2><BellIcon size={18} /> {t("settings.notifications.title")}</h2>
 
           <div className="settings-toggle-row">
-            <span className="toggle-title">Nuevos matches</span>
+            <span className="toggle-title">{t("settings.notifications.newMatches")}</span>
             <label className="settings-toggle">
               <input
                 type="checkbox"
@@ -336,7 +336,7 @@ function Settings() {
           </div>
 
           <div className="settings-toggle-row">
-            <span className="toggle-title">Mensajes nuevos</span>
+            <span className="toggle-title">{t("settings.notifications.newMessages")}</span>
             <label className="settings-toggle">
               <input
                 type="checkbox"
@@ -351,7 +351,7 @@ function Settings() {
           </div>
 
           <div className="settings-toggle-row">
-            <span className="toggle-title">Alguien te dio like</span>
+            <span className="toggle-title">{t("settings.notifications.someoneLikedYou")}</span>
             <label className="settings-toggle">
               <input
                 type="checkbox"
@@ -371,7 +371,7 @@ function Settings() {
 
         <div className="settings-section">
 
-          <h2><GlobeIcon size={18} /> Idioma</h2>
+          <h2><GlobeIcon size={18} /> {t("settings.language.title")}</h2>
 
           <select
             className="settings-select"
@@ -390,42 +390,42 @@ function Settings() {
 
           <div className="settings-section">
 
-            <h2><CardIcon size={18} /> Suscripción y pago</h2>
+            <h2><CardIcon size={18} /> {t("settings.subscription.title")}</h2>
 
             <p className="plan-status">
-              Plan actual: <strong className="plan-status-inline">
+              {t("settings.subscription.currentPlanLabel")} <strong className="plan-status-inline">
                 {planName === "vip" ? (
                   <>
-                    <VipDiamond size={22} /> VIP
+                    <VipDiamond size={22} /> {t("settings.vip")}
                   </>
                 ) : (
                   <>
-                    <PremiumDiamond size={20} /> Premium
+                    <PremiumDiamond size={20} /> {t("settings.premium")}
                   </>
                 )}
               </strong>
               {isCancelled ? (
                 <span className="plan-cancelled-tag">
-                  Cancelado · activo {daysLeft} {daysLeft === 1 ? "día" : "días"} más
+                  {t("settings.subscription.cancelledTag", { count: daysLeft })}
                 </span>
               ) : (
-                <span className="plan-active-tag">Renovación en {daysLeft} días</span>
+                <span className="plan-active-tag">{t("settings.subscription.activeTag", { count: daysLeft })}</span>
               )}
             </p>
 
             {cardRemoved ? (
               <p className="card-removed-note">
-                <CheckIcon size={14} /> No tienes ningún método de pago guardado.
+                <CheckIcon size={14} /> {t("settings.subscription.noPaymentMethod")}
               </p>
             ) : (
               <button className="neutral-btn" onClick={() => setShowRemoveCardConfirm(true)}>
-                Eliminar método de pago
+                {t("settings.subscription.removeCardButton")}
               </button>
             )}
 
             {!isCancelled && (
               <button className="neutral-btn" onClick={() => setShowCancelConfirm(true)}>
-                Cancelar membresía
+                {t("settings.subscription.cancelMembershipButton")}
               </button>
             )}
 
@@ -437,14 +437,14 @@ function Settings() {
 
         <div className="settings-section danger-section">
 
-          <h2><WarningIcon size={18} /> Cuenta</h2>
+          <h2><WarningIcon size={18} /> {t("settings.account.title")}</h2>
 
           <button className="deactivate-btn" onClick={handleDeactivate}>
-            Cerrar sesión
+            {t("settings.account.logout")}
           </button>
 
           <button className="delete-btn" onClick={() => setShowDeleteConfirm(true)}>
-            Eliminar mi cuenta
+            {t("settings.account.deleteAccount")}
           </button>
 
         </div>
@@ -462,14 +462,14 @@ function Settings() {
         >
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>¿Eliminar tu cuenta?</h2>
-            <p>Esta acción es permanente: se borrarán tu perfil, matches, mensajes y toda tu información. No se puede deshacer.</p>
+            <h2>{t("settings.deleteModal.title")}</h2>
+            <p>{t("settings.deleteModal.body")}</p>
 
             {hasPassword && (
               <input
                 type="password"
                 className="settings-select"
-                placeholder="Confirma tu contraseña"
+                placeholder={t("settings.deleteModal.passwordPlaceholder")}
                 value={deletePassword}
                 onChange={(e) => setDeletePassword(e.target.value)}
                 autoComplete="current-password"
@@ -487,10 +487,10 @@ function Settings() {
                   setDeleteError("");
                 }}
               >
-                Cancelar
+                {t("settings.deleteModal.cancel")}
               </button>
               <button className="confirm-delete-btn" onClick={handleDeleteAccount} disabled={deletingAccount}>
-                {deletingAccount ? "Eliminando..." : "Sí, eliminar"}
+                {deletingAccount ? t("settings.deleteModal.confirming") : t("settings.deleteModal.confirm")}
               </button>
             </div>
 
@@ -502,15 +502,15 @@ function Settings() {
         <div className="delete-modal-backdrop" onClick={() => setShowRemoveCardConfirm(false)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>¿Eliminar método de pago?</h2>
-            <p>Tendrás que agregar una tarjeta nueva la próxima vez que quieras pagar algo.</p>
+            <h2>{t("settings.removeCardModal.title")}</h2>
+            <p>{t("settings.removeCardModal.body")}</p>
 
             <div className="delete-modal-actions">
               <button className="cancel-btn" onClick={() => setShowRemoveCardConfirm(false)}>
-                Cancelar
+                {t("settings.removeCardModal.cancel")}
               </button>
               <button className="confirm-btn" onClick={handleRemoveCard}>
-                Sí, eliminar
+                {t("settings.removeCardModal.confirm")}
               </button>
             </div>
 
@@ -523,11 +523,11 @@ function Settings() {
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
             <div className="success-icon"><SuccessCheck size={48} /></div>
-            <h2>Método de pago eliminado</h2>
-            <p>Se eliminó correctamente. Podrás agregar uno nuevo cuando lo necesites.</p>
+            <h2>{t("settings.cardRemovedModal.title")}</h2>
+            <p>{t("settings.cardRemovedModal.body")}</p>
 
             <button className="confirm-btn" onClick={() => setCardRemovedSuccess(false)}>
-              Entendido
+              {t("settings.cardRemovedModal.understood")}
             </button>
 
           </div>
@@ -538,18 +538,17 @@ function Settings() {
         <div className="delete-modal-backdrop" onClick={() => setShowCancelConfirm(false)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>¿Cancelar tu membresía?</h2>
+            <h2>{t("settings.cancelModal.title")}</h2>
             <p>
-              Seguirás disfrutando de tus beneficios {planName === "vip" ? "VIP" : "Premium"} durante {daysLeft} días más,
-              hasta el final de tu periodo ya pagado. Después volverás al plan gratis.
+              {t("settings.cancelModal.body", { plan: planName === "vip" ? t("settings.vip") : t("settings.premium"), count: daysLeft })}
             </p>
 
             <div className="delete-modal-actions">
               <button className="cancel-btn" onClick={() => setShowCancelConfirm(false)}>
-                Volver
+                {t("settings.cancelModal.back")}
               </button>
               <button className="confirm-btn" onClick={handleCancelMembership}>
-                Sí, cancelar
+                {t("settings.cancelModal.confirm")}
               </button>
             </div>
 
@@ -562,13 +561,13 @@ function Settings() {
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
             <div className="success-icon"><SuccessCheck size={48} /></div>
-            <h2>Membresía cancelada</h2>
+            <h2>{t("settings.cancelSuccessModal.title")}</h2>
             <p>
-              Seguirás teniendo tus beneficios hasta dentro de {daysLeft} días. No se te cobrará de nuevo.
+              {t("settings.cancelSuccessModal.body", { count: daysLeft })}
             </p>
 
             <button className="confirm-btn" onClick={() => setCancelSuccess(false)}>
-              Entendido
+              {t("settings.cancelSuccessModal.understood")}
             </button>
 
           </div>

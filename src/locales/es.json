@@ -190,6 +190,86 @@
     "saving": "Guardando...",
     "saveChanges": "Guardar cambios"
   },
+  "settings": {
+    "loading": "Cargando configuración...",
+    "title": "Configuración",
+    "subtitle": "Personaliza tu experiencia en MyPinky",
+    "vip": "VIP",
+    "premium": "Premium",
+    "search": {
+      "title": "Preferencias de búsqueda",
+      "show": "Mostrar",
+      "ageRange": "Rango de edad",
+      "ageRangeValue": "{{min}} - {{max}} años",
+      "distance": "Distancia por defecto",
+      "distanceValue": "{{km}} km"
+    },
+    "privacy": {
+      "title": "Privacidad",
+      "invisibleMode": "Modo invisible",
+      "invisibleModeDesc": "Navega sin aparecer en Explorar hasta que des like"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "newMatches": "Nuevos matches",
+      "newMessages": "Mensajes nuevos",
+      "someoneLikedYou": "Alguien te dio like"
+    },
+    "language": {
+      "title": "Idioma"
+    },
+    "subscription": {
+      "title": "Suscripción y pago",
+      "currentPlanLabel": "Plan actual:",
+      "cancelledTag_one": "Cancelado · activo {{count}} día más",
+      "cancelledTag_other": "Cancelado · activo {{count}} días más",
+      "activeTag_one": "Renovación en {{count}} día",
+      "activeTag_other": "Renovación en {{count}} días",
+      "noPaymentMethod": "No tienes ningún método de pago guardado.",
+      "removeCardButton": "Eliminar método de pago",
+      "cancelMembershipButton": "Cancelar membresía"
+    },
+    "account": {
+      "title": "Cuenta",
+      "logout": "Cerrar sesión",
+      "deleteAccount": "Eliminar mi cuenta"
+    },
+    "deleteModal": {
+      "title": "¿Eliminar tu cuenta?",
+      "body": "Esta acción es permanente: se borrarán tu perfil, matches, mensajes y toda tu información. No se puede deshacer.",
+      "passwordPlaceholder": "Confirma tu contraseña",
+      "cancel": "Cancelar",
+      "confirming": "Eliminando...",
+      "confirm": "Sí, eliminar",
+      "errorPasswordRequired": "Ingresa tu contraseña para confirmar.",
+      "errorWrongPassword": "Contraseña incorrecta.",
+      "errorGeneric": "No se pudo eliminar tu cuenta. Intenta de nuevo."
+    },
+    "removeCardModal": {
+      "title": "¿Eliminar método de pago?",
+      "body": "Tendrás que agregar una tarjeta nueva la próxima vez que quieras pagar algo.",
+      "cancel": "Cancelar",
+      "confirm": "Sí, eliminar"
+    },
+    "cardRemovedModal": {
+      "title": "Método de pago eliminado",
+      "body": "Se eliminó correctamente. Podrás agregar uno nuevo cuando lo necesites.",
+      "understood": "Entendido"
+    },
+    "cancelModal": {
+      "title": "¿Cancelar tu membresía?",
+      "body_one": "Seguirás disfrutando de tus beneficios {{plan}} durante {{count}} día más, hasta el final de tu periodo ya pagado. Después volverás al plan gratis.",
+      "body_other": "Seguirás disfrutando de tus beneficios {{plan}} durante {{count}} días más, hasta el final de tu periodo ya pagado. Después volverás al plan gratis.",
+      "back": "Volver",
+      "confirm": "Sí, cancelar"
+    },
+    "cancelSuccessModal": {
+      "title": "Membresía cancelada",
+      "body_one": "Seguirás teniendo tus beneficios hasta dentro de {{count}} día. No se te cobrará de nuevo.",
+      "body_other": "Seguirás teniendo tus beneficios hasta dentro de {{count}} días. No se te cobrará de nuevo.",
+      "understood": "Entendido"
+    }
+  },
   "cookieConsent": {
     "message": "Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla. Puedes aceptarlas o rechazarlas.",
     "reject": "Rechazar",
