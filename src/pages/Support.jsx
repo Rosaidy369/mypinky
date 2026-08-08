@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: "¿Cómo reporto un perfil sospechoso?",
-    a: "Próximamente agregaremos un botón de reporte directo en cada perfil.",
+    a: "Cada perfil tiene un botón de reporte (ícono de bandera) en la esquina superior. Al tocarlo, puedes elegir el motivo (perfil falso, acoso, contenido inapropiado, spam) y agregar detalles opcionales. Nuestro equipo revisa cada reporte antes de tomar acción.",
   },
 ];
 
