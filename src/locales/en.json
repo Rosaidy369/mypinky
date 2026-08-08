@@ -68,6 +68,21 @@
       "sharedInterests_other": "{{count}} shared interests with you"
     }
   },
+  "explore": {
+    "title": "Explore profiles",
+    "searchPlaceholder": "Search people...",
+    "loading": "Loading profiles...",
+    "noResults": {
+      "title": "😕 No profiles to show yet",
+      "body": "As more people join MyPinky, they'll appear here."
+    },
+    "onlineTitle": "Online",
+    "vip": "VIP",
+    "premium": "Premium",
+    "boosted": "Featured",
+    "distanceKm": " · {{km}} km",
+    "viewProfile": "View profile"
+  },
   "cookieConsent": {
     "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
     "reject": "Decline",

@@ -181,7 +181,7 @@ function Explore() {
 
       <div className="explore-header">
 
-        <h1>Explorar perfiles</h1>
+        <h1>{t("explore.title")}</h1>
 
         <div className="search-box">
 
@@ -189,7 +189,7 @@ function Explore() {
 
           <input
             type="text"
-            placeholder="Buscar personas..."
+            placeholder={t("explore.searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -202,13 +202,13 @@ function Explore() {
 
       {loading ? (
 
-        <p style={{ textAlign: "center", marginTop: "40px" }}>Cargando perfiles...</p>
+        <p style={{ textAlign: "center", marginTop: "40px" }}>{t("explore.loading")}</p>
 
       ) : filteredProfiles.length === 0 ? (
 
         <div className="no-results">
-          <h2>😕 Aún no hay perfiles para mostrar</h2>
-          <p>Cuando más personas se unan a MyPinky, aparecerán aquí.</p>
+          <h2>{t("explore.noResults.title")}</h2>
+          <p>{t("explore.noResults.body")}</p>
         </div>
 
       ) : (
@@ -228,14 +228,14 @@ function Explore() {
                   alt={profile.name}
                 />
 
-                {profile.is_online && <span className="online-dot" title="En línea"></span>}
+                {profile.is_online && <span className="online-dot" title={t("explore.onlineTitle")}></span>}
 
                 <div className="image-overlay">
 
                   {isVipActive(profile) ? (
-                    <span className="premium-badge"><VipDiamond size={14} /> VIP</span>
+                    <span className="premium-badge"><VipDiamond size={14} /> {t("explore.vip")}</span>
                   ) : isPlanActive(profile) && profile.plan === "premium" ? (
-                    <span className="premium-badge"><PremiumDiamond size={14} /> Premium</span>
+                    <span className="premium-badge"><PremiumDiamond size={14} /> {t("explore.premium")}</span>
                   ) : null}
 
                 </div>
@@ -245,7 +245,7 @@ function Explore() {
               <div className="profile-info">
 
                 {profile.is_boosted && (
-                  <span className="boosted-tag"><BoostIcon size={12} /> Destacado</span>
+                  <span className="boosted-tag"><BoostIcon size={12} /> {t("explore.boosted")}</span>
                 )}
 
                 <div className="profile-top">
@@ -260,7 +260,7 @@ function Explore() {
 
                 <p className="country">
                   📍 {profile.city}
-                  {typeof profile.distance_km === "number" && ` · ${Math.round(profile.distance_km)} km`}
+                  {typeof profile.distance_km === "number" && t("explore.distanceKm", { km: Math.round(profile.distance_km) })}
                 </p>
 
                 <div className="mood-badge">
@@ -280,7 +280,7 @@ function Explore() {
                     to={`/profile/${profile.id}`}
                     className="profile-button"
                   >
-                    Ver perfil
+                    {t("explore.viewProfile")}
                   </Link>
 
                 </div>
