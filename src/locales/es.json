@@ -4,7 +4,25 @@
     "login": "Iniciar sesión",
     "loginShort": "Entrar",
     "register": "Crear cuenta",
-    "registerShort": "Registro"
+    "registerShort": "Registro",
+    "explore": "Explorar",
+    "messages": "Mensajes",
+    "matches": "Matches",
+    "filters": "Filtros",
+    "myProfileAlt": "Mi perfil",
+    "myProfile": "Mi Perfil",
+    "favorites": "Favoritos",
+    "whoLikesYou": "A quién le gustas",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "filters": {
+    "ageRange": "{{min}} - {{max}} años",
+    "maxDistance": "📍 Hasta {{km}} km",
+    "onlineOnly": "🟢 Solo conectados",
+    "locationSearchPlaceholder": "🌍 Buscar por país o ciudad",
+    "locationSearchPlaceholderLocked": "Buscar por país o ciudad",
+    "vip": "VIP"
   },
   "cookieConsent": {
     "message": "Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla. Puedes aceptarlas o rechazarlas.",

@@ -30,7 +30,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
       <div className="distance-filter">
 
         <span className="distance-label">
-          📍 Hasta {filters.maxDistance} km
+          {t("filters.maxDistance", { km: filters.maxDistance })}
         </span>
 
         <input
@@ -47,7 +47,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
       <div className="distance-filter age-range-filter">
 
         <span className="distance-label">
-          {filters.ageMin} - {filters.ageMax} años
+          {t("filters.ageRange", { min: filters.ageMin, max: filters.ageMax })}
         </span>
 
         <input
@@ -75,7 +75,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
         <div className="select-wrapper">
           <input
             type="text"
-            placeholder="🌍 Buscar por país o ciudad"
+            placeholder={t("filters.locationSearchPlaceholder")}
             value={filters.locationSearch}
             onChange={(e) => onChange("locationSearch", e.target.value)}
             className="location-search-input"
@@ -90,13 +90,13 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
 
           <input
             type="text"
-            placeholder="Buscar por país o ciudad"
+            placeholder={t("filters.locationSearchPlaceholderLocked")}
             disabled
             className="premium-locked-input"
           />
 
           <Link to="/premium" className="unlock-badge">
-            <PremiumDiamond size={13} /> Premium
+            <PremiumDiamond size={13} /> {t("nav.premium")}
           </Link>
 
         </div>
@@ -113,7 +113,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
             onChange={(e) => onChange("onlineOnly", e.target.checked)}
           />
           <span className="toggle-track"></span>
-          <span className="toggle-label">🟢 Solo conectados</span>
+          <span className="toggle-label">{t("filters.onlineOnly")}</span>
 
         </label>
 
@@ -121,8 +121,8 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
 
         <Link to="/premium" className="online-filter online-filter-locked">
           <span className="online-filter-lock-icon"><LockIcon size={13} /></span>
-          <span className="toggle-label">🟢 Solo conectados</span>
-          <span className="online-filter-badge"><VipDiamond size={13} /> VIP</span>
+          <span className="toggle-label">{t("filters.onlineOnly")}</span>
+          <span className="online-filter-badge"><VipDiamond size={13} /> {t("filters.vip")}</span>
         </Link>
 
       )}

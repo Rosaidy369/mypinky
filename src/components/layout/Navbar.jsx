@@ -139,21 +139,21 @@ function Navbar() {
           <>
             <Link to="/explore" className="nav-link">
               <SearchIcon size={18} className="nav-link-icon" />
-              <span className="nav-link-label">Explorar</span>
+              <span className="nav-link-label">{t("nav.explore")}</span>
             </Link>
             <Link to="/mensajes" className="nav-link">
               <span className="nav-icon-badge-wrap">
                 <MessageIcon size={18} className="nav-link-icon" />
                 {badges?.messages && <span className="notif-dot"></span>}
               </span>
-              <span className="nav-link-label">Mensajes</span>
+              <span className="nav-link-label">{t("nav.messages")}</span>
             </Link>
             <Link to="/matches" className="nav-link matches-desktop-link">
               <span className="nav-icon-badge-wrap">
                 <HeartIcon size={17} className="nav-link-icon" />
                 {badges?.matches && <span className="notif-dot"></span>}
               </span>
-              <span className="nav-link-label">Matches</span>
+              <span className="nav-link-label">{t("nav.matches")}</span>
             </Link>
 
             {location.pathname === "/swipe" && (
@@ -165,7 +165,7 @@ function Navbar() {
                   onClick={() => setShowFilters((prev) => !prev)}
                 >
                   <FilterIcon size={18} className="nav-link-icon" />
-                  <span className="nav-link-label">Filtros</span>
+                  <span className="nav-link-label">{t("nav.filters")}</span>
                 </button>
 
                 {showFilters && (
@@ -186,7 +186,7 @@ function Navbar() {
 
                     <div className="distance-filter">
                       <span className="distance-label">
-                        {filters.ageMin} - {filters.ageMax} años
+                        {t("filters.ageRange", { min: filters.ageMin, max: filters.ageMax })}
                       </span>
                       <input
                         type="range"
@@ -207,7 +207,7 @@ function Navbar() {
                     </div>
 
                     <div className="distance-filter">
-                      <span className="distance-label">📍 Hasta {filters.maxDistance} km</span>
+                      <span className="distance-label">{t("filters.maxDistance", { km: filters.maxDistance })}</span>
                       <input
                         type="range"
                         min="1"
@@ -239,12 +239,12 @@ function Navbar() {
                   <Link to="/mi-perfil" onClick={() => setMenuOpen(false)} className="profile-menu-link">
                     <span className="menu-icon-slot">
                       {userPhoto ? (
-                        <img src={userPhoto} alt="Mi perfil" className="menu-icon-photo" />
+                        <img src={userPhoto} alt={t("nav.myProfileAlt")} className="menu-icon-photo" />
                       ) : (
                         <PersonIcon size={15} />
                       )}
                     </span>
-                    <span className="menu-item-label">Mi Perfil</span>
+                    <span className="menu-item-label">{t("nav.myProfile")}</span>
                   </Link>
 
                   <Link to="/matches" onClick={() => setMenuOpen(false)} className="matches-mobile-link">
@@ -252,12 +252,12 @@ function Navbar() {
                       <span className="menu-icon-slot"><HeartIcon size={15} /></span>
                       {badges?.matches && <span className="notif-dot menu-notif-dot"></span>}
                     </span>
-                    <span className="menu-item-label">Matches</span>
+                    <span className="menu-item-label">{t("nav.matches")}</span>
                   </Link>
 
                   <Link to="/favoritos" onClick={() => setMenuOpen(false)}>
                     <span className="menu-icon-slot"><StarIcon size={15} /></span>
-                    <span className="menu-item-label">Favoritos</span>
+                    <span className="menu-item-label">{t("nav.favorites")}</span>
                   </Link>
 
                   <Link to="/quien-me-dio-like" onClick={() => setMenuOpen(false)}>
@@ -265,16 +265,16 @@ function Navbar() {
                       <span className="menu-icon-slot"><HeartIcon size={15} /></span>
                       {badges?.likes && <span className="notif-dot menu-notif-dot"></span>}
                     </span>
-                    <span className="menu-item-label">A quién le gustas</span>
+                    <span className="menu-item-label">{t("nav.whoLikesYou")}</span>
                   </Link>
 
                   <Link to="/configuracion" onClick={() => setMenuOpen(false)}>
                     <span className="menu-icon-slot"><GearIcon size={15} /></span>
-                    <span className="menu-item-label">Configuración</span>
+                    <span className="menu-item-label">{t("nav.settings")}</span>
                   </Link>
 
                   <button className="dropdown-logout" onClick={handleLogout}>
-                    Cerrar sesión
+                    {t("nav.logout")}
                   </button>
 
                 </div>
