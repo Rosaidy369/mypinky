@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
 import { useNotifications } from "../hooks/useNotifications";
@@ -11,6 +12,7 @@ import "../styles/WhoLikedMe.css";
 import "../styles/BackButton.css";
 
 function WhoLikedMe() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [likers, setLikers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +85,7 @@ function WhoLikedMe() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("whoLikedMe.loading")}</div>;
   }
 
   return (
@@ -92,14 +94,14 @@ function WhoLikedMe() {
       <BackButton />
 
       <div className="wholiked-header">
-        <h1><EyeIcon size={24} /> A quién le gustas</h1>
-        <p>{likers.length} personas ya te dieron like</p>
+        <h1><EyeIcon size={24} /> {t("whoLikedMe.heading")}</h1>
+        <p>{t("whoLikedMe.likeCount", { count: likers.length })}</p>
       </div>
 
       {likers.length === 0 ? (
 
         <p style={{ textAlign: "center", marginTop: "40px", color: "#777" }}>
-          Aún nadie te ha dado like. ¡Sigue explorando!
+          {t("whoLikedMe.emptyState")}
         </p>
 
       ) : (
@@ -118,7 +120,7 @@ function WhoLikedMe() {
 
               {profile.isSuperLike && (
                 <span className="wholiked-superlike-badge">
-                  <StarIcon size={12} /> Super Like
+                  <StarIcon size={12} /> {t("whoLikedMe.superLikeBadge")}
                 </span>
               )}
 
@@ -138,7 +140,7 @@ function WhoLikedMe() {
                     <path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"></path>
                   </svg>
 
-                  <span>Toca para desbloquear</span>
+                  <span>{t("whoLikedMe.lockOverlay")}</span>
 
                 </div>
 
@@ -156,11 +158,11 @@ function WhoLikedMe() {
 
         <div className="wholiked-cta">
 
-          <h2>Descubre quién ya quiere conocerte</h2>
-          <p>Desbloquea esta lista con Premium o VIP.</p>
+          <h2>{t("whoLikedMe.cta.heading")}</h2>
+          <p>{t("whoLikedMe.cta.body")}</p>
 
           <Link to="/premium" className="wholiked-cta-btn">
-            <PremiumDiamond size={16} /> Ver con Premium
+            <PremiumDiamond size={16} /> {t("whoLikedMe.cta.button")}
           </Link>
 
         </div>

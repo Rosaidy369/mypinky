@@ -83,6 +83,48 @@
     "distanceKm": " · {{km}} km",
     "viewProfile": "View profile"
   },
+  "matches": {
+    "loading": "Loading matches...",
+    "title": "My Matches",
+    "count_one": "{{count}} person you matched with",
+    "count_other": "{{count}} people you matched with",
+    "empty": {
+      "title": "No matches yet",
+      "body": "Go to Discover and swipe to find someone special."
+    },
+    "removeAria": "Remove match",
+    "deleteModal": {
+      "title": "Delete this match?",
+      "body": "You won't be able to chat with this person anymore. This can't be undone.",
+      "cancel": "Cancel",
+      "confirm": "Yes, delete"
+    }
+  },
+  "favorites": {
+    "loading": "Loading favorites...",
+    "heading": "My favorites",
+    "subtitle": "Profiles you've saved to check out later",
+    "emptyTitle": "No favorites yet",
+    "emptyBody": "Tap the heart on any profile in Explore to save it here.",
+    "goToExploreCta": "Go to Explore",
+    "vip": "VIP",
+    "premium": "Premium",
+    "viewProfileButton": "View profile"
+  },
+  "whoLikedMe": {
+    "loading": "Loading...",
+    "heading": "Who likes you",
+    "likeCount_one": "{{count}} person already liked you",
+    "likeCount_other": "{{count}} people already liked you",
+    "emptyState": "No one has liked you yet. Keep exploring!",
+    "superLikeBadge": "Super Like",
+    "lockOverlay": "Tap to unlock",
+    "cta": {
+      "heading": "Discover who already wants to meet you",
+      "body": "Unlock this list with Premium or VIP.",
+      "button": "View with Premium"
+    }
+  },
   "cookieConsent": {
     "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
     "reject": "Decline",

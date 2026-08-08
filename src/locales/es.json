@@ -83,6 +83,48 @@
     "distanceKm": " · {{km}} km",
     "viewProfile": "Ver perfil"
   },
+  "matches": {
+    "loading": "Cargando matches...",
+    "title": "Mis Matches",
+    "count_one": "{{count}} persona con quien hiciste match",
+    "count_other": "{{count}} personas con quien hiciste match",
+    "empty": {
+      "title": "Aún no tienes matches",
+      "body": "Ve a Descubrir y desliza para encontrar a alguien especial."
+    },
+    "removeAria": "Eliminar match",
+    "deleteModal": {
+      "title": "¿Eliminar este match?",
+      "body": "Ya no podrás chatear con esta persona. No se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Sí, eliminar"
+    }
+  },
+  "favorites": {
+    "loading": "Cargando favoritos...",
+    "heading": "Mis favoritos",
+    "subtitle": "Perfiles que has guardado para ver después",
+    "emptyTitle": "Aún no tienes favoritos",
+    "emptyBody": "Toca el corazón en cualquier perfil de Explorar para guardarlo aquí.",
+    "goToExploreCta": "Ir a Explorar",
+    "vip": "VIP",
+    "premium": "Premium",
+    "viewProfileButton": "Ver perfil"
+  },
+  "whoLikedMe": {
+    "loading": "Cargando...",
+    "heading": "A quién le gustas",
+    "likeCount_one": "{{count}} persona ya te dio like",
+    "likeCount_other": "{{count}} personas ya te dieron like",
+    "emptyState": "Aún nadie te ha dado like. ¡Sigue explorando!",
+    "superLikeBadge": "Super Like",
+    "lockOverlay": "Toca para desbloquear",
+    "cta": {
+      "heading": "Descubre quién ya quiere conocerte",
+      "body": "Desbloquea esta lista con Premium o VIP.",
+      "button": "Ver con Premium"
+    }
+  },
   "cookieConsent": {
     "message": "Usamos cookies de análisis para entender cómo se usa MyPinky y mejorarla. Puedes aceptarlas o rechazarlas.",
     "reject": "Rechazar",

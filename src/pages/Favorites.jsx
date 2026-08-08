@@ -58,7 +58,7 @@ function Favorites() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando favoritos...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("favorites.loading")}</div>;
   }
 
   return (
@@ -72,9 +72,9 @@ function Favorites() {
       <BackButton />
 
       <div className="explore-header">
-        <h1>Mis favoritos</h1>
+        <h1>{t("favorites.heading")}</h1>
         <p className="favorites-subtitle">
-          Perfiles que has guardado para ver después
+          {t("favorites.subtitle")}
         </p>
       </div>
 
@@ -82,10 +82,10 @@ function Favorites() {
 
         <div className="favorites-empty">
           <div className="favorites-empty-icon">💔</div>
-          <h2>Aún no tienes favoritos</h2>
-          <p>Toca el corazón en cualquier perfil de Explorar para guardarlo aquí.</p>
+          <h2>{t("favorites.emptyTitle")}</h2>
+          <p>{t("favorites.emptyBody")}</p>
           <Link to="/explore" className="favorites-empty-btn">
-            Ir a Explorar
+            {t("favorites.goToExploreCta")}
           </Link>
         </div>
 
@@ -107,9 +107,9 @@ function Favorites() {
                 <div className="image-overlay">
 
                   {isVipActive(profile) ? (
-                    <span className="premium-badge"><VipDiamond size={14} /> VIP</span>
+                    <span className="premium-badge"><VipDiamond size={14} /> {t("favorites.vip")}</span>
                   ) : isPlanActive(profile) && profile.plan === "premium" ? (
-                    <span className="premium-badge"><PremiumDiamond size={14} /> Premium</span>
+                    <span className="premium-badge"><PremiumDiamond size={14} /> {t("favorites.premium")}</span>
                   ) : null}
 
                 </div>
@@ -149,7 +149,7 @@ function Favorites() {
                     to={`/profile/${profile.id}`}
                     className="profile-button"
                   >
-                    Ver perfil
+                    {t("favorites.viewProfileButton")}
                   </Link>
 
                 </div>

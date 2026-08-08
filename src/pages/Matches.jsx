@@ -56,7 +56,7 @@ function Matches() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando matches...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("matches.loading")}</div>;
   }
 
   return (
@@ -69,16 +69,16 @@ function Matches() {
 
       <div className="matches-header">
         <BackButton />
-        <h1>Mis Matches</h1>
-        <p>{matches.length} {matches.length === 1 ? "persona" : "personas"} con quien hiciste match</p>
+        <h1>{t("matches.title")}</h1>
+        <p>{t("matches.count", { count: matches.length })}</p>
       </div>
 
       {matches.length === 0 ? (
 
         <div className="matches-empty">
           <div className="matches-empty-icon">💔</div>
-          <h2>Aún no tienes matches</h2>
-          <p>Ve a Descubrir y desliza para encontrar a alguien especial.</p>
+          <h2>{t("matches.empty.title")}</h2>
+          <p>{t("matches.empty.body")}</p>
         </div>
 
       ) : (
@@ -94,7 +94,7 @@ function Matches() {
                   e.stopPropagation();
                   setMatchToDelete(match);
                 }}
-                aria-label="Eliminar match"
+                aria-label={t("matches.removeAria")}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="3 6 5 6 21 6"></polyline>
@@ -124,15 +124,15 @@ function Matches() {
         <div className="delete-modal-backdrop" onClick={() => setMatchToDelete(null)}>
           <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
 
-            <h2>¿Eliminar este match?</h2>
-            <p>Ya no podrás chatear con esta persona. No se puede deshacer.</p>
+            <h2>{t("matches.deleteModal.title")}</h2>
+            <p>{t("matches.deleteModal.body")}</p>
 
             <div className="delete-modal-actions">
               <button className="cancel-btn" onClick={() => setMatchToDelete(null)}>
-                Cancelar
+                {t("matches.deleteModal.cancel")}
               </button>
               <button className="confirm-delete-btn" onClick={confirmDeleteMatch}>
-                Sí, eliminar
+                {t("matches.deleteModal.confirm")}
               </button>
             </div>
 
