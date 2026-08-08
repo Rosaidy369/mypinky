@@ -151,6 +151,45 @@
       "inputPlaceholder": "Type a message..."
     }
   },
+  "myProfile": {
+    "loading": "Loading your profile...",
+    "boost": {
+      "errorGeneric": "Couldn't boost your profile. Try again.",
+      "errorNotVip": "Your VIP plan isn't active right now (it may have expired). Check your plan in Settings.",
+      "errorCooldown": "You can't boost your profile again yet.",
+      "boosting": "Boosting...",
+      "activeLabel": "Profile boost active",
+      "cta": "Boost my profile",
+      "availableIn": "Available in {{time}}"
+    },
+    "viewPhotos": "View photos ({{count}})",
+    "completionLabel": "Profile complete: {{percent}}%",
+    "vip": "VIP",
+    "premium": "Premium",
+    "nameAgeVerifiedTag": "Name and age verified",
+    "aboutHeading": "About me",
+    "interestsHeading": "Interests",
+    "voiceNoteHeading": "Voice note",
+    "editButton": "Edit profile",
+    "editTitle": "Edit profile",
+    "photosLabel": "Photos",
+    "dragHint": "Drag one photo over another to reorder them. The first one is your main photo.",
+    "cityLabel": "City",
+    "location": {
+      "updated": "Location updated",
+      "updateCta": "Update my location (optional)"
+    },
+    "bioLabel": "Bio",
+    "charCounter": "{{count}}/{{max}}",
+    "moodLabel": "What are you looking for?",
+    "interestsFieldLabel": "Interests",
+    "voiceNoteFieldLabel": "Voice note (10s)",
+    "voiceNoteVipOnly": "Only available for VIP users",
+    "becomeVip": "Become VIP",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save changes"
+  },
   "cookieConsent": {
     "message": "We use analytics cookies to understand how MyPinky is used and improve it. You can accept or decline them.",
     "reject": "Decline",

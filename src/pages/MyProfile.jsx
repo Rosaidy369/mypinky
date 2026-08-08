@@ -150,7 +150,7 @@ function MyProfile() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando tu perfil...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("myProfile.loading")}</div>;
   }
 
   if (!user) return null;
@@ -173,7 +173,7 @@ function MyProfile() {
     setBoosting(false);
 
     if (error) {
-      setBoostError("No se pudo impulsar tu perfil. Intenta de nuevo.");
+      setBoostError(t("myProfile.boost.errorGeneric"));
       // Temporary: log the full Supabase/Postgres error (code, details,
       // hint), not just .message, to diagnose the real rejection reason
       // instead of guessing again.
@@ -183,11 +183,11 @@ function MyProfile() {
 
     if (!result?.activated) {
       if (result?.reason === "not_vip") {
-        setBoostError("Tu plan VIP no está activo ahora mismo (puede haber vencido). Revisa tu plan en Configuración.");
+        setBoostError(t("myProfile.boost.errorNotVip"));
       } else if (result?.reason === "cooldown") {
-        setBoostError("Todavía no puedes volver a impulsar tu perfil.");
+        setBoostError(t("myProfile.boost.errorCooldown"));
       } else {
-        setBoostError("No se pudo impulsar tu perfil. Intenta de nuevo.");
+        setBoostError(t("myProfile.boost.errorGeneric"));
         console.error("activate_boost devolvió una razón inesperada:", result?.reason);
       }
     }
@@ -391,13 +391,13 @@ function MyProfile() {
 
               {user.photos && user.photos.length > 1 && (
                 <button className="view-photos-btn" onClick={() => setShowGallery(true)}>
-                  <CameraIcon size={15} /> Ver fotos ({user.photos.length})
+                  <CameraIcon size={15} /> {t("myProfile.viewPhotos", { count: user.photos.length })}
                 </button>
               )}
 
               <div className="completion-box">
                 <div className="completion-label">
-                  Perfil completo: {completion}%
+                  {t("myProfile.completionLabel", { percent: completion })}
                 </div>
                 <div className="completion-track">
                   <div
@@ -418,19 +418,19 @@ function MyProfile() {
 
                   {isVip && (
                     <span className="vip-badge-inline">
-                      <VipDiamond size={20} /> VIP
+                      <VipDiamond size={20} /> {t("myProfile.vip")}
                     </span>
                   )}
 
                   {isPremiumPlan && (
                     <span className="premium-badge-inline">
-                      <PremiumDiamond size={16} /> Premium
+                      <PremiumDiamond size={16} /> {t("myProfile.premium")}
                     </span>
                   )}
 
                   <span className="locked-tag">
                     <LockIcon size={13} />
-                    Nombre y edad verificados
+                    {t("myProfile.nameAgeVerifiedTag")}
                   </span>
                 </h1>
 
@@ -441,12 +441,12 @@ function MyProfile() {
               <div className="mood">{moodLabel(t, user.mood)}</div>
 
               <div className="about">
-                <h2>Sobre mí</h2>
+                <h2>{t("myProfile.aboutHeading")}</h2>
                 <p>{user.bio}</p>
               </div>
 
               <div className="interests">
-                <h2>Intereses</h2>
+                <h2>{t("myProfile.interestsHeading")}</h2>
                 <div className="tags">
                   {(user.interests || []).map((interest, i) => (
                     <span key={i}>{interestLabel(t, interest)}</span>
@@ -467,7 +467,7 @@ function MyProfile() {
 
               {user.voice_note_url && (
                 <div className="voice-display">
-                  <h2><MicIcon size={17} className="voice-title-icon" /> Nota de voz</h2>
+                  <h2><MicIcon size={17} className="voice-title-icon" /> {t("myProfile.voiceNoteHeading")}</h2>
                   <audio controls src={user.voice_note_url} className="voice-audio"></audio>
                 </div>
               )}
@@ -481,13 +481,13 @@ function MyProfile() {
                     disabled={boosting || (!canBoost && !isBoostedNow)}
                   >
                     {boosting ? (
-                      "Impulsando..."
+                      t("myProfile.boost.boosting")
                     ) : isBoostedNow ? (
-                      <><BoostIcon size={20} /> Perfil destacado activo</>
+                      <><BoostIcon size={20} /> {t("myProfile.boost.activeLabel")}</>
                     ) : canBoost ? (
-                      <><BoostIcon size={20} /> Impulsar mi perfil</>
+                      <><BoostIcon size={20} /> {t("myProfile.boost.cta")}</>
                     ) : (
-                      `Disponible en ${formatBoostCooldown(nextBoostAt - new Date())}`
+                      t("myProfile.boost.availableIn", { time: formatBoostCooldown(nextBoostAt - new Date()) })
                     )}
                   </button>
 
@@ -497,7 +497,7 @@ function MyProfile() {
               )}
 
               <button className="edit-profile-btn" onClick={startEditing}>
-                Editar perfil
+                {t("myProfile.editButton")}
               </button>
 
             </div>
@@ -508,14 +508,14 @@ function MyProfile() {
 
           <div className="edit-form">
 
-            <h2 className="edit-title">Editar perfil</h2>
+            <h2 className="edit-title">{t("myProfile.editTitle")}</h2>
 
             <div className="locked-fields-notice">
-              <LockIcon size={14} /> Nombre y edad no se pueden editar por seguridad y verificación.
+              <LockIcon size={14} /> {t("onboarding.basicInfo.nameAgeLocked")}
             </div>
 
-            <label className="field-label">Fotos</label>
-            <p className="drag-hint">Arrastra una foto sobre otra para cambiar el orden. La primera es tu foto principal.</p>
+            <label className="field-label">{t("myProfile.photosLabel")}</label>
+            <p className="drag-hint">{t("myProfile.dragHint")}</p>
 
             <div className="photo-grid edit-photo-grid">
 
@@ -533,7 +533,7 @@ function MyProfile() {
                       <>
                         <img
                           src={photo}
-                          alt={`Foto ${i + 1}`}
+                          alt={t("onboarding.photos.photoAlt", { index: i + 1 })}
                           className="draggable-photo"
                           onPointerDown={(e) => handlePhotoPointerDown(i, e)}
                           onPointerMove={handlePhotoPointerMove}
@@ -549,7 +549,7 @@ function MyProfile() {
                           ✕
                         </button>
 
-                        {i === 0 && <span className="main-tag">Principal</span>}
+                        {i === 0 && <span className="main-tag">{t("onboarding.photos.mainBadge")}</span>}
                       </>
                     ) : (
                       <label className="add-photo-label">
@@ -570,7 +570,7 @@ function MyProfile() {
 
             </div>
 
-            <label className="field-label">Ciudad</label>
+            <label className="field-label">{t("myProfile.cityLabel")}</label>
             <input
               type="text"
               value={draft.city || ""}
@@ -586,9 +586,9 @@ function MyProfile() {
                 disabled={locationStatus === "loading"}
               >
                 {draft.latitude ? (
-                  <><CheckIcon size={15} /> Ubicación actualizada</>
+                  <><CheckIcon size={15} /> {t("myProfile.location.updated")}</>
                 ) : (
-                  <><PinIcon size={15} /> {locationStatus === "loading" ? "Obteniendo ubicación..." : "Actualizar mi ubicación (opcional)"}</>
+                  <><PinIcon size={15} /> {locationStatus === "loading" ? t("onboarding.basicInfo.locationLoading") : t("myProfile.location.updateCta")}</>
                 )}
               </button>
 
@@ -596,16 +596,16 @@ function MyProfile() {
 
             </div>
 
-            <label className="field-label">Biografía</label>
+            <label className="field-label">{t("myProfile.bioLabel")}</label>
             <textarea
               rows={5}
               maxLength={300}
               value={draft.bio || ""}
               onChange={(e) => updateDraft("bio", e.target.value)}
             />
-            <span className="char-counter">{(draft.bio || "").length}/300</span>
+            <span className="char-counter">{t("myProfile.charCounter", { count: (draft.bio || "").length, max: 300 })}</span>
 
-            <label className="field-label">¿Qué buscas?</label>
+            <label className="field-label">{t("myProfile.moodLabel")}</label>
             <div className="option-pills">
               {MOODS.map(({ code }) => (
                 <button
@@ -619,7 +619,7 @@ function MyProfile() {
               ))}
             </div>
 
-            <label className="field-label">Intereses</label>
+            <label className="field-label">{t("myProfile.interestsFieldLabel")}</label>
             <div className="interest-grid">
               {INTERESTS.map(({ code }) => (
                 <button
@@ -639,7 +639,7 @@ function MyProfile() {
               isEditing
             />
 
-            <label className="field-label">Nota de voz (10s)</label>
+            <label className="field-label">{t("myProfile.voiceNoteFieldLabel")}</label>
 
             {isVip ? (
 
@@ -652,9 +652,9 @@ function MyProfile() {
             ) : (
 
               <div className="voice-locked">
-                <span><LockIcon size={13} /> Solo disponible para usuarios VIP</span>
+                <span><LockIcon size={13} /> {t("myProfile.voiceNoteVipOnly")}</span>
                 <Link to="/premium" className="voice-unlock-btn">
-                  <VipDiamond size={14} /> Hazte VIP
+                  <VipDiamond size={14} /> {t("myProfile.becomeVip")}
                 </Link>
               </div>
 
@@ -662,10 +662,10 @@ function MyProfile() {
 
             <div className="edit-actions">
               <button className="cancel-btn" onClick={cancelEditing} disabled={saving}>
-                Cancelar
+                {t("myProfile.cancel")}
               </button>
               <button className="save-btn" onClick={saveChanges} disabled={saving}>
-                {saving ? "Guardando..." : "Guardar cambios"}
+                {saving ? t("myProfile.saving") : t("myProfile.saveChanges")}
               </button>
             </div>
 
