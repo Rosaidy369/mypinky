@@ -31,6 +31,24 @@ function Settings() {
   const [deleteError, setDeleteError] = useState("");
   const [hasPassword, setHasPassword] = useState(true);
   const [linkedAccounts, setLinkedAccounts] = useState({ google: false, email: "" });
+  const [linkingGoogle, setLinkingGoogle] = useState(false);
+  // linkIdentity() redirects the whole browser to Google and back --
+  // errors that only Google/GoTrue can detect (like "this Google account
+  // is already linked to a different user") never reach the click
+  // handler's own try/catch, they come back as hash params on the page we
+  // land on instead, so this is derived once from the URL up front rather
+  // than set from an effect.
+  const [linkError, setLinkError] = useState(() => {
+    const hash = window.location.hash;
+    if (!hash.includes("error")) return "";
+
+    const params = new URLSearchParams(hash.slice(1));
+    const description = params.get("error_description");
+    return description ? decodeURIComponent(description.replace(/\+/g, " ")) : t("settings.linkedAccounts.errorLinkFailed");
+  });
+  const [unlinkingGoogle, setUnlinkingGoogle] = useState(false);
+  const [unlinkError, setUnlinkError] = useState("");
+  const [showUnlinkConfirm, setShowUnlinkConfirm] = useState(false);
   const [showRemoveCardConfirm, setShowRemoveCardConfirm] = useState(false);
   const [cardRemovedSuccess, setCardRemovedSuccess] = useState(false);
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
@@ -41,6 +59,14 @@ function Settings() {
 
   useEffect(() => {
     loadProfile();
+  }, []);
+
+  // Strip the error hash from the URL bar once it's been read into state
+  // above, so it doesn't linger or get re-parsed on a refresh.
+  useEffect(() => {
+    if (window.location.hash.includes("error")) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
   }, []);
 
   const loadProfile = async () => {
@@ -123,6 +149,70 @@ function Settings() {
   const handleDeactivate = () => {
     logout();
     navigate("/");
+  };
+
+  const handleLinkGoogle = async () => {
+    setLinkError("");
+    setLinkingGoogle(true);
+
+    // This navigates the whole browser to Google when it succeeds, so
+    // nothing after this line runs in that case -- an `error` here only
+    // means Supabase rejected the request before ever redirecting (e.g.
+    // manual linking disabled in the dashboard). The "this Google account
+    // is already used by someone else" case comes back later as a hash
+    // param on this same page, handled by the effect above.
+    const { error } = await supabase.auth.linkIdentity({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/configuracion` },
+    });
+
+    if (error) {
+      console.error("Error vinculando Google:", error.message);
+      setLinkError(t("settings.linkedAccounts.errorLinkFailed"));
+      setLinkingGoogle(false);
+    }
+  };
+
+  const handleUnlinkGoogle = async () => {
+    setUnlinkError("");
+
+    // Defense in depth: the button is already hidden unless hasPassword is
+    // true, but re-check against a fresh identities list right before the
+    // irreversible call, since local state could be stale.
+    const { data, error: identitiesError } = await supabase.auth.getUserIdentities();
+
+    if (identitiesError || !data) {
+      console.error("Error obteniendo identidades:", identitiesError?.message);
+      setUnlinkError(t("settings.linkedAccounts.errorUnlinkFailed"));
+      return;
+    }
+
+    if (data.identities.length < 2) {
+      setUnlinkError(t("settings.linkedAccounts.errorOnlyMethod"));
+      return;
+    }
+
+    const googleIdentity = data.identities.find((i) => i.provider === "google");
+
+    if (!googleIdentity) {
+      setUnlinkError(t("settings.linkedAccounts.errorUnlinkFailed"));
+      return;
+    }
+
+    setUnlinkingGoogle(true);
+
+    const { error } = await supabase.auth.unlinkIdentity(googleIdentity);
+
+    setUnlinkingGoogle(false);
+
+    if (error) {
+      console.error("Error desvinculando Google:", error.message);
+      setUnlinkError(t("settings.linkedAccounts.errorUnlinkFailed"));
+      return;
+    }
+
+    setShowUnlinkConfirm(false);
+    loadProfile();
   };
 
   const handleRemoveCard = () => {
@@ -223,6 +313,30 @@ function Settings() {
                 : t("settings.linkedAccounts.notConnected")}
             </span>
           </div>
+
+          {linkedAccounts.google ? (
+            hasPassword && (
+              <button
+                type="button"
+                className="settings-inline-link"
+                onClick={() => setShowUnlinkConfirm(true)}
+              >
+                {t("settings.linkedAccounts.unlinkButton")}
+              </button>
+            )
+          ) : (
+            <button
+              type="button"
+              className="neutral-btn"
+              onClick={handleLinkGoogle}
+              disabled={linkingGoogle}
+            >
+              {linkingGoogle ? t("settings.linkedAccounts.connecting") : t("settings.linkedAccounts.connectButton")}
+            </button>
+          )}
+
+          {linkError && <p className="onboarding-error">{linkError}</p>}
+          {unlinkError && <p className="onboarding-error">{unlinkError}</p>}
 
         </div>
 
@@ -450,6 +564,26 @@ function Settings() {
               </button>
               <button className="confirm-delete-btn" onClick={handleDeleteAccount} disabled={deletingAccount}>
                 {deletingAccount ? t("settings.deleteModal.confirming") : t("settings.deleteModal.confirm")}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {showUnlinkConfirm && (
+        <div className="delete-modal-backdrop" onClick={() => setShowUnlinkConfirm(false)}>
+          <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+
+            <h2>{t("settings.unlinkModal.title")}</h2>
+            <p>{t("settings.unlinkModal.body")}</p>
+
+            <div className="delete-modal-actions">
+              <button className="cancel-btn" onClick={() => setShowUnlinkConfirm(false)}>
+                {t("settings.unlinkModal.cancel")}
+              </button>
+              <button className="confirm-btn" onClick={handleUnlinkGoogle} disabled={unlinkingGoogle}>
+                {unlinkingGoogle ? t("settings.linkedAccounts.unlinking") : t("settings.unlinkModal.confirm")}
               </button>
             </div>
 

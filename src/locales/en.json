@@ -200,7 +200,20 @@
       "title": "Linked accounts",
       "google": "Google",
       "connected": "Connected with {{email}}",
-      "notConnected": "Not connected"
+      "notConnected": "Not connected",
+      "connectButton": "Connect with Google",
+      "connecting": "Connecting...",
+      "unlinkButton": "Unlink",
+      "unlinking": "Unlinking...",
+      "errorLinkFailed": "Couldn't connect with Google. Try again.",
+      "errorUnlinkFailed": "Couldn't unlink Google. Try again.",
+      "errorOnlyMethod": "Google is your only way to sign in — you can't unlink it until you set a password."
+    },
+    "unlinkModal": {
+      "title": "Unlink Google?",
+      "body": "You won't be able to sign in with Google anymore. You'll still be able to sign in with your email and password.",
+      "cancel": "Cancel",
+      "confirm": "Yes, unlink"
     },
     "help": {
       "title": "Help and support",

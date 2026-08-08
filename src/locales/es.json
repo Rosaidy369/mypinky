@@ -200,7 +200,20 @@
       "title": "Cuentas vinculadas",
       "google": "Google",
       "connected": "Conectada con {{email}}",
-      "notConnected": "No conectada"
+      "notConnected": "No conectada",
+      "connectButton": "Conectar con Google",
+      "connecting": "Conectando...",
+      "unlinkButton": "Desvincular",
+      "unlinking": "Desvinculando...",
+      "errorLinkFailed": "No se pudo conectar con Google. Intenta de nuevo.",
+      "errorUnlinkFailed": "No se pudo desvincular Google. Intenta de nuevo.",
+      "errorOnlyMethod": "Google es tu único método de acceso — no puedes desvincularlo sin antes configurar una contraseña."
+    },
+    "unlinkModal": {
+      "title": "¿Desvincular Google?",
+      "body": "Ya no podrás iniciar sesión con Google. Podrás seguir entrando con tu correo y contraseña.",
+      "cancel": "Cancelar",
+      "confirm": "Sí, desvincular"
     },
     "help": {
       "title": "Ayuda y soporte",

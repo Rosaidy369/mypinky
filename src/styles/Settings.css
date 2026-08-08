@@ -658,6 +658,34 @@ text-decoration:none;
 
 }
 
+.settings-inline-link{
+
+background:none;
+
+border:none;
+
+padding:0;
+
+color:#999;
+
+font-size:13px;
+
+font-weight:600;
+
+text-decoration:underline;
+
+cursor:pointer;
+
+font-family:inherit;
+
+}
+
+.settings-inline-link:hover{
+
+color:#ff3f87;
+
+}
+
 .plan-status{
 
 background:#fafafa;
