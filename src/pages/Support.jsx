@@ -1,37 +1,22 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "../styles/Legal.css";
 
-const FAQS = [
-  {
-    q: "¿Cómo elimino mi cuenta?",
-    a: "Ve a Configuración → Cuenta → Eliminar mi cuenta. Esta acción no se puede deshacer.",
-  },
-  {
-    q: "¿Cómo cancelo mi suscripción Premium?",
-    a: "Ve a Configuración → Suscripción y pago → Cancelar membresía.",
-  },
-  {
-    q: "¿Puedo cambiar mi nombre o edad?",
-    a: "No, por seguridad estos datos no se pueden editar después del registro.",
-  },
-  {
-    q: "¿Cómo reporto un perfil sospechoso?",
-    a: "Cada perfil tiene un botón de reporte (ícono de bandera) en la esquina superior. Al tocarlo, puedes elegir el motivo (perfil falso, acoso, contenido inapropiado, spam) y agregar detalles opcionales. Nuestro equipo revisa cada reporte antes de tomar acción.",
-  },
-];
-
 function Support() {
+  const { t } = useTranslation();
+  const faqs = t("support.faqs", { returnObjects: true });
+
   return (
     <div className="legal-page">
 
       <div className="legal-content">
 
-        <h1>Centro de Soporte</h1>
-        <p className="legal-updated">¿En qué podemos ayudarte?</p>
+        <h1>{t("support.title")}</h1>
+        <p className="legal-updated">{t("support.subtitle")}</p>
 
         <div className="support-faqs">
 
-          {FAQS.map((item, i) => (
+          {faqs.map((item, i) => (
             <div className="support-faq-item" key={i}>
               <h3>{item.q}</h3>
               <p>{item.a}</p>
@@ -41,9 +26,9 @@ function Support() {
         </div>
 
         <div className="support-cta">
-          <p>¿No encontraste lo que buscabas?</p>
+          <p>{t("support.noAnswerText")}</p>
           <Link to="/contacto" className="support-cta-btn">
-            Contáctanos
+            {t("support.contactCta")}
           </Link>
         </div>
 

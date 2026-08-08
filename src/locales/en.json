@@ -576,5 +576,54 @@
       "dream_destination": "My next dream destination is...",
       "unknown_fact": "Something people don't know about me..."
     }
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "updated": "Last updated: July 2026",
+    "sections": [
+      { "title": "1. Acceptance of terms", "body": "By creating an account on MyPinky, you accept these terms and conditions in full. If you don't agree, you shouldn't use the platform." },
+      { "title": "2. Age requirements", "body": "You must be at least 18 years old to use MyPinky. We reserve the right to suspend accounts that don't meet this requirement." },
+      { "title": "3. User conduct", "body": "Harassment, impersonation, and posting offensive or illegal content are not allowed. Accounts that violate these rules may be suspended without prior notice." },
+      { "title": "4. Premium and VIP subscriptions", "body": "Subscriptions renew automatically based on the chosen cycle (monthly or yearly). You can cancel anytime from Settings, and you'll keep your benefits until the end of the period you already paid for." },
+      { "title": "5. Limitation of liability", "body": "MyPinky is not responsible for encounters or interactions that happen outside the platform. We always recommend taking precautions when meeting new people." },
+      { "title": "6. Changes to these terms", "body": "We may update these terms from time to time. We'll notify you of any significant changes." }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "updated": "Last updated: July 2026",
+    "sections": [
+      { "title": "1. Information we collect", "body": "We collect the information you provide when creating your account: name, age, photos, bio, interests, and approximate location. This information is used solely to show you compatible profiles and improve your experience." },
+      { "title": "2. How we use your information", "body": "We use your data to connect your profile with other people based on your preferences, show your approximate distance to other users, and send you relevant notifications about matches and messages." },
+      { "title": "3. Who we share your information with", "body": "Your information is never sold to third parties. It's only shown to other MyPinky users the way you configure your profile and privacy settings." },
+      { "title": "4. Analytics and cookies", "body": "We use Google Analytics to understand how MyPinky is used and to improve the experience, as noted in the cookie banner you can accept or decline when you visit the site. This may involve some of your information being transferred to and processed on servers located in the United States." },
+      { "title": "5. Account integrity", "body": "Your name and age can't be edited after registration, as a measure to reduce catfishing and fake profiles." },
+      { "title": "6. Your rights", "body": "You can edit your profile, your privacy preferences, or delete your account entirely at any time from the Settings section." },
+      { "title": "7. Contact", "body": "If you have questions about this policy, you can reach us from the Contact page." }
+    ]
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Have questions or feedback? Write to us.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "successTitle": "Message sent!",
+    "successBody": "We'll get back to you as soon as possible.",
+    "errorGeneric": "Couldn't send your message. Try again."
+  },
+  "support": {
+    "title": "Support Center",
+    "subtitle": "How can we help you?",
+    "faqs": [
+      { "q": "How do I delete my account?", "a": "Go to Settings → Account → Delete my account. This action can't be undone." },
+      { "q": "How do I cancel my Premium subscription?", "a": "Go to Settings → Subscription and billing → Cancel membership." },
+      { "q": "Can I change my name or age?", "a": "No, for security reasons this information can't be edited after registration." },
+      { "q": "How do I report a suspicious profile?", "a": "Every profile has a report button (flag icon) in the top corner. Tapping it lets you choose a reason (fake profile, harassment, inappropriate content, spam) and add optional details. Our team reviews every report before taking action." }
+    ],
+    "noAnswerText": "Didn't find what you were looking for?",
+    "contactCta": "Contact us"
   }
 }

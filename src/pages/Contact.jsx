@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import "../styles/Legal.css";
 
 function Contact() {
+  const { t } = useTranslation();
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -31,7 +33,7 @@ function Contact() {
 
     if (error) {
       console.error("Error enviando mensaje de soporte:", error.message);
-      setErrorMsg("No se pudo enviar tu mensaje. Intenta de nuevo.");
+      setErrorMsg(t("contact.errorGeneric"));
       return;
     }
 
@@ -43,22 +45,22 @@ function Contact() {
 
       <div className="legal-content">
 
-        <h1>Contacto</h1>
-        <p className="legal-updated">¿Tienes dudas o comentarios? Escríbenos.</p>
+        <h1>{t("contact.title")}</h1>
+        <p className="legal-updated">{t("contact.subtitle")}</p>
 
         {sent ? (
 
           <div className="contact-success">
             <div className="contact-success-icon"><SuccessCheck size={50} /></div>
-            <h2>¡Mensaje enviado!</h2>
-            <p>Te responderemos lo antes posible.</p>
+            <h2>{t("contact.successTitle")}</h2>
+            <p>{t("contact.successBody")}</p>
           </div>
 
         ) : (
 
           <form className="contact-form" onSubmit={handleSubmit}>
 
-            <label className="field-label">Nombre</label>
+            <label className="field-label">{t("contact.nameLabel")}</label>
             <input
               type="text"
               required
@@ -66,7 +68,7 @@ function Contact() {
               onChange={(e) => updateField("name", e.target.value)}
             />
 
-            <label className="field-label">Correo electrónico</label>
+            <label className="field-label">{t("contact.emailLabel")}</label>
             <input
               type="email"
               required
@@ -74,7 +76,7 @@ function Contact() {
               onChange={(e) => updateField("email", e.target.value)}
             />
 
-            <label className="field-label">Mensaje</label>
+            <label className="field-label">{t("contact.messageLabel")}</label>
             <textarea
               rows={5}
               required
@@ -85,7 +87,7 @@ function Contact() {
             {errorMsg && <p className="contact-error">{errorMsg}</p>}
 
             <button type="submit" className="contact-submit-btn" disabled={sending}>
-              {sending ? "Enviando..." : "Enviar mensaje"}
+              {sending ? t("contact.sending") : t("contact.submit")}
             </button>
 
           </form>
