@@ -668,5 +668,38 @@
     "successTitle": "Report sent",
     "successBody": "Thanks for letting us know. We'll review it.",
     "understood": "Got it"
+  },
+  "checkout": {
+    "form": {
+      "nameLabel": "Name on card",
+      "namePlaceholder": "As it appears on your card",
+      "numberLabel": "Card number",
+      "numberPlaceholder": "1234 5678 9012 3456",
+      "expiryLabel": "Expiry",
+      "expiryPlaceholder": "MM/YY",
+      "cvvLabel": "CVV",
+      "cvvPlaceholder": "123",
+      "payButton": "Pay ${{price}}",
+      "secureNote": "Simulated payment, no real charge is made.",
+      "processing": "Processing your payment..."
+    },
+    "plan": {
+      "title": "{{name}} Plan",
+      "priceNote": "${{price}}/mo · Cancel anytime",
+      "payError": "Couldn't activate your plan. Try again.",
+      "successTitle": "Welcome to {{name}}!",
+      "successBody": "Your subscription is active. Enjoy all the benefits.",
+      "continueBtn": "Go to the app"
+    },
+    "message": {
+      "title": "Message to {{name}}",
+      "priceNote": "${{price}} · One-time payment, no subscription",
+      "loading": "Loading...",
+      "notFound": "Profile not found.",
+      "payError": "Couldn't process the payment. Try again.",
+      "successTitle": "All set!",
+      "successBody": "You can now send {{name}} a direct message.",
+      "continueBtn": "Go to chat"
+    }
   }
 }

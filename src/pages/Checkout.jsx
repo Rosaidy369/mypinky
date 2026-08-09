@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -15,6 +16,7 @@ const PLAN_INFO = {
 };
 
 function Checkout() {
+  const { t } = useTranslation();
   const { plan } = useParams();
   const navigate = useNavigate();
   const info = PLAN_INFO[plan] || PLAN_INFO.premium;
@@ -59,7 +61,7 @@ function Checkout() {
 
       if (error) {
         console.error("Error activando el plan:", error.message);
-        setPayError("No se pudo activar tu plan. Intenta de nuevo.");
+        setPayError(t("checkout.plan.payError"));
         setStep("form");
         return;
       }
@@ -85,27 +87,27 @@ function Checkout() {
               </span>
 
               <div>
-                <h2>Plan {info.name}</h2>
-                <p>${info.price}/mes · Cancela cuando quieras</p>
+                <h2>{t("checkout.plan.title", { name: info.name })}</h2>
+                <p>{t("checkout.plan.priceNote", { price: info.price })}</p>
               </div>
 
             </div>
 
             <form className="checkout-form" onSubmit={handlePay}>
 
-              <label className="field-label">Nombre en la tarjeta</label>
+              <label className="field-label">{t("checkout.form.nameLabel")}</label>
               <input
                 type="text"
-                placeholder="Como aparece en tu tarjeta"
+                placeholder={t("checkout.form.namePlaceholder")}
                 required
                 value={cardData.name}
                 onChange={(e) => updateField("name", e.target.value)}
               />
 
-              <label className="field-label">Número de tarjeta</label>
+              <label className="field-label">{t("checkout.form.numberLabel")}</label>
               <input
                 type="text"
-                placeholder="1234 5678 9012 3456"
+                placeholder={t("checkout.form.numberPlaceholder")}
                 required
                 maxLength={19}
                 value={cardData.number}
@@ -115,10 +117,10 @@ function Checkout() {
               <div className="checkout-row">
 
                 <div className="checkout-col">
-                  <label className="field-label">Vencimiento</label>
+                  <label className="field-label">{t("checkout.form.expiryLabel")}</label>
                   <input
                     type="text"
-                    placeholder="MM/AA"
+                    placeholder={t("checkout.form.expiryPlaceholder")}
                     required
                     maxLength={5}
                     value={cardData.expiry}
@@ -127,10 +129,10 @@ function Checkout() {
                 </div>
 
                 <div className="checkout-col">
-                  <label className="field-label">CVV</label>
+                  <label className="field-label">{t("checkout.form.cvvLabel")}</label>
                   <input
                     type="text"
-                    placeholder="123"
+                    placeholder={t("checkout.form.cvvPlaceholder")}
                     required
                     maxLength={3}
                     value={cardData.cvv}
@@ -143,11 +145,11 @@ function Checkout() {
               {payError && <p className="checkout-error">{payError}</p>}
 
               <button type="submit" className="checkout-pay-btn">
-                Pagar ${info.price}
+                {t("checkout.form.payButton", { price: info.price })}
               </button>
 
               <p className="checkout-secure-note">
-                <LockIcon size={12} /> Pago simulado, no se realiza ningún cargo real.
+                <LockIcon size={12} /> {t("checkout.form.secureNote")}
               </p>
 
             </form>
@@ -159,7 +161,7 @@ function Checkout() {
 
           <div className="checkout-processing">
             <div className="checkout-spinner"></div>
-            <p>Procesando tu pago...</p>
+            <p>{t("checkout.form.processing")}</p>
           </div>
 
         )}
@@ -168,15 +170,15 @@ function Checkout() {
 
           <div className="checkout-success">
             <div className="success-icon"><SuccessCheck /></div>
-            <h2>¡Bienvenido a {info.name}!</h2>
+            <h2>{t("checkout.plan.successTitle", { name: info.name })}</h2>
 
-            <p>Tu suscripción está activa. Disfruta de todos los beneficios.</p>
+            <p>{t("checkout.plan.successBody")}</p>
 
             <button
               className="checkout-continue-btn"
               onClick={() => navigate("/dashboard")}
             >
-              Ir a la app
+              {t("checkout.plan.continueBtn")}
             </button>
 
           </div>

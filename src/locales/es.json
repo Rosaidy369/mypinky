@@ -668,5 +668,38 @@
     "successTitle": "Reporte enviado",
     "successBody": "Gracias por avisarnos. Lo vamos a revisar.",
     "understood": "Entendido"
+  },
+  "checkout": {
+    "form": {
+      "nameLabel": "Nombre en la tarjeta",
+      "namePlaceholder": "Como aparece en tu tarjeta",
+      "numberLabel": "Número de tarjeta",
+      "numberPlaceholder": "1234 5678 9012 3456",
+      "expiryLabel": "Vencimiento",
+      "expiryPlaceholder": "MM/AA",
+      "cvvLabel": "CVV",
+      "cvvPlaceholder": "123",
+      "payButton": "Pagar ${{price}}",
+      "secureNote": "Pago simulado, no se realiza ningún cargo real.",
+      "processing": "Procesando tu pago..."
+    },
+    "plan": {
+      "title": "Plan {{name}}",
+      "priceNote": "${{price}}/mes · Cancela cuando quieras",
+      "payError": "No se pudo activar tu plan. Intenta de nuevo.",
+      "successTitle": "¡Bienvenido a {{name}}!",
+      "successBody": "Tu suscripción está activa. Disfruta de todos los beneficios.",
+      "continueBtn": "Ir a la app"
+    },
+    "message": {
+      "title": "Mensaje a {{name}}",
+      "priceNote": "${{price}} · Pago único, sin suscripción",
+      "loading": "Cargando...",
+      "notFound": "Perfil no encontrado.",
+      "payError": "No se pudo procesar el pago. Intenta de nuevo.",
+      "successTitle": "¡Listo!",
+      "successBody": "Ya puedes enviarle un mensaje directo a {{name}}.",
+      "continueBtn": "Ir al chat"
+    }
   }
 }

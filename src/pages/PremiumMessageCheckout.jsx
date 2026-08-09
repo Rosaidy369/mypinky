@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import SuccessCheck from "../components/ui/SuccessCheck";
@@ -10,6 +11,7 @@ import "../styles/BackButton.css";
 const MESSAGE_PRICE = 2.99;
 
 function PremiumMessageCheckout() {
+  const { t } = useTranslation();
   const { profileId } = useParams();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
@@ -86,7 +88,7 @@ function PremiumMessageCheckout() {
       }
 
       console.error("Error creando el match premium:", error.message);
-      setPayError("No se pudo procesar el pago. Intenta de nuevo.");
+      setPayError(t("checkout.message.payError"));
       setStep("form");
     }, 1800);
   };
@@ -94,7 +96,7 @@ function PremiumMessageCheckout() {
   if (loading) {
     return (
       <div className="checkout-page">
-        <p>Cargando...</p>
+        <p>{t("checkout.message.loading")}</p>
       </div>
     );
   }
@@ -102,7 +104,7 @@ function PremiumMessageCheckout() {
   if (!profile) {
     return (
       <div className="checkout-page">
-        <p>Perfil no encontrado.</p>
+        <p>{t("checkout.message.notFound")}</p>
       </div>
     );
   }
@@ -128,15 +130,15 @@ function PremiumMessageCheckout() {
               />
 
               <div>
-                <h2>Mensaje a {profile.name}</h2>
-                <p>${MESSAGE_PRICE} · Pago único, sin suscripción</p>
+                <h2>{t("checkout.message.title", { name: profile.name })}</h2>
+                <p>{t("checkout.message.priceNote", { price: MESSAGE_PRICE })}</p>
               </div>
 
             </div>
 
             <form className="checkout-form" onSubmit={handlePay}>
 
-              <label className="field-label">Nombre en la tarjeta</label>
+              <label className="field-label">{t("checkout.form.nameLabel")}</label>
               <input
                 type="text"
                 required
@@ -144,7 +146,7 @@ function PremiumMessageCheckout() {
                 onChange={(e) => updateField("name", e.target.value)}
               />
 
-              <label className="field-label">Número de tarjeta</label>
+              <label className="field-label">{t("checkout.form.numberLabel")}</label>
               <input
                 type="text"
                 required
@@ -156,10 +158,10 @@ function PremiumMessageCheckout() {
               <div className="checkout-row">
 
                 <div className="checkout-col">
-                  <label className="field-label">Vencimiento</label>
+                  <label className="field-label">{t("checkout.form.expiryLabel")}</label>
                   <input
                     type="text"
-                    placeholder="MM/AA"
+                    placeholder={t("checkout.form.expiryPlaceholder")}
                     required
                     maxLength={5}
                     value={cardData.expiry}
@@ -168,7 +170,7 @@ function PremiumMessageCheckout() {
                 </div>
 
                 <div className="checkout-col">
-                  <label className="field-label">CVV</label>
+                  <label className="field-label">{t("checkout.form.cvvLabel")}</label>
                   <input
                     type="text"
                     required
@@ -183,11 +185,11 @@ function PremiumMessageCheckout() {
               {payError && <p className="checkout-error">{payError}</p>}
 
               <button type="submit" className="checkout-pay-btn">
-                Pagar ${MESSAGE_PRICE}
+                {t("checkout.form.payButton", { price: MESSAGE_PRICE })}
               </button>
 
               <p className="checkout-secure-note">
-                <LockIcon size={12} /> Pago simulado, no se realiza ningún cargo real.
+                <LockIcon size={12} /> {t("checkout.form.secureNote")}
               </p>
 
             </form>
@@ -198,20 +200,20 @@ function PremiumMessageCheckout() {
         {step === "processing" && (
           <div className="checkout-processing">
             <div className="checkout-spinner"></div>
-            <p>Procesando tu pago...</p>
+            <p>{t("checkout.form.processing")}</p>
           </div>
         )}
 
         {step === "success" && (
           <div className="checkout-success">
             <div className="success-icon"><SuccessCheck /></div>
-            <h2>¡Listo!</h2>
-            <p>Ya puedes enviarle un mensaje directo a {profile.name}.</p>
+            <h2>{t("checkout.message.successTitle")}</h2>
+            <p>{t("checkout.message.successBody", { name: profile.name })}</p>
             <button
               className="checkout-continue-btn"
               onClick={() => navigate(`/chat/${matchId}`)}
             >
-              Ir al chat
+              {t("checkout.message.continueBtn")}
             </button>
           </div>
         )}
