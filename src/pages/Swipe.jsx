@@ -115,7 +115,29 @@ function Swipe() {
       console.error("Error cargando perfiles para swipe:", error.message);
     }
 
-    setStack(candidateProfiles || []);
+    // "Pinky Pulse": flag candidates who already super liked the current
+    // user, so their card can show that before a decision is made -- same
+    // query shape WhoLikedMe.jsx already uses (swiped_profile_id = me),
+    // just scoped to this page's candidate ids via `in`.
+    const candidates = candidateProfiles || [];
+    let superLikedByIds = new Set();
+
+    if (candidates.length > 0) {
+      const { data: superLikes, error: superLikesError } = await supabase
+        .from("swipes")
+        .select("swiper_id")
+        .eq("swiped_profile_id", currentUser.id)
+        .eq("direction", "superlike")
+        .in("swiper_id", candidates.map((c) => c.id));
+
+      if (superLikesError) {
+        console.error("Error cargando super likes recibidos:", superLikesError.message);
+      } else {
+        superLikedByIds = new Set(superLikes.map((s) => s.swiper_id));
+      }
+    }
+
+    setStack(candidates.map((c) => ({ ...c, received_super_like: superLikedByIds.has(c.id) })));
     setLoading(false);
   };
 

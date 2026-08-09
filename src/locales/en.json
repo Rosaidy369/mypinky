@@ -51,7 +51,8 @@
       "onlineTitle": "Online",
       "matchPercent": "{{percent}}% match",
       "boosted": "Featured",
-      "moreInfoAria": "View more information"
+      "moreInfoAria": "View more information",
+      "superLikedRibbon": "You stood out from the rest"
     },
     "match": {
       "superlikeBadge": "Special match: there was a Super Like",

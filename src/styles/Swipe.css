@@ -729,6 +729,144 @@ border:1px solid rgba(0,0,0,.04);
 }
 
 /* ========================= */
+/* PINKY PULSE -- SUPER LIKE RECIBIDO */
+/* ========================= */
+
+@keyframes pinkyPulseGlow{
+
+0%,100%{ box-shadow:0 0 0 3px rgba(255,63,135,.9), 0 0 18px 5px rgba(255,215,0,.35), 0 25px 60px rgba(0,0,0,.18); }
+
+50%{ box-shadow:0 0 0 5px rgba(255,215,0,.9), 0 0 32px 9px rgba(255,63,135,.45), 0 25px 60px rgba(0,0,0,.18); }
+
+}
+
+.swipe-card.pinky-pulse{
+
+animation:pinkyPulseGlow 1.8s ease-in-out infinite;
+
+}
+
+.pinky-ribbon{
+
+position:absolute;
+
+top:62px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
+
+max-width:82%;
+
+padding:6px 14px;
+
+border-radius:30px;
+
+background:linear-gradient(135deg,#ff3f87,#ffd700);
+
+color:white;
+
+font-style:italic;
+
+font-weight:600;
+
+font-size:12px;
+
+text-align:center;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+box-shadow:0 8px 20px rgba(255,63,135,.35);
+
+z-index:3;
+
+}
+
+.pinky-particles{
+
+position:absolute;
+
+inset:0;
+
+overflow:hidden;
+
+border-radius:28px;
+
+pointer-events:none;
+
+z-index:2;
+
+}
+
+.pinky-particle{
+
+position:absolute;
+
+bottom:-8%;
+
+opacity:0;
+
+animation:pinkyParticleRise 3s ease-out forwards;
+
+}
+
+.pinky-particle-heart{
+
+width:16px;
+
+height:16px;
+
+color:#ff79ac;
+
+}
+
+.pinky-particle-spark{
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:#ffd700;
+
+box-shadow:0 0 6px 2px rgba(255,215,0,.6);
+
+}
+
+.pinky-particle:nth-child(1){ left:20%; animation-delay:.1s; }
+
+.pinky-particle:nth-child(2){ left:38%; animation-delay:.9s; }
+
+.pinky-particle:nth-child(3){ left:55%; animation-delay:.4s; }
+
+.pinky-particle:nth-child(4){ left:70%; animation-delay:1.3s; }
+
+.pinky-particle:nth-child(5){ left:85%; animation-delay:.7s; }
+
+@keyframes pinkyParticleRise{
+
+0%{ bottom:-8%; opacity:0; transform:translateY(0) scale(.6) rotate(0deg); }
+
+15%{ opacity:1; }
+
+75%{ opacity:.85; }
+
+100%{ bottom:75%; opacity:0; transform:translateY(-10px) scale(1) rotate(12deg); }
+
+}
+
+/* ========================= */
 /* BOTONES MEJORADOS */
 /* ========================= */
 

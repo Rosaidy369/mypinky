@@ -6,7 +6,33 @@ import { moodLabel } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import BoostIcon from "../ui/BoostIcon";
+import SuperLikeHeart from "../ui/SuperLikeHeart";
 import SwipeProfileDetail from "./SwipeProfileDetail";
+
+// One heart-shaped path (reused from the same decorative hearts already
+// drawn elsewhere in Swipe.jsx/SwipeProfileDetail.jsx) plus plain dots,
+// staggered by nth-child in Swipe.css -- mirrors the existing
+// .confetti-piece/.sparkle pattern in this same stylesheet.
+const PINKY_PARTICLE_PATH =
+  "M12 21s-7.5-4.9-10.2-9.3C.4 9.5 1 6.2 3.6 4.7c2.2-1.3 4.9-.7 6.4 1.3.6.8 1.3 1.9 2 3 .7-1.1 1.4-2.2 2-3 1.5-2 4.2-2.6 6.4-1.3 2.6 1.5 3.2 4.8 1.8 7-2.7 4.4-10.2 9.3-10.2 9.3z";
+
+function PinkyParticles() {
+  return (
+    <div className="pinky-particles">
+      {[0, 1, 2, 3, 4].map((i) =>
+        i % 2 === 0 ? (
+          <span className="pinky-particle pinky-particle-heart" key={i}>
+            <svg viewBox="0 0 24 24" width="100%" height="100%">
+              <path fill="currentColor" d={PINKY_PARTICLE_PATH} />
+            </svg>
+          </span>
+        ) : (
+          <span className="pinky-particle pinky-particle-spark" key={i}></span>
+        )
+      )}
+    </div>
+  );
+}
 
 function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
   const { t } = useTranslation();
@@ -75,7 +101,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
   return (
     <div
-      className={`swipe-card ${isTop ? "swipe-card-top" : ""} ${profile.is_boosted ? "is-boosted" : ""}`}
+      className={`swipe-card ${isTop ? "swipe-card-top" : ""} ${profile.is_boosted ? "is-boosted" : ""} ${profile.received_super_like ? "pinky-pulse" : ""}`}
       style={cardStyle}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -97,6 +123,14 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
               {t("swipe.card.nope")}
             </span>
           </>
+        )}
+
+        {profile.received_super_like && <PinkyParticles />}
+
+        {profile.received_super_like && (
+          <span className="pinky-ribbon">
+            <SuperLikeHeart size={13} /> {t("swipe.card.superLikedRibbon")}
+          </span>
         )}
 
         <div className="swipe-top-row">

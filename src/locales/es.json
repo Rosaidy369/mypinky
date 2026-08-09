@@ -51,7 +51,8 @@
       "onlineTitle": "En línea",
       "matchPercent": "{{percent}}% match",
       "boosted": "Destacado",
-      "moreInfoAria": "Ver más información"
+      "moreInfoAria": "Ver más información",
+      "superLikedRibbon": "Te destacaste entre los demás"
     },
     "match": {
       "superlikeBadge": "Match especial: hubo un Super Like",
