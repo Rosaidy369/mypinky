@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import MicIcon from "../ui/MicIcon";
 import StopIcon from "../ui/StopIcon";
 
@@ -16,6 +17,7 @@ function pickSupportedMimeType() {
 }
 
 function VoiceRecorder({ voiceNote, onSave, onRemove }) {
+  const { t } = useTranslation();
   const [isRecording, setIsRecording] = useState(false);
   const [seconds, setSeconds] = useState(0);
   const [error, setError] = useState("");
@@ -96,7 +98,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
         const totalBytes = chunksRef.current.reduce((sum, chunk) => sum + chunk.size, 0);
 
         if (totalBytes < MIN_VALID_BYTES || !everHeardSoundRef.current) {
-          setError("No detectamos audio en la grabación. Revisa que tu micrófono no esté silenciado e inténtalo de nuevo.");
+          setError(t("voiceRecorder.errorNoAudio"));
           return;
         }
 
@@ -111,7 +113,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
           await onSave(blob);
         } catch (err) {
           console.error("Error subiendo nota de voz:", err);
-          setError("No se pudo subir la nota de voz. Intenta de nuevo.");
+          setError(t("voiceRecorder.errorUploadFailed"));
         } finally {
           setUploading(false);
         }
@@ -132,7 +134,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
       }, 1000);
 
     } catch (err) {
-      setError("No se pudo acceder al micrófono. Revisa los permisos del navegador.");
+      setError(t("voiceRecorder.errorMicPermission"));
     }
   };
 
@@ -159,7 +161,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
       {error && (
         <div className="voice-error">
           <span>{error}</span>
-          <button type="button" className="voice-error-dismiss" onClick={() => setError("")} aria-label="Cerrar">
+          <button type="button" className="voice-error-dismiss" onClick={() => setError("")} aria-label={t("voiceRecorder.closeAria")}>
             ✕
           </button>
         </div>
@@ -172,10 +174,10 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
           <audio controls src={previewSrc} className="voice-audio"></audio>
 
           {uploading ? (
-            <span className="voice-uploading">Subiendo...</span>
+            <span className="voice-uploading">{t("voiceRecorder.uploading")}</span>
           ) : (
             <button type="button" className="voice-remove-btn" onClick={handleRemove}>
-              ✕ Eliminar
+              ✕ {t("voiceRecorder.remove")}
             </button>
           )}
 
@@ -186,7 +188,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
       {!previewSrc && !isRecording && (
 
         <button type="button" className="voice-record-btn" onClick={startRecording}>
-          <MicIcon size={16} /> Grabar nota de voz (10s)
+          <MicIcon size={16} /> {t("voiceRecorder.recordButton", { seconds: MAX_SECONDS })}
         </button>
 
       )}
@@ -197,10 +199,10 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
 
           <span className="recording-dot"></span>
 
-          <span>Grabando... {seconds}s / {MAX_SECONDS}s</span>
+          <span>{t("voiceRecorder.recording", { seconds, max: MAX_SECONDS })}</span>
 
           <button type="button" className="voice-stop-btn" onClick={stopRecording}>
-            <StopIcon size={14} /> Detener
+            <StopIcon size={14} /> {t("voiceRecorder.stop")}
           </button>
 
           <div className="voice-level-meter" aria-hidden="true">
@@ -212,9 +214,9 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
 
           <p className="voice-level-hint">
             {level > 4 ? (
-              <><MicIcon size={13} /> Detectando tu voz</>
+              <><MicIcon size={13} /> {t("voiceRecorder.detectingVoice")}</>
             ) : (
-              "Habla ahora — si esta barra no se mueve, tu micrófono está silenciado"
+              t("voiceRecorder.levelHint")
             )}
           </p>
 

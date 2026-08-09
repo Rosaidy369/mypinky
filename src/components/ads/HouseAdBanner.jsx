@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import "../../styles/HouseAdBanner.css";
 
-const MESSAGES = [
-  { title: "Likes ilimitados te esperan", body: "Con Premium dejas de contar swipes y empiezas a conocer gente de verdad." },
-  { title: "¿Quién te dio like?", body: "Descúbrelo al instante con Premium, sin esperar a que aparezcan en tu mazo." },
-  { title: "Destaca sobre los demás", body: "Con VIP tu perfil se impulsa una vez por semana y aparece primero." },
-];
-
-function pickRandomMessage() {
-  return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+function pickRandomMessage(messages) {
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
 function HouseAdBanner({ variant = "grid" }) {
-  const [message] = useState(pickRandomMessage);
+  const { t } = useTranslation();
+  const messages = t("houseAd.messages", { returnObjects: true });
+  const [message] = useState(() => pickRandomMessage(messages));
 
   return (
     <div className={`house-ad house-ad-${variant}`}>
@@ -25,7 +22,7 @@ function HouseAdBanner({ variant = "grid" }) {
       <p>{message.body}</p>
 
       <Link to="/premium" className="house-ad-btn">
-        <PremiumDiamond size={14} /> Ver planes
+        <PremiumDiamond size={14} /> {t("houseAd.ctaButton")}
       </Link>
 
     </div>

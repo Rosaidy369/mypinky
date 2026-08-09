@@ -710,5 +710,26 @@
     "note": "This isn't a permanent ban — it's temporary, and we believe in second chances. Once the date passes, your account works normally again without you having to do anything.",
     "contactSupport": "Contact support",
     "logout": "Log out"
+  },
+  "houseAd": {
+    "messages": [
+      { "title": "Unlimited likes are waiting for you", "body": "With Premium you stop counting swipes and start meeting people for real." },
+      { "title": "Who liked you?", "body": "Find out instantly with Premium, without waiting for them to show up in your deck." },
+      { "title": "Stand out from the rest", "body": "With VIP your profile gets boosted once a week and shows up first." }
+    ],
+    "ctaButton": "View plans"
+  },
+  "voiceRecorder": {
+    "closeAria": "Close",
+    "uploading": "Uploading...",
+    "remove": "Remove",
+    "recordButton": "Record voice note ({{seconds}}s)",
+    "recording": "Recording... {{seconds}}s / {{max}}s",
+    "stop": "Stop",
+    "detectingVoice": "Detecting your voice",
+    "levelHint": "Speak now — if this bar doesn't move, your microphone is muted",
+    "errorNoAudio": "We didn't detect audio in the recording. Check that your microphone isn't muted and try again.",
+    "errorUploadFailed": "Couldn't upload the voice note. Try again.",
+    "errorMicPermission": "Couldn't access the microphone. Check your browser permissions."
   }
 }
