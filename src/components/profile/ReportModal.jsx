@@ -1,11 +1,22 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../../lib/supabaseClient";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import SuccessCheck from "../ui/SuccessCheck";
 
-const REPORT_REASONS = ["Perfil falso", "Acoso", "Contenido inapropiado", "Spam"];
+// `code` is what actually gets stored in reports.reason -- kept as the
+// original Spanish text regardless of UI language, since the admin app
+// reads this column and wasn't part of this i18n pass. Only the on-screen
+// label is translated.
+const REPORT_REASONS = [
+  { code: "Perfil falso", labelKey: "report.reasons.fakeProfile" },
+  { code: "Acoso", labelKey: "report.reasons.harassment" },
+  { code: "Contenido inapropiado", labelKey: "report.reasons.inappropriateContent" },
+  { code: "Spam", labelKey: "report.reasons.spam" },
+];
 
 function ReportModal({ profileId, reporterId, onClose }) {
+  const { t } = useTranslation();
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -16,7 +27,7 @@ function ReportModal({ profileId, reporterId, onClose }) {
 
   const handleSubmit = async () => {
     if (!reason) {
-      setError("Elige un motivo para continuar.");
+      setError(t("report.errorReasonRequired"));
       return;
     }
 
@@ -32,7 +43,7 @@ function ReportModal({ profileId, reporterId, onClose }) {
 
     if (insertError) {
       console.error("Error enviando reporte:", insertError.message);
-      setError("No se pudo enviar el reporte. Intenta de nuevo.");
+      setError(t("report.errorGeneric"));
       setSubmitting(false);
       return;
     }
@@ -48,36 +59,36 @@ function ReportModal({ profileId, reporterId, onClose }) {
         {submitted ? (
           <>
             <div className="success-icon"><SuccessCheck size={48} /></div>
-            <h2>Reporte enviado</h2>
-            <p>Gracias por avisarnos. Lo vamos a revisar.</p>
+            <h2>{t("report.successTitle")}</h2>
+            <p>{t("report.successBody")}</p>
             <button className="confirm-btn" onClick={onClose}>
-              Entendido
+              {t("report.understood")}
             </button>
           </>
         ) : (
           <>
-            <h2>Reportar perfil</h2>
-            <p>Cuéntanos qué está pasando. Revisamos cada reporte manualmente.</p>
+            <h2>{t("report.title")}</h2>
+            <p>{t("report.subtitle")}</p>
 
             <div className="report-reason-options">
               {REPORT_REASONS.map((option) => (
                 <button
                   type="button"
-                  key={option}
-                  className={`report-reason-pill ${reason === option ? "selected" : ""}`}
+                  key={option.code}
+                  className={`report-reason-pill ${reason === option.code ? "selected" : ""}`}
                   onClick={() => {
-                    setReason(option);
+                    setReason(option.code);
                     setError("");
                   }}
                 >
-                  {option}
+                  {t(option.labelKey)}
                 </button>
               ))}
             </div>
 
             <textarea
               className="report-details-input"
-              placeholder="Detalles adicionales (opcional)"
+              placeholder={t("report.detailsPlaceholder")}
               rows={3}
               maxLength={500}
               value={details}
@@ -88,10 +99,10 @@ function ReportModal({ profileId, reporterId, onClose }) {
 
             <div className="delete-modal-actions">
               <button className="cancel-btn" onClick={onClose} disabled={submitting}>
-                Cancelar
+                {t("report.cancel")}
               </button>
               <button className="confirm-btn" onClick={handleSubmit} disabled={submitting}>
-                {submitting ? "Enviando..." : "Enviar reporte"}
+                {submitting ? t("report.sending") : t("report.submit")}
               </button>
             </div>
           </>

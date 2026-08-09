@@ -625,5 +625,47 @@
     ],
     "noAnswerText": "Didn't find what you were looking for?",
     "contactCta": "Contact us"
+  },
+  "profile": {
+    "loading": "Loading profile...",
+    "notFound": "Profile not found",
+    "reportAria": "Report profile",
+    "viewPhotos": "View photos ({{count}})",
+    "sharedInterests_one": "{{count}} shared interest with you",
+    "sharedInterests_other": "{{count}} shared interests with you",
+    "aboutHeading": "About me",
+    "interestsHeading": "Interests",
+    "voiceNoteHeading": "Voice note",
+    "matchBtn": "❤️ Match",
+    "creatingMatch": "Matching...",
+    "sendMessage": "Send message",
+    "requiresMatch": "Requires a match",
+    "premiumMessage": "Premium message"
+  },
+  "photoCrop": {
+    "title": "Adjust your photo",
+    "subtitle": "Move and zoom to frame your photo",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "uploading": "Uploading..."
+  },
+  "report": {
+    "title": "Report profile",
+    "subtitle": "Tell us what's going on. We review every report manually.",
+    "reasons": {
+      "fakeProfile": "Fake profile",
+      "harassment": "Harassment",
+      "inappropriateContent": "Inappropriate content",
+      "spam": "Spam"
+    },
+    "detailsPlaceholder": "Additional details (optional)",
+    "errorReasonRequired": "Choose a reason to continue.",
+    "errorGeneric": "Couldn't send your report. Try again.",
+    "cancel": "Cancel",
+    "sending": "Sending...",
+    "submit": "Send report",
+    "successTitle": "Report sent",
+    "successBody": "Thanks for letting us know. We'll review it.",
+    "understood": "Got it"
   }
 }

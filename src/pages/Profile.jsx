@@ -108,13 +108,13 @@ function Profile() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando perfil...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("profile.loading")}</div>;
   }
 
   if (notFound || !profile) {
     return (
       <h1 style={{ padding: "120px" }}>
-        Perfil no encontrado
+        {t("profile.notFound")}
       </h1>
     );
   }
@@ -130,7 +130,7 @@ function Profile() {
         <button
           className="report-flag-btn"
           onClick={() => setShowReportModal(true)}
-          aria-label="Reportar perfil"
+          aria-label={t("profile.reportAria")}
         >
           <FlagIcon size={18} />
         </button>
@@ -152,7 +152,7 @@ function Profile() {
 
           {profile.photos && profile.photos.length > 1 && (
             <button className="view-photos-btn" onClick={() => setShowGallery(true)}>
-              <CameraIcon size={15} /> Ver fotos ({profile.photos.length})
+              <CameraIcon size={15} /> {t("profile.viewPhotos", { count: profile.photos.length })}
             </button>
           )}
 
@@ -167,11 +167,11 @@ function Profile() {
 
               {isVipActive(profile) ? (
                 <span className="vip-badge-inline">
-                  <VipDiamond size={18} /> VIP
+                  <VipDiamond size={18} /> {t("explore.vip")}
                 </span>
               ) : isPlanActive(profile) && profile.plan === "premium" ? (
                 <span className="premium-badge-inline">
-                  <PremiumDiamond size={16} /> Premium
+                  <PremiumDiamond size={16} /> {t("explore.premium")}
                 </span>
               ) : null}
 
@@ -191,13 +191,13 @@ function Profile() {
 
           {sharedCount > 0 && (
             <div className="profile-compatibility">
-              ✨ {sharedCount} {sharedCount === 1 ? "interés en común" : "intereses en común"} contigo
+              ✨ {t("profile.sharedInterests", { count: sharedCount })}
             </div>
           )}
 
           <div className="about">
 
-            <h2>Sobre mí</h2>
+            <h2>{t("profile.aboutHeading")}</h2>
 
             <p>
               {profile.bio}
@@ -218,7 +218,7 @@ function Profile() {
 
           <div className="interests">
 
-            <h2>Intereses</h2>
+            <h2>{t("profile.interestsHeading")}</h2>
 
             <div className="tags">
 
@@ -238,7 +238,7 @@ function Profile() {
 
           {profile.voice_note_url && (
             <div className="voice-display">
-              <h2><MicIcon size={17} className="voice-title-icon" /> Nota de voz</h2>
+              <h2><MicIcon size={17} className="voice-title-icon" /> {t("profile.voiceNoteHeading")}</h2>
               <audio controls src={profile.voice_note_url} className="voice-audio"></audio>
             </div>
           )}
@@ -247,23 +247,23 @@ function Profile() {
 
             {!existingMatch && (
               <button className="match-btn" onClick={handleDarMatch} disabled={matching}>
-                {matching ? "Creando match..." : "❤️ Dar Match"}
+                {matching ? t("profile.creatingMatch") : t("profile.matchBtn")}
               </button>
             )}
 
             {existingMatch ? (
               <Link to={`/chat/${existingMatch.id}`} className="message-btn">
-                <MessageIcon size={15} /> Enviar mensaje
+                <MessageIcon size={15} /> {t("profile.sendMessage")}
               </Link>
             ) : (
               <button className="message-btn" disabled>
-                <MessageIcon size={15} /> Requiere match
+                <MessageIcon size={15} /> {t("profile.requiresMatch")}
               </button>
             )}
 
             {!existingMatch && (
               <button className="premium-btn" onClick={handleMensajePremium}>
-                <PremiumDiamond size={16} /> Mensaje Premium
+                <PremiumDiamond size={16} /> {t("profile.premiumMessage")}
               </button>
             )}
 

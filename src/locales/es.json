@@ -625,5 +625,47 @@
     ],
     "noAnswerText": "¿No encontraste lo que buscabas?",
     "contactCta": "Contáctanos"
+  },
+  "profile": {
+    "loading": "Cargando perfil...",
+    "notFound": "Perfil no encontrado",
+    "reportAria": "Reportar perfil",
+    "viewPhotos": "Ver fotos ({{count}})",
+    "sharedInterests_one": "{{count}} interés en común contigo",
+    "sharedInterests_other": "{{count}} intereses en común contigo",
+    "aboutHeading": "Sobre mí",
+    "interestsHeading": "Intereses",
+    "voiceNoteHeading": "Nota de voz",
+    "matchBtn": "❤️ Dar Match",
+    "creatingMatch": "Creando match...",
+    "sendMessage": "Enviar mensaje",
+    "requiresMatch": "Requiere match",
+    "premiumMessage": "Mensaje Premium"
+  },
+  "photoCrop": {
+    "title": "Ajusta tu foto",
+    "subtitle": "Mueve y haz zoom para encuadrar tu foto",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "uploading": "Subiendo..."
+  },
+  "report": {
+    "title": "Reportar perfil",
+    "subtitle": "Cuéntanos qué está pasando. Revisamos cada reporte manualmente.",
+    "reasons": {
+      "fakeProfile": "Perfil falso",
+      "harassment": "Acoso",
+      "inappropriateContent": "Contenido inapropiado",
+      "spam": "Spam"
+    },
+    "detailsPlaceholder": "Detalles adicionales (opcional)",
+    "errorReasonRequired": "Elige un motivo para continuar.",
+    "errorGeneric": "No se pudo enviar el reporte. Intenta de nuevo.",
+    "cancel": "Cancelar",
+    "sending": "Enviando...",
+    "submit": "Enviar reporte",
+    "successTitle": "Reporte enviado",
+    "successBody": "Gracias por avisarnos. Lo vamos a revisar.",
+    "understood": "Entendido"
   }
 }

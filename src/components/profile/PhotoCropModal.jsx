@@ -1,7 +1,9 @@
 import { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import Cropper from "react-easy-crop";
 
 function PhotoCropModal({ imageSrc, onCancel, onConfirm }) {
+  const { t } = useTranslation();
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -25,8 +27,8 @@ function PhotoCropModal({ imageSrc, onCancel, onConfirm }) {
     <div className="crop-modal-backdrop">
       <div className="crop-modal">
 
-        <h2>Ajusta tu foto</h2>
-        <p className="crop-modal-subtitle">Mueve y haz zoom para encuadrar tu foto</p>
+        <h2>{t("photoCrop.title")}</h2>
+        <p className="crop-modal-subtitle">{t("photoCrop.subtitle")}</p>
 
         <div className="crop-modal-area">
           <Cropper
@@ -54,10 +56,10 @@ function PhotoCropModal({ imageSrc, onCancel, onConfirm }) {
 
         <div className="crop-modal-actions">
           <button type="button" className="cancel-btn" onClick={onCancel} disabled={saving}>
-            Cancelar
+            {t("photoCrop.cancel")}
           </button>
           <button type="button" className="confirm-btn" onClick={handleConfirm} disabled={saving}>
-            {saving ? "Subiendo..." : "Confirmar"}
+            {saving ? t("photoCrop.uploading") : t("photoCrop.confirm")}
           </button>
         </div>
 
