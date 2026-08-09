@@ -7,6 +7,7 @@ import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import BoostIcon from "../ui/BoostIcon";
 import SuperLikeHeart from "../ui/SuperLikeHeart";
+import SpecialTouchHeart from "../ui/SpecialTouchHeart";
 import SwipeProfileDetail from "./SwipeProfileDetail";
 
 // One heart-shaped path (reused from the same decorative hearts already
@@ -127,10 +128,21 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
         {profile.received_super_like && <PinkyParticles />}
 
-        {profile.received_super_like && (
-          <span className="pinky-ribbon">
-            <SuperLikeHeart size={13} /> {t("swipe.card.superLikedRibbon")}
-          </span>
+        {profile.special_touch_message ? (
+          <>
+            <span className="pinky-ribbon special-touch-ribbon">
+              <SpecialTouchHeart size={13} /> {t("swipe.card.specialTouchRibbon")}
+            </span>
+            <div className="special-touch-bubble">
+              <p>{profile.special_touch_message}</p>
+            </div>
+          </>
+        ) : (
+          profile.received_super_like && (
+            <span className="pinky-ribbon">
+              <SuperLikeHeart size={13} /> {t("swipe.card.superLikedRibbon")}
+            </span>
+          )
         )}
 
         <div className="swipe-top-row">

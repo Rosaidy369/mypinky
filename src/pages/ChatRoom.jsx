@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
 import { isVipActive } from "../lib/plan";
-import PremiumDiamond from "../components/ui/PremiumDiamond";
+import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import "../styles/Chat.css";
 
 function ChatRoom() {
@@ -99,7 +99,7 @@ function ChatRoom() {
       ...matchData,
       otherProfile: isOwner ? matchData.matched_profile : matchData.user_profile,
       otherProfileId: isOwner ? matchData.matched_profile_id : matchData.user_id,
-      isPremiumMessagePayer: isOwner && matchData.created_via === "premium_message",
+      isSpecialTouchSender: isOwner && matchData.created_via === "special_touch",
     });
 
     // Read receipts ("Leído") are a VIP perk for the sender, not the
@@ -180,21 +180,21 @@ function ChatRoom() {
 
         </Link>
 
-        {match.created_via === "premium_message" && (
-          <span className="premium-header-badge"><PremiumDiamond size={14} /> {t("chat.room.premiumBadge")}</span>
+        {match.created_via === "special_touch" && (
+          <span className="special-touch-header-badge"><SpecialTouchHeart size={14} /> {t("chat.room.specialTouchBadge")}</span>
         )}
 
       </div>
 
-      {match.created_via === "premium_message" && (
-        <div className="premium-unlock-banner">
-          <span className="premium-unlock-icon"><PremiumDiamond size={22} /></span>
+      {match.created_via === "special_touch" && (
+        <div className="special-touch-banner">
+          <span className="special-touch-banner-icon"><SpecialTouchHeart size={22} /></span>
           <div>
-            <strong>{t("chat.room.premiumBadge")}</strong>
+            <strong>{t("chat.room.specialTouchBadge")}</strong>
             <p>
-              {match.isPremiumMessagePayer
-                ? t("chat.room.premiumBannerPayer", { name: match.otherProfile?.name })
-                : t("chat.room.premiumBannerReceiver", { name: match.otherProfile?.name })}
+              {match.isSpecialTouchSender
+                ? t("chat.room.specialTouchBannerSender", { name: match.otherProfile?.name })
+                : t("chat.room.specialTouchBannerReceiver", { name: match.otherProfile?.name })}
             </p>
           </div>
         </div>

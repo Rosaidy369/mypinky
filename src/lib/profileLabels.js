@@ -28,3 +28,7 @@ export function moodDesc(t, code) {
 export function promptQuestionLabel(t, code) {
   return code ? t(`profileOptions.prompts.${code}`, { defaultValue: code }) : "";
 }
+
+export function sharedInterestCount(profileInterests = [], myInterests = []) {
+  return profileInterests.filter((i) => myInterests.includes(i)).length;
+}

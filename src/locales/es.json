@@ -52,7 +52,8 @@
       "matchPercent": "{{percent}}% match",
       "boosted": "Destacado",
       "moreInfoAria": "Ver más información",
-      "superLikedRibbon": "Te destacaste entre los demás"
+      "superLikedRibbon": "Te destacaste entre los demás",
+      "specialTouchRibbon": "Toque Especial"
     },
     "match": {
       "superlikeBadge": "Match especial: hubo un Super Like",
@@ -66,7 +67,8 @@
       "interests": "Intereses",
       "voiceNote": "Nota de voz",
       "sharedInterests_one": "{{count}} interés en común contigo",
-      "sharedInterests_other": "{{count}} intereses en común contigo"
+      "sharedInterests_other": "{{count}} intereses en común contigo",
+      "specialTouchHeading": "Toque Especial"
     }
   },
   "explore": {
@@ -133,7 +135,7 @@
       "heading": "Mensajes",
       "emptyTitle": "No tienes conversaciones",
       "emptyBody": "Haz match con alguien para empezar a chatear.",
-      "premiumMessageTag": "Mensaje Premium",
+      "specialTouchTag": "Toque Especial",
       "deleteAriaLabel": "Eliminar conversación",
       "deleteModalTitle": "¿Eliminar esta conversación?",
       "deleteModalBody": "Se borrará el chat con {{name}}. Esta acción no se puede deshacer.",
@@ -143,9 +145,9 @@
     "room": {
       "loading": "Cargando conversación...",
       "notFound": "Conversación no encontrada.",
-      "premiumBadge": "Mensaje Premium",
-      "premiumBannerPayer": "Pagaste para escribirle directamente a {{name}}.",
-      "premiumBannerReceiver": "{{name}} pagó para escribirte directamente.",
+      "specialTouchBadge": "Toque Especial",
+      "specialTouchBannerSender": "Le enviaste un Toque Especial a {{name}} y aceptó.",
+      "specialTouchBannerReceiver": "{{name}} te envió un Toque Especial antes de este match.",
       "emptyHint": "Es un match con {{name}}. ¡Rompe el hielo! 💬",
       "readReceipt": "Leído · {{time}}",
       "sentReceipt": "Enviado",
@@ -641,7 +643,7 @@
     "creatingMatch": "Creando match...",
     "sendMessage": "Enviar mensaje",
     "requiresMatch": "Requiere match",
-    "premiumMessage": "Mensaje Premium"
+    "specialTouch": "Toque Especial"
   },
   "photoCrop": {
     "title": "Ajusta tu foto",
@@ -691,15 +693,28 @@
       "successBody": "Tu suscripción está activa. Disfruta de todos los beneficios.",
       "continueBtn": "Ir a la app"
     },
-    "message": {
-      "title": "Mensaje a {{name}}",
-      "priceNote": "${{price}} · Pago único, sin suscripción",
+    "specialTouch": {
+      "title": "Toque Especial a {{name}}",
+      "priceNote": "${{price}} · Pago único, sin reembolso",
       "loading": "Cargando...",
       "notFound": "Perfil no encontrado.",
+      "messageLabel": "Tu mensaje",
+      "messagePlaceholder": "Escribe algo que la haga notar tu Toque Especial...",
+      "messageCounter": "{{count}}/{{max}}",
+      "previewHeading": "Así se va a ver tu Toque Especial",
+      "weeklyUsage": "{{used}} de {{total}} usados esta semana",
+      "blockedTitle": "Ya usaste tus 3 Toques Especiales de esta semana",
+      "blockedBody": "Podrás enviar otro a partir del {{date}}.",
+      "noRefundNote": "Una vez enviado, no hay reembolso.",
       "payError": "No se pudo procesar el pago. Intenta de nuevo.",
-      "successTitle": "¡Listo!",
-      "successBody": "Ya puedes enviarle un mensaje directo a {{name}}.",
-      "continueBtn": "Ir al chat"
+      "errorGeneric": "No se pudo enviar tu Toque Especial. Intenta de nuevo.",
+      "errorAlreadyMatched": "Ya tienes un match con esta persona.",
+      "errorAlreadyPending": "Ya le enviaste un Toque Especial a esta persona. Espera su respuesta.",
+      "errorWeeklyLimit": "Ya usaste tus 3 Toques Especiales de esta semana.",
+      "errorInvalidMessage": "Escribe un mensaje de hasta 350 caracteres.",
+      "successTitle": "¡Toque Especial enviado!",
+      "successBody": "Le avisaremos si también te da like. No hay reembolsos una vez enviado.",
+      "continueBtn": "Volver a Explorar"
     }
   },
   "suspended": {

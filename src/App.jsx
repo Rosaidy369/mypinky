@@ -27,7 +27,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Support from "./pages/Support";
 import Contact from "./pages/Contact";
-import PremiumMessageCheckout from "./pages/PremiumMessageCheckout";
+import SpecialTouchCheckout from "./pages/SpecialTouchCheckout";
 import WhoLikedMe from "./pages/WhoLikedMe";
 
 function App() {
@@ -164,10 +164,10 @@ function App() {
             />
 
            <Route
-              path="/mensaje-premium/:profileId"
+              path="/toque-especial/:profileId"
               element={
                 <ProtectedRoute>
-                  <PremiumMessageCheckout />
+                  <SpecialTouchCheckout />
                 </ProtectedRoute>
               }
             />

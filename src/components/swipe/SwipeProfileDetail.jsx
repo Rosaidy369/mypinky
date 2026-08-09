@@ -2,10 +2,11 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { isPlanActive, isVipActive } from "../../lib/plan";
-import { moodLabel, interestLabel, promptQuestionLabel } from "../../lib/profileLabels";
+import { moodLabel, interestLabel, promptQuestionLabel, sharedInterestCount } from "../../lib/profileLabels";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import MicIcon from "../ui/MicIcon";
+import SpecialTouchHeart from "../ui/SpecialTouchHeart";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
@@ -18,7 +19,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
   useLockBodyScroll();
 
   const interests = profile.interests || [];
-  const sharedCount = interests.filter((i) => myInterests.includes(i)).length;
+  const sharedCount = sharedInterestCount(interests, myInterests);
 
   const prompts = profile.prompts || [];
 
@@ -88,6 +89,13 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
           <p className="detail-location">📍 {profile.country}</p>
 
           <div className="detail-mood">{moodLabel(t, profile.mood)}</div>
+
+          {profile.special_touch_message && (
+            <div className="detail-special-touch">
+              <h3><SpecialTouchHeart size={15} /> {t("swipe.detail.specialTouchHeading")}</h3>
+              <p>{profile.special_touch_message}</p>
+            </div>
+          )}
 
           {sharedCount > 0 && (
             <div className="detail-compatibility">

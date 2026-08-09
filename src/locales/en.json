@@ -52,7 +52,8 @@
       "matchPercent": "{{percent}}% match",
       "boosted": "Featured",
       "moreInfoAria": "View more information",
-      "superLikedRibbon": "You stood out from the rest"
+      "superLikedRibbon": "You stood out from the rest",
+      "specialTouchRibbon": "Special Touch"
     },
     "match": {
       "superlikeBadge": "Special match: there was a Super Like",
@@ -66,7 +67,8 @@
       "interests": "Interests",
       "voiceNote": "Voice note",
       "sharedInterests_one": "{{count}} shared interest with you",
-      "sharedInterests_other": "{{count}} shared interests with you"
+      "sharedInterests_other": "{{count}} shared interests with you",
+      "specialTouchHeading": "Special Touch"
     }
   },
   "explore": {
@@ -133,7 +135,7 @@
       "heading": "Messages",
       "emptyTitle": "No conversations yet",
       "emptyBody": "Match with someone to start chatting.",
-      "premiumMessageTag": "Premium message",
+      "specialTouchTag": "Special Touch",
       "deleteAriaLabel": "Delete conversation",
       "deleteModalTitle": "Delete this conversation?",
       "deleteModalBody": "This will delete the chat with {{name}}. This can't be undone.",
@@ -143,9 +145,9 @@
     "room": {
       "loading": "Loading conversation...",
       "notFound": "Conversation not found.",
-      "premiumBadge": "Premium message",
-      "premiumBannerPayer": "You paid to message {{name}} directly.",
-      "premiumBannerReceiver": "{{name}} paid to message you directly.",
+      "specialTouchBadge": "Special Touch",
+      "specialTouchBannerSender": "You sent {{name}} a Special Touch and they said yes.",
+      "specialTouchBannerReceiver": "{{name}} sent you a Special Touch before this match.",
       "emptyHint": "It's a match with {{name}}. Break the ice! 💬",
       "readReceipt": "Read · {{time}}",
       "sentReceipt": "Sent",
@@ -641,7 +643,7 @@
     "creatingMatch": "Matching...",
     "sendMessage": "Send message",
     "requiresMatch": "Requires a match",
-    "premiumMessage": "Premium message"
+    "specialTouch": "Special Touch"
   },
   "photoCrop": {
     "title": "Adjust your photo",
@@ -691,15 +693,28 @@
       "successBody": "Your subscription is active. Enjoy all the benefits.",
       "continueBtn": "Go to the app"
     },
-    "message": {
-      "title": "Message to {{name}}",
-      "priceNote": "${{price}} · One-time payment, no subscription",
+    "specialTouch": {
+      "title": "Special Touch to {{name}}",
+      "priceNote": "${{price}} · One-time payment, no refunds",
       "loading": "Loading...",
       "notFound": "Profile not found.",
+      "messageLabel": "Your message",
+      "messagePlaceholder": "Write something that makes your Special Touch stand out...",
+      "messageCounter": "{{count}}/{{max}}",
+      "previewHeading": "Here's how your Special Touch will look",
+      "weeklyUsage": "{{used}} of {{total}} used this week",
+      "blockedTitle": "You've used your 3 Special Touches for this week",
+      "blockedBody": "You'll be able to send another one starting {{date}}.",
+      "noRefundNote": "Once sent, there are no refunds.",
       "payError": "Couldn't process the payment. Try again.",
-      "successTitle": "All set!",
-      "successBody": "You can now send {{name}} a direct message.",
-      "continueBtn": "Go to chat"
+      "errorGeneric": "Couldn't send your Special Touch. Try again.",
+      "errorAlreadyMatched": "You already have a match with this person.",
+      "errorAlreadyPending": "You already sent this person a Special Touch. Wait for their response.",
+      "errorWeeklyLimit": "You've used your 3 Special Touches for this week.",
+      "errorInvalidMessage": "Write a message up to 350 characters.",
+      "successTitle": "Special Touch sent!",
+      "successBody": "We'll let you know if they like you back too. No refunds once sent.",
+      "continueBtn": "Back to Explore"
     }
   },
   "suspended": {

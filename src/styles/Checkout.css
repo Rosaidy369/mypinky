@@ -112,11 +112,36 @@ transition:.3s;
 
 }
 
-.checkout-form input:focus{
+.checkout-form input:focus,
+.checkout-form textarea:focus{
 
 border-color:#ff3f87;
 
 box-shadow:0 0 0 4px rgba(255,63,135,.15);
+
+}
+
+.checkout-form textarea{
+
+width:100%;
+
+padding:14px 18px;
+
+border-radius:14px;
+
+border:1px solid #ddd;
+
+font-size:15px;
+
+font-family:inherit;
+
+outline:none;
+
+background:#fafafa;
+
+transition:.3s;
+
+resize:vertical;
 
 }
 
@@ -375,5 +400,131 @@ animation:successDraw .4s ease .25s forwards;
 @keyframes successDraw{
 
 to{ stroke-dashoffset:0; }
+
+}
+
+/* ========================= */
+/* TOQUE ESPECIAL */
+/* ========================= */
+
+.special-touch-checkout-shared{
+
+color:#7b2ff7;
+
+font-weight:600;
+
+font-size:13px;
+
+margin-top:4px;
+
+}
+
+.special-touch-preview{
+
+margin:6px 0 10px;
+
+text-align:center;
+
+}
+
+.special-touch-preview-label{
+
+font-size:13px;
+
+font-weight:600;
+
+color:#888;
+
+margin-bottom:12px;
+
+}
+
+.special-touch-preview-card{
+
+position:relative;
+
+width:100%;
+
+max-width:220px;
+
+aspect-ratio:320/520;
+
+margin:0 auto;
+
+border-radius:24px;
+
+overflow:hidden;
+
+background-size:cover;
+
+background-position:center;
+
+box-shadow:0 20px 40px rgba(0,0,0,.15);
+
+}
+
+.special-touch-counter{
+
+text-align:right;
+
+font-size:12px;
+
+color:#999;
+
+margin-top:6px;
+
+}
+
+.special-touch-weekly-note{
+
+text-align:center;
+
+font-size:13px;
+
+color:#7b2ff7;
+
+font-weight:600;
+
+margin-top:18px;
+
+}
+
+.special-touch-no-refund{
+
+text-align:center;
+
+font-size:12px;
+
+color:#aaa;
+
+margin-top:8px;
+
+}
+
+.special-touch-blocked{
+
+text-align:center;
+
+padding:30px 10px 10px;
+
+color:#7b2ff7;
+
+}
+
+.special-touch-blocked h3{
+
+font-size:17px;
+
+margin:14px 0 8px;
+
+color:#333;
+
+}
+
+.special-touch-blocked p{
+
+color:#777;
+
+font-size:14px;
 
 }

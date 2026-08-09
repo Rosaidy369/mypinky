@@ -867,6 +867,64 @@ box-shadow:0 0 6px 2px rgba(255,215,0,.6);
 }
 
 /* ========================= */
+/* TOQUE ESPECIAL -- variante de Pinky Pulse con mensaje */
+/* ========================= */
+
+.pinky-ribbon.special-touch-ribbon{
+
+background:linear-gradient(135deg,#7b2ff7,#ff3f87);
+
+box-shadow:0 8px 20px rgba(123,47,247,.35);
+
+}
+
+.special-touch-bubble{
+
+position:absolute;
+
+top:112px;
+
+left:20px;
+
+right:20px;
+
+max-height:110px;
+
+overflow:hidden;
+
+padding:12px 16px;
+
+border-radius:18px;
+
+background:rgba(0,0,0,.45);
+
+backdrop-filter:blur(6px);
+
+color:white;
+
+font-size:13px;
+
+line-height:1.45;
+
+z-index:3;
+
+}
+
+.special-touch-bubble p{
+
+margin:0;
+
+display:-webkit-box;
+
+-webkit-line-clamp:4;
+
+-webkit-box-orient:vertical;
+
+overflow:hidden;
+
+}
+
+/* ========================= */
 /* BOTONES MEJORADOS */
 /* ========================= */
 
@@ -1645,6 +1703,50 @@ border-radius:16px;
 margin-top:16px;
 
 display:inline-block;
+
+}
+
+.detail-special-touch{
+
+background:linear-gradient(135deg,#f4ecff,#ffe7f1);
+
+border:1px solid rgba(123,47,247,.18);
+
+border-radius:16px;
+
+padding:14px 16px;
+
+margin-top:16px;
+
+}
+
+.detail-special-touch h3{
+
+display:flex;
+
+align-items:center;
+
+gap:6px;
+
+font-size:14px;
+
+margin-bottom:6px;
+
+color:#7b2ff7;
+
+}
+
+.detail-special-touch p{
+
+color:#444;
+
+font-size:14px;
+
+line-height:1.6;
+
+margin:0;
+
+white-space:pre-wrap;
 
 }
 

@@ -137,7 +137,38 @@ function Swipe() {
       }
     }
 
-    setStack(candidates.map((c) => ({ ...c, received_super_like: superLikedByIds.has(c.id) })));
+    // "Toque Especial": pending touches directed at the current user,
+    // keyed by sender so each candidate can carry its own message/id --
+    // whoever sent one already has received_super_like=true above too
+    // (send_special_touch registers a superlike), this just adds the text.
+    let specialTouchBySenderId = new Map();
+
+    if (candidates.length > 0) {
+      const { data: specialTouches, error: specialTouchesError } = await supabase
+        .from("special_touches")
+        .select("id, sender_id, message")
+        .eq("recipient_id", currentUser.id)
+        .eq("status", "pending")
+        .in("sender_id", candidates.map((c) => c.id));
+
+      if (specialTouchesError) {
+        console.error("Error cargando toques especiales recibidos:", specialTouchesError.message);
+      } else {
+        specialTouchBySenderId = new Map(specialTouches.map((st) => [st.sender_id, st]));
+      }
+    }
+
+    setStack(
+      candidates.map((c) => {
+        const specialTouch = specialTouchBySenderId.get(c.id);
+        return {
+          ...c,
+          received_super_like: superLikedByIds.has(c.id),
+          special_touch_id: specialTouch?.id || null,
+          special_touch_message: specialTouch?.message || null,
+        };
+      })
+    );
     setLoading(false);
   };
 
@@ -204,8 +235,23 @@ function Swipe() {
 
         const isSuperLikeMatch = isSuperLike || theyLikedMe.direction === "superlike";
 
+        // Patches this match's created_via to 'special_touch' server-side
+        // (only takes effect if the match it just looked up for itself
+        // really involves this pair) -- see respond_to_special_touch.
+        if (card.special_touch_id) {
+          await supabase.rpc("respond_to_special_touch", {
+            p_special_touch_id: card.special_touch_id,
+            p_action: "convert",
+          });
+        }
+
         setMatchInfo({ ...card, id: newMatch.id, profileId: card.id, isSuperLikeMatch });
       }
+    } else if (card.special_touch_id) {
+      await supabase.rpc("respond_to_special_touch", {
+        p_special_touch_id: card.special_touch_id,
+        p_action: "decline",
+      });
     }
   };
 

@@ -3,11 +3,12 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
-import { moodLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
+import { moodLabel, interestLabel, promptQuestionLabel, sharedInterestCount } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import MicIcon from "../components/ui/MicIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import CameraIcon from "../components/ui/CameraIcon";
 import MessageIcon from "../components/ui/MessageIcon";
 import FlagIcon from "../components/ui/FlagIcon";
@@ -81,11 +82,11 @@ function Profile() {
   };
 
   const sharedCount = profile
-    ? (profile.interests || []).filter((i) => myInterests.includes(i)).length
+    ? sharedInterestCount(profile.interests || [], myInterests)
     : 0;
 
-  const handleMensajePremium = () => {
-    navigate(`/mensaje-premium/${profile.id}`);
+  const handleSpecialTouch = () => {
+    navigate(`/toque-especial/${profile.id}`);
   };
 
   const handleDarMatch = async () => {
@@ -262,8 +263,8 @@ function Profile() {
             )}
 
             {!existingMatch && (
-              <button className="premium-btn" onClick={handleMensajePremium}>
-                <PremiumDiamond size={16} /> {t("profile.premiumMessage")}
+              <button className="premium-btn" onClick={handleSpecialTouch}>
+                <SpecialTouchHeart size={16} /> {t("profile.specialTouch")}
               </button>
             )}
 

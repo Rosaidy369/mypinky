@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
-import PremiumDiamond from "../components/ui/PremiumDiamond";
+import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Chat.css";
 import "../styles/BackButton.css";
@@ -68,14 +68,7 @@ function Chats() {
       })
     );
 
-    // Premium message conversations are pinned to the top for both people.
-    const sorted = [...withLastMessage].sort((a, b) => {
-      const aPinned = a.created_via === "premium_message" ? 1 : 0;
-      const bPinned = b.created_via === "premium_message" ? 1 : 0;
-      return bPinned - aPinned;
-    });
-
-    setConversations(sorted);
+    setConversations(withLastMessage);
     setLoading(false);
   };
 
@@ -116,7 +109,7 @@ function Chats() {
 
           {conversations.map((chat) => (
             <div
-              className={`chat-item-wrapper ${chat.created_via === "premium_message" ? "is-premium-message" : ""} ${chat.unreadCount > 0 ? "is-unread" : ""}`}
+              className={`chat-item-wrapper ${chat.created_via === "special_touch" ? "is-special-touch" : ""} ${chat.unreadCount > 0 ? "is-unread" : ""}`}
               key={chat.id}
             >
 
@@ -125,8 +118,8 @@ function Chats() {
                 <div className="chat-item-info">
                   <h3>
                     {chat.otherProfile?.name}
-                    {chat.created_via === "premium_message" && (
-                      <span className="premium-chat-tag" title={t("chat.list.premiumMessageTag")}><PremiumDiamond size={13} /></span>
+                    {chat.created_via === "special_touch" && (
+                      <span className="special-touch-chat-tag" title={t("chat.list.specialTouchTag")}><SpecialTouchHeart size={13} /></span>
                     )}
                   </h3>
                   <p>{chat.lastMessage}</p>
