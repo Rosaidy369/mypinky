@@ -701,5 +701,14 @@
       "successBody": "Ya puedes enviarle un mensaje directo a {{name}}.",
       "continueBtn": "Ir al chat"
     }
+  },
+  "suspended": {
+    "title": "Tu cuenta está suspendida temporalmente",
+    "untilPrefix": "Podrás volver a usar MyPinky a partir del",
+    "reasonHeading": "Motivo",
+    "reasonFallback": "Detectamos actividad que no cumple con nuestras reglas de la comunidad. Revisamos cada caso a mano para que la sanción sea justa.",
+    "note": "Esto no es una expulsión definitiva — es temporal, y creemos en dar segundas oportunidades. Cuando pase la fecha, tu cuenta vuelve a funcionar normalmente sin que tengas que hacer nada.",
+    "contactSupport": "Contactar a soporte",
+    "logout": "Cerrar sesión"
   }
 }

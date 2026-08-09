@@ -701,5 +701,14 @@
       "successBody": "You can now send {{name}} a direct message.",
       "continueBtn": "Go to chat"
     }
+  },
+  "suspended": {
+    "title": "Your account is temporarily suspended",
+    "untilPrefix": "You'll be able to use MyPinky again starting",
+    "reasonHeading": "Reason",
+    "reasonFallback": "We detected activity that doesn't comply with our community rules. We review every case by hand to keep the sanction fair.",
+    "note": "This isn't a permanent ban — it's temporary, and we believe in second chances. Once the date passes, your account works normally again without you having to do anything.",
+    "contactSupport": "Contact support",
+    "logout": "Log out"
   }
 }
