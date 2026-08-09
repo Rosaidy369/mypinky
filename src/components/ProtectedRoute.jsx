@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import SuspendedScreen from "./SuspendedScreen";
@@ -8,6 +9,7 @@ const HEARTBEAT_INTERVAL_MS = 90000;
 const ACTIVITY_MIN_GAP_MS = 45000;
 
 function ProtectedRoute({ children }) {
+  const { t } = useTranslation();
   const { isLoggedIn, loading, suspension, suspensionLoading, session } = useAuth();
   const location = useLocation();
   const userId = session?.user?.id;
@@ -65,7 +67,7 @@ function ProtectedRoute({ children }) {
   }, [userId, suspension]);
 
   if (loading || (isLoggedIn && suspensionLoading)) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("common.loading")}</div>;
   }
 
   if (!isLoggedIn) {

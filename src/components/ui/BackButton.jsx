@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function BackButton({ fallback = "/swipe", className = "" }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -15,7 +17,7 @@ function BackButton({ fallback = "/swipe", className = "" }) {
     <button
       className={`back-button ${className}`}
       onClick={handleBack}
-      aria-label="Atrás"
+      aria-label={t("common.back")}
     >
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M19 12H5"></path>

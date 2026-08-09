@@ -731,5 +731,14 @@
     "errorNoAudio": "We didn't detect audio in the recording. Check that your microphone isn't muted and try again.",
     "errorUploadFailed": "Couldn't upload the voice note. Try again.",
     "errorMicPermission": "Couldn't access the microphone. Check your browser permissions."
+  },
+  "common": {
+    "back": "Back",
+    "close": "Close",
+    "loading": "Loading...",
+    "photoAlt": "Photo {{count}}",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "galleryCounter": "{{current}} / {{total}}"
   }
 }

@@ -731,5 +731,14 @@
     "errorNoAudio": "No detectamos audio en la grabación. Revisa que tu micrófono no esté silenciado e inténtalo de nuevo.",
     "errorUploadFailed": "No se pudo subir la nota de voz. Intenta de nuevo.",
     "errorMicPermission": "No se pudo acceder al micrófono. Revisa los permisos del navegador."
+  },
+  "common": {
+    "back": "Atrás",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "photoAlt": "Foto {{count}}",
+    "previousPhoto": "Foto anterior",
+    "nextPhoto": "Foto siguiente",
+    "galleryCounter": "{{current}} / {{total}}"
   }
 }
