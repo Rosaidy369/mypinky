@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import HeartIcon from "../ui/HeartIcon";
-import NoAdsIcon from "../ui/NoAdsIcon";
+import CompatibilityIcon from "../ui/CompatibilityIcon";
 import PinIcon from "../ui/PinIcon";
 import VerifiedIcon from "../ui/VerifiedIcon";
 import "../../styles/Hero.css";
@@ -45,8 +45,8 @@ function Hero() {
         <div className="stats">
 
           <div className="stat-item">
-            <span className="stat-icon"><NoAdsIcon size={20} /></span>
-            <span className="stat-label">{t("home.hero.statNoAds")}</span>
+            <span className="stat-icon"><CompatibilityIcon size={20} /></span>
+            <span className="stat-label">{t("home.hero.statCompatibility")}</span>
           </div>
 
           <div className="stat-item">
