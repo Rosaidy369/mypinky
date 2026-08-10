@@ -459,7 +459,8 @@
       "sentMessagePrefix": "If an account exists with ",
       "sentMessageSuffix": ", we sent a link to reset your password (check your spam folder too).",
       "goToLogin": "Go to login",
-      "genericError": "An error occurred while sending the link. Try again."
+      "genericError": "An error occurred while sending the link. Try again.",
+      "rateLimitError": "You already requested a link very recently. Wait a few minutes before trying again."
     },
     "resetPassword": {
       "heading": "Create a new password",

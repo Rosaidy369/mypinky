@@ -459,7 +459,8 @@
       "sentMessagePrefix": "Si existe una cuenta con ",
       "sentMessageSuffix": ", te enviamos un enlace para restablecer tu contraseña (revisa también la carpeta de spam).",
       "goToLogin": "Ir a iniciar sesión",
-      "genericError": "Ocurrió un error al enviar el enlace. Intenta de nuevo."
+      "genericError": "Ocurrió un error al enviar el enlace. Intenta de nuevo.",
+      "rateLimitError": "Ya pediste un enlace hace muy poco. Espera unos minutos antes de intentar de nuevo."
     },
     "resetPassword": {
       "heading": "Crea una nueva contraseña",

@@ -25,7 +25,17 @@ function ForgotPassword() {
     setSending(false);
 
     if (error) {
-      setErrorMsg(t("auth.forgotPassword.genericError"));
+      // Supabase enforces a cooldown between consecutive password-reset
+      // emails per address (returns status 429 / code
+      // "over_email_send_rate_limit") -- surfaced as a specific message
+      // so it doesn't read like a real failure.
+      console.error("Error enviando enlace de restablecimiento:", error.status, error.code, error.message);
+
+      if (error.code === "over_email_send_rate_limit" || error.status === 429) {
+        setErrorMsg(t("auth.forgotPassword.rateLimitError"));
+      } else {
+        setErrorMsg(t("auth.forgotPassword.genericError"));
+      }
       return;
     }
 
