@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { calculateAge } from "../lib/age";
 import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -123,7 +124,7 @@ function Favorites() {
                   <h3>{profile.name}</h3>
 
                   <span className="age">
-                    {profile.age}
+                    {calculateAge(profile.birth_date)}
                   </span>
 
                 </div>

@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { calculateAge } from "../lib/age";
 import { INTERESTS, MOODS } from "../data/profileOptions";
 import { moodLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
 import VoiceRecorder from "../components/profile/VoiceRecorder";
@@ -414,7 +415,7 @@ function MyProfile() {
               <div className="profile-header">
 
                 <h1>
-                  {user.name}, {user.age}
+                  {user.name}, {calculateAge(user.birth_date)}
 
                   {isVip && (
                     <span className="vip-badge-inline">

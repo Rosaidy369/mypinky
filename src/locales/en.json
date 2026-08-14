@@ -412,7 +412,6 @@
       "heading": "Create your account",
       "subtitle": "Sign up and start meeting new people.",
       "namePlaceholder": "Full name",
-      "agePlaceholder": "Age",
       "emailPlaceholder": "Email",
       "passwordPlaceholder": "Password",
       "confirmPasswordPlaceholder": "Confirm password",
@@ -427,6 +426,8 @@
       "passwordMismatch": "Passwords don't match.",
       "emailTaken": "An account with that email already exists.",
       "genericError": "An error occurred while creating your account.",
+      "birthDateRequired": "Complete your date of birth.",
+      "underageError": "You must be at least 18 years old to register.",
       "confirmHeading": "Check your email!",
       "confirmMessagePrefix": "We sent a confirmation link to ",
       "confirmMessageSuffix": ". Open it to activate your account (check your spam folder too).",
@@ -497,8 +498,7 @@
       "subtitle": "This information will appear on your profile.",
       "nameLabel": "Name",
       "namePlaceholder": "Your name",
-      "ageLabel": "Age",
-      "agePlaceholder": "Your age",
+      "ageLabel": "Date of birth",
       "genderLabel": "Gender",
       "nameAgeLocked": "Name and age can't be edited, for security and verification.",
       "cityLabel": "City",
@@ -756,5 +756,32 @@
     "previousPhoto": "Previous photo",
     "nextPhoto": "Next photo",
     "galleryCounter": "{{current}} / {{total}}"
+  },
+  "birthDatePicker": {
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    }
+  },
+  "birthDateGate": {
+    "title": "Confirm your date of birth",
+    "subtitle": "We need your full date of birth to calculate your age automatically and keep it always correct — this is only asked once.",
+    "submit": "Confirm",
+    "submitting": "Saving...",
+    "errorUnderage": "You must be at least 18 years old.",
+    "errorGeneric": "Couldn't save your date of birth. Try again."
   }
 }

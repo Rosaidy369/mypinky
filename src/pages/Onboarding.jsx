@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
+import { isAtLeast18 } from "../lib/age";
 import ProgressBar from "../components/onboarding/ProgressBar";
 import StepBasicInfo from "../components/onboarding/StepBasicInfo";
 import StepPhotos from "../components/onboarding/StepPhotos";
@@ -22,7 +23,7 @@ function Onboarding() {
 
   const [formData, setFormData] = useState({
     name: "",
-    age: "",
+    birthDate: null,
     gender: "",
     city: "",
     latitude: null,
@@ -34,7 +35,7 @@ function Onboarding() {
     prompts: [],
   });
 
-  // Registro ya guarda name/age (via el trigger que crea la fila de
+  // Registro ya guarda name/birth_date (via el trigger que crea la fila de
   // profiles al registrarse) -- sin esto, el paso 1 siempre arrancaba
   // vacío como si nada se hubiera guardado, aunque sí estuviera ahí.
   useEffect(() => {
@@ -50,7 +51,7 @@ function Onboarding() {
 
     const { data, error } = await supabase
       .from("profiles")
-      .select("name, age")
+      .select("name, birth_date")
       .eq("id", user.id)
       .single();
 
@@ -58,17 +59,17 @@ function Onboarding() {
       console.error("Error cargando perfil existente:", error.message);
     } else if (data) {
       const hasName = !!data.name && data.name.trim().length > 0;
-      const hasAge = data.age !== null && data.age !== undefined;
+      const hasBirthDate = !!data.birth_date;
 
-      if (hasName || hasAge) {
+      if (hasName || hasBirthDate) {
         setFormData((prev) => ({
           ...prev,
           name: hasName ? data.name : prev.name,
-          age: hasAge ? String(data.age) : prev.age,
+          birthDate: hasBirthDate ? data.birth_date : prev.birthDate,
         }));
       }
 
-      setNameAgeLocked(hasName && hasAge);
+      setNameAgeLocked(hasName && hasBirthDate);
     }
 
     setLoading(false);
@@ -102,7 +103,9 @@ function Onboarding() {
   };
 
   const isStepValid = () => {
-    if (step === 1) return formData.name && formData.age && formData.gender && formData.city;
+    if (step === 1) {
+      return formData.name && isAtLeast18(formData.birthDate) && formData.gender && formData.city;
+    }
     if (step === 2) return formData.photos.length >= 1;
     if (step === 3) return formData.bio.trim().length > 0;
     if (step === 4) return formData.interests.length >= 3;
@@ -132,7 +135,7 @@ function Onboarding() {
       .from("profiles")
       .update({
         name: formData.name,
-        age: Number(formData.age),
+        birth_date: formData.birthDate,
         gender: formData.gender,
         city: formData.city,
         latitude: formData.latitude,

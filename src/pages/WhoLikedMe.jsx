@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { calculateAge } from "../lib/age";
 import { useNotifications } from "../hooks/useNotifications";
 import BackButton from "../components/ui/BackButton";
 import EyeIcon from "../components/ui/EyeIcon";
@@ -127,7 +128,7 @@ function WhoLikedMe() {
               {isPremium ? (
 
                 <div className="wholiked-info">
-                  <h3>{profile.name}, {profile.age}</h3>
+                  <h3>{profile.name}, {calculateAge(profile.birth_date)}</h3>
                   <p>📍 {profile.city}</p>
                 </div>
 

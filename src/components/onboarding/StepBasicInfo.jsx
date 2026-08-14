@@ -6,6 +6,7 @@ import { genderLabel } from "../../lib/profileLabels";
 import PinIcon from "../ui/PinIcon";
 import CheckIcon from "../ui/CheckIcon";
 import LockIcon from "../ui/LockIcon";
+import BirthDatePicker from "../ui/BirthDatePicker";
 
 const LOCATION_ERROR_KEYS = {
   unsupported: "onboarding.basicInfo.locationErrorUnsupported",
@@ -55,12 +56,9 @@ function StepBasicInfo({ data, onChange, nameAgeLocked = false }) {
       />
 
       <label className="field-label">{t("onboarding.basicInfo.ageLabel")}</label>
-      <input
-        type="number"
-        placeholder={t("onboarding.basicInfo.agePlaceholder")}
-        min="18"
-        value={data.age}
-        onChange={(e) => onChange("age", e.target.value)}
+      <BirthDatePicker
+        value={data.birthDate}
+        onChange={(value) => onChange("birthDate", value)}
         disabled={nameAgeLocked}
       />
 

@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
+import { calculateAge } from "../lib/age";
 import { moodLabel, interestLabel, promptQuestionLabel, sharedInterestCount } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -164,7 +165,7 @@ function Profile() {
           <div className="profile-header">
 
             <h1>
-              {profile.name}, {profile.age}
+              {profile.name}, {calculateAge(profile.birth_date)}
 
               {isVipActive(profile) ? (
                 <span className="vip-badge-inline">

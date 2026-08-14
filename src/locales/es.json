@@ -412,7 +412,6 @@
       "heading": "Crea tu cuenta",
       "subtitle": "Regístrate y empieza a conocer personas nuevas.",
       "namePlaceholder": "Nombre completo",
-      "agePlaceholder": "Edad",
       "emailPlaceholder": "Correo electrónico",
       "passwordPlaceholder": "Contraseña",
       "confirmPasswordPlaceholder": "Confirmar contraseña",
@@ -427,6 +426,8 @@
       "passwordMismatch": "Las contraseñas no coinciden.",
       "emailTaken": "Ya existe una cuenta con ese correo.",
       "genericError": "Ocurrió un error al crear tu cuenta.",
+      "birthDateRequired": "Completa tu fecha de nacimiento.",
+      "underageError": "Debes ser mayor de 18 años para registrarte.",
       "confirmHeading": "¡Revisa tu correo!",
       "confirmMessagePrefix": "Te enviamos un enlace de confirmación a ",
       "confirmMessageSuffix": ". Ábrelo para activar tu cuenta (revisa también la carpeta de spam).",
@@ -497,8 +498,7 @@
       "subtitle": "Esta información aparecerá en tu perfil.",
       "nameLabel": "Nombre",
       "namePlaceholder": "Tu nombre",
-      "ageLabel": "Edad",
-      "agePlaceholder": "Tu edad",
+      "ageLabel": "Fecha de nacimiento",
       "genderLabel": "Género",
       "nameAgeLocked": "Nombre y edad no se pueden editar por seguridad y verificación.",
       "cityLabel": "Ciudad",
@@ -756,5 +756,32 @@
     "previousPhoto": "Foto anterior",
     "nextPhoto": "Foto siguiente",
     "galleryCounter": "{{current}} / {{total}}"
+  },
+  "birthDatePicker": {
+    "day": "Día",
+    "month": "Mes",
+    "year": "Año",
+    "months": {
+      "1": "Enero",
+      "2": "Febrero",
+      "3": "Marzo",
+      "4": "Abril",
+      "5": "Mayo",
+      "6": "Junio",
+      "7": "Julio",
+      "8": "Agosto",
+      "9": "Septiembre",
+      "10": "Octubre",
+      "11": "Noviembre",
+      "12": "Diciembre"
+    }
+  },
+  "birthDateGate": {
+    "title": "Confirma tu fecha de nacimiento",
+    "subtitle": "Necesitamos tu fecha de nacimiento completa para calcular tu edad automáticamente y mantenerla siempre correcta — solo se pide una vez.",
+    "submit": "Confirmar",
+    "submitting": "Guardando...",
+    "errorUnderage": "Debes ser mayor de 18 años.",
+    "errorGeneric": "No se pudo guardar tu fecha de nacimiento. Intenta de nuevo."
   }
 }

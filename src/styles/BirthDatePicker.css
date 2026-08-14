@@ -1,0 +1,58 @@
+.birth-date-picker{
+
+display:flex;
+
+gap:10px;
+
+}
+
+.birth-date-picker select{
+
+flex:1;
+
+min-width:0;
+
+padding:16px 10px;
+
+border-radius:14px;
+
+border:1px solid #ddd;
+
+font-size:15px;
+
+outline:none;
+
+background:#fafafa;
+
+color:#333;
+
+transition:.3s;
+
+}
+
+.birth-date-picker select:focus{
+
+border-color:#ff3f87;
+
+box-shadow:0 0 0 4px rgba(255,63,135,.15);
+
+}
+
+.birth-date-picker select:disabled{
+
+background:#f0f0f0;
+
+color:#999;
+
+cursor:not-allowed;
+
+}
+
+@media (max-width: 400px) {
+
+  .birth-date-picker select {
+    padding: 14px 6px;
+    font-size: 14px;
+  }
+
+}

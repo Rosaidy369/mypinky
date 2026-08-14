@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
+import { isAtLeast18 } from "../lib/age";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
+import BirthDatePicker from "../components/ui/BirthDatePicker";
 import "../styles/Register.css";
 
 function Register() {
   const { t } = useTranslation();
   const { register } = useAuth();
-  const [form, setForm] = useState({ name: "", age: "", email: "", password: "", confirmPassword: "" });
+  const [form, setForm] = useState({ name: "", birthDate: null, email: "", password: "", confirmPassword: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const [registered, setRegistered] = useState(false);
 
@@ -26,7 +28,17 @@ function Register() {
       return;
     }
 
-    const { error } = await register(form.email, form.password, form.name, Number(form.age));
+    if (!form.birthDate) {
+      setErrorMsg(t("auth.register.birthDateRequired"));
+      return;
+    }
+
+    if (!isAtLeast18(form.birthDate)) {
+      setErrorMsg(t("auth.register.underageError"));
+      return;
+    }
+
+    const { error } = await register(form.email, form.password, form.name, form.birthDate);
 
     if (error) {
       console.error("Error de registro:", error.message);
@@ -103,13 +115,9 @@ function Register() {
             required
           />
 
-          <input
-            type="number"
-            placeholder={t("auth.register.agePlaceholder")}
-            min="18"
-            value={form.age}
-            onChange={(e) => updateField("age", e.target.value)}
-            required
+          <BirthDatePicker
+            value={form.birthDate}
+            onChange={(value) => updateField("birthDate", value)}
           />
 
           <input

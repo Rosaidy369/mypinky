@@ -4,13 +4,14 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import SuspendedScreen from "./SuspendedScreen";
+import BirthDateGate from "./BirthDateGate";
 
 const HEARTBEAT_INTERVAL_MS = 90000;
 const ACTIVITY_MIN_GAP_MS = 45000;
 
 function ProtectedRoute({ children }) {
   const { t } = useTranslation();
-  const { isLoggedIn, loading, suspension, suspensionLoading, session } = useAuth();
+  const { isLoggedIn, loading, suspension, suspensionLoading, birthDateGateNeeded, session } = useAuth();
   const location = useLocation();
   const userId = session?.user?.id;
 
@@ -77,6 +78,10 @@ function ProtectedRoute({ children }) {
 
   if (suspension) {
     return <SuspendedScreen suspension={suspension} />;
+  }
+
+  if (birthDateGateNeeded) {
+    return <BirthDateGate />;
   }
 
   return children;
