@@ -404,7 +404,7 @@ font-size:20px;
 
 .menu{
 
-gap:1px;
+gap:8px;
 
 }
 
@@ -420,7 +420,7 @@ font-size:13px;
 
 .menu a.nav-link{
 
-padding:0 2px;
+padding:0 6px;
 
 gap:2px;
 
