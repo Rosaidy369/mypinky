@@ -98,6 +98,22 @@ margin-top:8px;
 
 }
 
+.profile-city{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:4px;
+
+}
+
+.profile-city-icon{
+
+flex-shrink:0;
+
+}
+
 .status{
 
 display:inline-block;

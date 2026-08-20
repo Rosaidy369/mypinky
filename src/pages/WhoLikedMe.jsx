@@ -9,6 +9,7 @@ import BackButton from "../components/ui/BackButton";
 import EyeIcon from "../components/ui/EyeIcon";
 import StarIcon from "../components/ui/StarIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import PinIcon from "../components/ui/PinIcon";
 import "../styles/WhoLikedMe.css";
 import "../styles/BackButton.css";
 
@@ -129,7 +130,7 @@ function WhoLikedMe() {
 
                 <div className="wholiked-info">
                   <h3>{profile.name}, {calculateAge(profile.birth_date)}</h3>
-                  <p>📍 {profile.city}</p>
+                  <p className="wholiked-location"><PinIcon size={12} className="wholiked-location-icon" /> {profile.city}</p>
                 </div>
 
               ) : (

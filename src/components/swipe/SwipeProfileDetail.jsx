@@ -6,6 +6,7 @@ import { moodLabel, interestLabel, promptQuestionLabel, sharedInterestCount } fr
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import MicIcon from "../ui/MicIcon";
+import PinIcon from "../ui/PinIcon";
 import SpecialTouchHeart from "../ui/SpecialTouchHeart";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
@@ -86,7 +87,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
             <h2>{profile.name}, {profile.age}</h2>
           </div>
 
-          <p className="detail-location">📍 {profile.country}</p>
+          <p className="detail-location"><PinIcon size={13} className="detail-location-icon" /> {profile.country}</p>
 
           <div className="detail-mood">{moodLabel(t, profile.mood)}</div>
 

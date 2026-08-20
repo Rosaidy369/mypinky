@@ -708,11 +708,23 @@ gap:10px;
 
 .swipe-distance{
 
+display:inline-flex;
+
+align-items:center;
+
+gap:3px;
+
 font-size:14px;
 
 opacity:.85;
 
 white-space:nowrap;
+
+}
+
+.swipe-distance-icon{
+
+flex-shrink:0;
 
 }
 
@@ -1614,9 +1626,21 @@ border-radius:20px;
 
 .detail-location{
 
+display:flex;
+
+align-items:center;
+
+gap:4px;
+
 color:#777;
 
 margin-top:6px;
+
+}
+
+.detail-location-icon{
+
+flex-shrink:0;
 
 }
 

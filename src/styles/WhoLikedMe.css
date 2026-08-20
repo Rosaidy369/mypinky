@@ -172,6 +172,22 @@ margin-top:2px;
 
 }
 
+.wholiked-location{
+
+display:flex;
+
+align-items:center;
+
+gap:4px;
+
+}
+
+.wholiked-location-icon{
+
+flex-shrink:0;
+
+}
+
 .wholiked-lock-overlay{
 
 position:absolute;

@@ -8,6 +8,7 @@ import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import PinIcon from "../components/ui/PinIcon";
 import "../styles/Explore.css";
 import "../styles/Favorites.css";
 import "../styles/BackButton.css";
@@ -130,7 +131,7 @@ function Favorites() {
                 </div>
 
                 <p className="country">
-                  📍 {profile.city}
+                  <PinIcon size={13} className="country-icon" /> {profile.city}
                 </p>
 
                 <div className="mood-badge">

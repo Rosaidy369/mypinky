@@ -13,6 +13,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import HouseAdBanner from "../components/ads/HouseAdBanner";
 import BoostIcon from "../components/ui/BoostIcon";
 import SearchIcon from "../components/ui/SearchIcon";
+import PinIcon from "../components/ui/PinIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
 
@@ -259,7 +260,7 @@ function Explore() {
                 </div>
 
                 <p className="country">
-                  📍 {profile.city}
+                  <PinIcon size={13} className="country-icon" /> {profile.city}
                   {typeof profile.distance_km === "number" && t("explore.distanceKm", { km: Math.round(profile.distance_km) })}
                 </p>
 

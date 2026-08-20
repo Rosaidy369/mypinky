@@ -328,11 +328,23 @@ color:#ff3f87;
 
 .country{
 
+display:inline-flex;
+
+align-items:center;
+
+gap:4px;
+
 font-size:15px;
 
 color:#666;
 
 margin:0;
+
+}
+
+.country-icon{
+
+flex-shrink:0;
 
 }
 

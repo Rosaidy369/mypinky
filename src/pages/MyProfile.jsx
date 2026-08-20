@@ -435,7 +435,7 @@ function MyProfile() {
                   </span>
                 </h1>
 
-                <p>📍 {user.city}</p>
+                <p className="profile-city"><PinIcon size={13} className="profile-city-icon" /> {user.city}</p>
 
               </div>
 

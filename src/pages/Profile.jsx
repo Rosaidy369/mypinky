@@ -13,6 +13,7 @@ import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import CameraIcon from "../components/ui/CameraIcon";
 import MessageIcon from "../components/ui/MessageIcon";
 import FlagIcon from "../components/ui/FlagIcon";
+import PinIcon from "../components/ui/PinIcon";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import ReportModal from "../components/profile/ReportModal";
 import "../styles/Profile.css";
@@ -179,8 +180,8 @@ function Profile() {
 
             </h1>
 
-            <p>
-              📍 {profile.city}
+            <p className="profile-city">
+              <PinIcon size={13} className="profile-city-icon" /> {profile.city}
             </p>
 
           </div>
