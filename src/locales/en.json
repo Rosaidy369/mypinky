@@ -18,9 +18,9 @@
   },
   "filters": {
     "ageRange": "{{min}} - {{max}} years",
-    "maxDistance": "📍 Up to {{km}} km",
+    "maxDistance": "Up to {{km}} km",
     "onlineOnly": "🟢 Online only",
-    "locationSearchPlaceholder": "🌍 Search by country or city",
+    "locationSearchPlaceholder": "Search by country or city",
     "locationSearchPlaceholderLocked": "Search by country or city",
     "vip": "VIP"
   },

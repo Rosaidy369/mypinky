@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LockIcon from "../ui/LockIcon";
+import PinIcon from "../ui/PinIcon";
+import GlobeIcon from "../ui/GlobeIcon";
 import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import { GENDER_FILTER_GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
@@ -30,6 +32,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
       <div className="distance-filter">
 
         <span className="distance-label">
+          <PinIcon size={13} className="distance-label-icon" />
           {t("filters.maxDistance", { km: filters.maxDistance })}
         </span>
 
@@ -72,7 +75,8 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
 
       {isPremium ? (
 
-        <div className="select-wrapper">
+        <div className="location-search-wrapper">
+          <span className="location-search-icon"><GlobeIcon size={14} /></span>
           <input
             type="text"
             placeholder={t("filters.locationSearchPlaceholder")}
