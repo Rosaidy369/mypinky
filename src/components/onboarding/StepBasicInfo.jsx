@@ -54,6 +54,7 @@ function StepBasicInfo({ data, onChange, nameAgeLocked = false }) {
         onChange={(e) => onChange("name", e.target.value)}
         disabled={nameAgeLocked}
       />
+      {!nameAgeLocked && <p className="field-hint">{t("onboarding.basicInfo.nameHint")}</p>}
 
       <label className="field-label">{t("onboarding.basicInfo.ageLabel")}</label>
       <BirthDatePicker

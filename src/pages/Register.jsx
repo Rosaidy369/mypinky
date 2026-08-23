@@ -107,13 +107,17 @@ function Register() {
 
         <form className="register-form" onSubmit={handleSubmit}>
 
-          <input
-            type="text"
-            placeholder={t("auth.register.namePlaceholder")}
-            value={form.name}
-            onChange={(e) => updateField("name", e.target.value)}
-            required
-          />
+          <div className="name-field-group">
+            <label className="field-label">{t("auth.register.nameLabel")}</label>
+            <input
+              type="text"
+              placeholder={t("auth.register.namePlaceholder")}
+              value={form.name}
+              onChange={(e) => updateField("name", e.target.value)}
+              required
+            />
+            <p className="field-hint">{t("auth.register.nameHint")}</p>
+          </div>
 
           <BirthDatePicker
             value={form.birthDate}

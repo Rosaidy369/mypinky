@@ -411,7 +411,9 @@
     "register": {
       "heading": "Create your account",
       "subtitle": "Sign up and start meeting new people.",
-      "namePlaceholder": "Full name",
+      "nameLabel": "What should we call you?",
+      "nameHint": "It can be your name, a nickname, or however you'd like to introduce yourself — this is what others will see.",
+      "namePlaceholder": "Your name or nickname",
       "emailPlaceholder": "Email",
       "passwordPlaceholder": "Password",
       "confirmPasswordPlaceholder": "Confirm password",
@@ -496,8 +498,9 @@
     "basicInfo": {
       "heading": "Tell us about yourself",
       "subtitle": "This information will appear on your profile.",
-      "nameLabel": "Name",
-      "namePlaceholder": "Your name",
+      "nameLabel": "What should we call you?",
+      "nameHint": "It can be your name, a nickname, or however you'd like to introduce yourself — this is what others will see.",
+      "namePlaceholder": "Your name or nickname",
       "ageLabel": "Date of birth",
       "genderLabel": "Gender",
       "nameAgeLocked": "Name and age can't be edited, for security and verification.",
@@ -601,7 +604,7 @@
       { "title": "2. How we use your information", "body": "We use your data to connect your profile with other people based on your preferences, show your approximate distance to other users, and send you relevant notifications about matches and messages." },
       { "title": "3. Who we share your information with", "body": "Your information is never sold to third parties. It's only shown to other MyPinky users the way you configure your profile and privacy settings." },
       { "title": "4. Analytics and cookies", "body": "We use Google Analytics to understand how MyPinky is used and to improve the experience, as noted in the cookie banner you can accept or decline when you visit the site. This may involve some of your information being transferred to and processed on servers located in the United States." },
-      { "title": "5. Account integrity", "body": "Your name and age can't be edited after registration, as a measure to reduce catfishing and fake profiles." },
+      { "title": "5. Account integrity", "body": "The name you choose when you register can't be changed afterward, to prevent someone from changing their identity on the platform after being reported." },
       { "title": "6. Your rights", "body": "You can edit your profile, your privacy preferences, or delete your account entirely at any time from the Settings section." },
       { "title": "7. Contact", "body": "If you have questions about this policy, you can reach us from the Contact page." }
     ]

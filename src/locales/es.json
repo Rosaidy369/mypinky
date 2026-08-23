@@ -411,7 +411,9 @@
     "register": {
       "heading": "Crea tu cuenta",
       "subtitle": "Regístrate y empieza a conocer personas nuevas.",
-      "namePlaceholder": "Nombre completo",
+      "nameLabel": "¿Cómo quieres que te llamen?",
+      "nameHint": "Puede ser tu nombre, un apodo, o como prefieras presentarte — esto es lo que verán las demás personas.",
+      "namePlaceholder": "Tu nombre o apodo",
       "emailPlaceholder": "Correo electrónico",
       "passwordPlaceholder": "Contraseña",
       "confirmPasswordPlaceholder": "Confirmar contraseña",
@@ -496,8 +498,9 @@
     "basicInfo": {
       "heading": "Cuéntanos sobre ti",
       "subtitle": "Esta información aparecerá en tu perfil.",
-      "nameLabel": "Nombre",
-      "namePlaceholder": "Tu nombre",
+      "nameLabel": "¿Cómo quieres que te llamen?",
+      "nameHint": "Puede ser tu nombre, un apodo, o como prefieras presentarte — esto es lo que verán las demás personas.",
+      "namePlaceholder": "Tu nombre o apodo",
       "ageLabel": "Fecha de nacimiento",
       "genderLabel": "Género",
       "nameAgeLocked": "Nombre y edad no se pueden editar por seguridad y verificación.",
@@ -601,7 +604,7 @@
       { "title": "2. Cómo usamos tu información", "body": "Usamos tus datos para conectar tu perfil con otras personas según tus preferencias, mostrar tu distancia aproximada a otros usuarios, y enviarte notificaciones relevantes sobre matches y mensajes." },
       { "title": "3. Con quién compartimos tu información", "body": "Tu información nunca se vende a terceros. Solo se muestra a otros usuarios de MyPinky de la forma en que configures tu perfil y tus ajustes de privacidad." },
       { "title": "4. Analítica y cookies", "body": "Usamos Google Analytics para entender cómo se usa MyPinky y mejorar la experiencia, tal como se indica en el aviso de cookies que puedes aceptar o rechazar al entrar al sitio. Esto puede implicar que parte de tu información se transfiera y se procese en servidores ubicados en Estados Unidos." },
-      { "title": "5. Integridad de cuenta", "body": "Tu nombre y edad no pueden ser editados después del registro, como medida para reducir el catfishing y los perfiles falsos." },
+      { "title": "5. Integridad de cuenta", "body": "El nombre que elijas al registrarte no se puede cambiar después, para evitar que alguien cambie su identidad dentro de la plataforma tras ser reportado." },
       { "title": "6. Tus derechos", "body": "Puedes editar tu perfil, tus preferencias de privacidad, o eliminar tu cuenta por completo en cualquier momento desde la sección de Configuración." },
       { "title": "7. Contacto", "body": "Si tienes preguntas sobre esta política, puedes escribirnos desde la página de Contacto." }
     ]

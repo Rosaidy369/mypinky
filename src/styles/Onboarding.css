@@ -188,6 +188,18 @@ color:#999;
 
 }
 
+.field-hint{
+
+margin-top:8px;
+
+font-size:12px;
+
+color:#999;
+
+line-height:1.4;
+
+}
+
 .location-share-error{
 
 margin-top:8px;
