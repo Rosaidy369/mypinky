@@ -131,11 +131,23 @@ function Onboarding() {
 
     const { data: { user } } = await supabase.auth.getUser();
 
+    if (!nameAgeLocked) {
+      const { error: identityError } = await supabase.rpc("set_initial_identity", {
+        p_name: formData.name,
+        p_birth_date: formData.birthDate,
+      });
+
+      if (identityError) {
+        setSaving(false);
+        setSaveError(t("onboarding.saveError"));
+        console.error(identityError.message);
+        return;
+      }
+    }
+
     const { error } = await supabase
       .from("profiles")
       .update({
-        name: formData.name,
-        birth_date: formData.birthDate,
         gender: formData.gender,
         city: formData.city,
         latitude: formData.latitude,

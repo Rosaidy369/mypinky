@@ -25,12 +25,10 @@ function BirthDateGate() {
 
     setSaving(true);
 
-    const { data: { user } } = await supabase.auth.getUser();
-
-    const { error: updateError } = await supabase
-      .from("profiles")
-      .update({ birth_date: birthDate })
-      .eq("id", user.id);
+    const { data: success, error: updateError } = await supabase.rpc("set_initial_identity", {
+      p_name: null,
+      p_birth_date: birthDate,
+    });
 
     setSaving(false);
 
@@ -43,6 +41,11 @@ function BirthDateGate() {
           ? t("birthDateGate.errorUnderage")
           : t("birthDateGate.errorGeneric")
       );
+      return;
+    }
+
+    if (!success) {
+      setError(t("birthDateGate.errorGeneric"));
       return;
     }
 
