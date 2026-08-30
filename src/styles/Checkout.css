@@ -159,6 +159,14 @@ flex:1;
 
 }
 
+.paypal-buttons-container{
+
+margin-top:20px;
+
+min-height:45px;
+
+}
+
 .checkout-pay-btn{
 
 width:100%;

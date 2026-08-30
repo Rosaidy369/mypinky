@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { paypalFetch } from "../_shared/paypal.ts";
+import { paypalFetch, paypalApiBase } from "../_shared/paypal.ts";
 
 // PayPal llama esta funcion directamente -- no hay JWT de usuario, la
 // unica autenticacion real es la verificacion de firma de abajo.
@@ -25,7 +25,7 @@ function addCycle(date: Date, cycle: string): Date {
   return result;
 }
 
-async function verifySignature(req: Request, rawBody: string, event: unknown): Promise<boolean> {
+async function verifySignature(req: Request, rawBody: string): Promise<boolean> {
   const transmissionId = req.headers.get("paypal-transmission-id");
   const transmissionTime = req.headers.get("paypal-transmission-time");
   const certUrl = req.headers.get("paypal-cert-url");
@@ -33,26 +33,43 @@ async function verifySignature(req: Request, rawBody: string, event: unknown): P
   const transmissionSig = req.headers.get("paypal-transmission-sig");
 
   if (!transmissionId || !transmissionTime || !certUrl || !authAlgo || !transmissionSig) {
+    console.error("Faltan headers de PayPal en la petición.", {
+      transmissionId, transmissionTime, certUrl, authAlgo, transmissionSig,
+    });
     return false;
   }
 
+  // webhook_event debe llevar el JSON EXACTO, byte por byte, que PayPal
+  // mando originalmente -- la firma se valida contra un CRC32 de esos
+  // bytes. Si se re-serializa el objeto ya parseado (JSON.stringify),
+  // el orden de las llaves o los espacios pueden cambiar y la
+  // verificacion falla aunque el contenido sea "el mismo". Por eso se
+  // arma el body a mano, empalmando rawBody tal cual en vez de volver
+  // a construirlo desde el objeto ya parseado.
+  const verifyBody =
+    `{"transmission_id":${JSON.stringify(transmissionId)}` +
+    `,"transmission_time":${JSON.stringify(transmissionTime)}` +
+    `,"cert_url":${JSON.stringify(certUrl)}` +
+    `,"auth_algo":${JSON.stringify(authAlgo)}` +
+    `,"transmission_sig":${JSON.stringify(transmissionSig)}` +
+    `,"webhook_id":${JSON.stringify(PAYPAL_WEBHOOK_ID)}` +
+    `,"webhook_event":${rawBody}}`;
+
   const response = await paypalFetch("/v1/notifications/verify-webhook-signature", {
     method: "POST",
-    body: JSON.stringify({
-      transmission_id: transmissionId,
-      transmission_time: transmissionTime,
-      cert_url: certUrl,
-      auth_algo: authAlgo,
-      transmission_sig: transmissionSig,
-      webhook_id: PAYPAL_WEBHOOK_ID,
-      webhook_event: event,
-    }),
+    body: verifyBody,
   });
 
-  if (!response.ok) return false;
+  const data = await response.json().catch(() => null);
 
-  const data = await response.json();
-  return data.verification_status === "SUCCESS";
+  if (!response.ok) {
+    console.error("verify-webhook-signature respondió con error HTTP:", response.status, JSON.stringify(data));
+    return false;
+  }
+
+  console.log("DEBUG verification_status:", JSON.stringify(data));
+
+  return data?.verification_status === "SUCCESS";
 }
 
 Deno.serve(async (req) => {

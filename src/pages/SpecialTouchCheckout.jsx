@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { sharedInterestCount } from "../lib/profileLabels";
+import { loadPaypalSdk } from "../lib/paypalSdk";
+import { pollPurchaseIntent } from "../lib/purchaseIntents";
 import BackButton from "../components/ui/BackButton";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import LockIcon from "../components/ui/LockIcon";
@@ -44,10 +46,16 @@ function SpecialTouchCheckout() {
   const [weeklyUsed, setWeeklyUsed] = useState(0);
   const [nextOpensAt, setNextOpensAt] = useState(null);
 
+  // step: form -> processing (esperando captura+webhook) -> success | pending
   const [step, setStep] = useState("form");
   const [message, setMessage] = useState("");
-  const [cardData, setCardData] = useState({ name: "", number: "", expiry: "", cvv: "" });
   const [payError, setPayError] = useState("");
+
+  const messageRef = useRef(message);
+  useEffect(() => { messageRef.current = message; }, [message]);
+
+  const paypalContainerRef = useRef(null);
+  const purchaseIntentIdRef = useRef(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -88,43 +96,97 @@ function SpecialTouchCheckout() {
     loadData();
   }, [profileId, navigate]);
 
-  const updateField = (field, value) => {
-    setCardData((prev) => ({ ...prev, [field]: value }));
-  };
-
   const weeklyLimitReached = weeklyUsed >= WEEKLY_LIMIT;
   const sharedCount = profile ? sharedInterestCount(profile.interests || [], myInterests) : 0;
 
-  const handlePay = (e) => {
-    e.preventDefault();
+  // Los botones de PayPal se renderizan una sola vez cuando el formulario
+  // queda listo -- profile/weeklyLimitReached no cambian despues de
+  // cargar, y messageRef evita que los callbacks queden con un valor
+  // de mensaje obsoleto sin tener que re-renderizar los botones en cada
+  // tecla presionada.
+  useEffect(() => {
+    if (loading || notFound || !profile || weeklyLimitReached) return;
 
-    const trimmed = message.trim();
-    if (trimmed.length < 1 || trimmed.length > MESSAGE_MAX_LENGTH) {
-      setPayError(t("checkout.specialTouch.errorInvalidMessage"));
-      return;
-    }
+    let cancelled = false;
 
-    setStep("processing");
-    setPayError("");
+    loadPaypalSdk("capture").then((paypal) => {
+      if (cancelled || !paypalContainerRef.current) return;
+      paypalContainerRef.current.innerHTML = "";
 
-    setTimeout(async () => {
-      const { data, error } = await supabase.rpc("send_special_touch", {
-        p_recipient_id: profile.id,
-        p_message: trimmed,
-      });
+      paypal.Buttons({
+        style: { layout: "vertical", color: "gold", label: "pay", height: 45 },
 
-      const result = Array.isArray(data) ? data[0] : data;
+        onClick: (data, actions) => {
+          const trimmed = messageRef.current.trim();
+          if (trimmed.length < 1 || trimmed.length > MESSAGE_MAX_LENGTH) {
+            setPayError(t("checkout.specialTouch.errorInvalidMessage"));
+            return actions.reject();
+          }
+          setPayError("");
+          return actions.resolve();
+        },
 
-      if (error || !result?.sent) {
-        if (error) console.error("Error enviando Toque Especial:", error.message);
-        setPayError(specialTouchErrorMessage(t, result?.reason));
-        setStep("form");
-        return;
-      }
+        createOrder: async () => {
+          const { data: { session } } = await supabase.auth.getSession();
 
-      setStep("success");
-    }, 1800);
-  };
+          const { data, error } = await supabase.functions.invoke("create-purchase-order", {
+            headers: { Authorization: `Bearer ${session.access_token}` },
+            body: {
+              purchase_type: "special_touch",
+              recipient_id: profile.id,
+              message: messageRef.current.trim(),
+            },
+          });
+
+          if (error || !data?.orderID) {
+            throw new Error(data?.error || error?.message || "order_creation_failed");
+          }
+
+          purchaseIntentIdRef.current = data.purchaseIntentId;
+          return data.orderID;
+        },
+
+        onApprove: async (data) => {
+          setStep("processing");
+
+          const { data: { session } } = await supabase.auth.getSession();
+
+          const { data: captureData, error: captureError } = await supabase.functions.invoke(
+            "capture-purchase-order",
+            {
+              headers: { Authorization: `Bearer ${session.access_token}` },
+              body: { orderID: data.orderID },
+            }
+          );
+
+          if (captureError || captureData?.error) {
+            setStep("form");
+            setPayError(t("checkout.specialTouch.payError"));
+            return;
+          }
+
+          const result = await pollPurchaseIntent(purchaseIntentIdRef.current);
+
+          if (result.outcome === "fulfilled") {
+            setStep("success");
+          } else if (result.outcome === "failed") {
+            setStep("form");
+            setPayError(specialTouchErrorMessage(t, result.reason));
+          } else {
+            setStep("pending");
+          }
+        },
+
+        onError: (err) => {
+          console.error("Error de PayPal:", err);
+          setStep("form");
+          setPayError(t("checkout.form.paypalError"));
+        },
+      }).render(paypalContainerRef.current);
+    });
+
+    return () => { cancelled = true; };
+  }, [loading, notFound, profile, weeklyLimitReached, t]);
 
   if (loading) {
     return (
@@ -206,7 +268,7 @@ function SpecialTouchCheckout() {
                   </div>
                 </div>
 
-                <form className="checkout-form" onSubmit={handlePay}>
+                <div className="checkout-form">
 
                   <label className="field-label">{t("checkout.specialTouch.messageLabel")}</label>
                   <textarea
@@ -221,62 +283,13 @@ function SpecialTouchCheckout() {
                     {t("checkout.specialTouch.messageCounter", { count: message.length, max: MESSAGE_MAX_LENGTH })}
                   </p>
 
-                  <label className="field-label">{t("checkout.form.nameLabel")}</label>
-                  <input
-                    type="text"
-                    placeholder={t("checkout.form.namePlaceholder")}
-                    required
-                    value={cardData.name}
-                    onChange={(e) => updateField("name", e.target.value)}
-                  />
-
-                  <label className="field-label">{t("checkout.form.numberLabel")}</label>
-                  <input
-                    type="text"
-                    placeholder={t("checkout.form.numberPlaceholder")}
-                    required
-                    maxLength={19}
-                    value={cardData.number}
-                    onChange={(e) => updateField("number", e.target.value)}
-                  />
-
-                  <div className="checkout-row">
-
-                    <div className="checkout-col">
-                      <label className="field-label">{t("checkout.form.expiryLabel")}</label>
-                      <input
-                        type="text"
-                        placeholder={t("checkout.form.expiryPlaceholder")}
-                        required
-                        maxLength={5}
-                        value={cardData.expiry}
-                        onChange={(e) => updateField("expiry", e.target.value)}
-                      />
-                    </div>
-
-                    <div className="checkout-col">
-                      <label className="field-label">{t("checkout.form.cvvLabel")}</label>
-                      <input
-                        type="text"
-                        placeholder={t("checkout.form.cvvPlaceholder")}
-                        required
-                        maxLength={3}
-                        value={cardData.cvv}
-                        onChange={(e) => updateField("cvv", e.target.value)}
-                      />
-                    </div>
-
-                  </div>
-
                   <p className="special-touch-weekly-note">
                     {t("checkout.specialTouch.weeklyUsage", { used: weeklyUsed, total: WEEKLY_LIMIT })}
                   </p>
 
                   {payError && <p className="checkout-error">{payError}</p>}
 
-                  <button type="submit" className="checkout-pay-btn">
-                    {t("checkout.form.payButton", { price: TOUCH_PRICE })}
-                  </button>
+                  <div ref={paypalContainerRef} className="paypal-buttons-container"></div>
 
                   <p className="checkout-secure-note">
                     <LockIcon size={12} /> {t("checkout.form.secureNote")}
@@ -286,7 +299,7 @@ function SpecialTouchCheckout() {
                     {t("checkout.specialTouch.noRefundNote")}
                   </p>
 
-                </form>
+                </div>
               </>
 
             )}
@@ -298,6 +311,20 @@ function SpecialTouchCheckout() {
           <div className="checkout-processing">
             <div className="checkout-spinner"></div>
             <p>{t("checkout.form.processing")}</p>
+          </div>
+        )}
+
+        {step === "pending" && (
+          <div className="checkout-success">
+            <div className="success-icon"><SuccessCheck /></div>
+            <h2>{t("checkout.form.pendingTitle")}</h2>
+            <p>{t("checkout.form.pendingBody")}</p>
+            <button
+              className="checkout-continue-btn"
+              onClick={() => navigate("/swipe")}
+            >
+              {t("checkout.specialTouch.continueBtn")}
+            </button>
           </div>
         )}
 

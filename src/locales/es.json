@@ -686,8 +686,11 @@
       "cvvLabel": "CVV",
       "cvvPlaceholder": "123",
       "payButton": "Pagar ${{price}}",
-      "secureNote": "Pago simulado, no se realiza ningún cargo real.",
-      "processing": "Procesando tu pago..."
+      "secureNote": "Pago seguro procesado por PayPal.",
+      "processing": "Confirmando tu pago...",
+      "paypalError": "Hubo un problema con PayPal. Intenta de nuevo.",
+      "pendingTitle": "Pago recibido",
+      "pendingBody": "Tu pago se recibió correctamente. Puede tardar unos minutos en procesarse — no hace falta que pagues de nuevo."
     },
     "plan": {
       "title": "Plan {{name}}",
