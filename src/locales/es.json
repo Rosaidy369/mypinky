@@ -287,7 +287,9 @@
       "body_one": "Seguirás disfrutando de tus beneficios {{plan}} durante {{count}} día más, hasta el final de tu periodo ya pagado. Después volverás al plan gratis.",
       "body_other": "Seguirás disfrutando de tus beneficios {{plan}} durante {{count}} días más, hasta el final de tu periodo ya pagado. Después volverás al plan gratis.",
       "back": "Volver",
-      "confirm": "Sí, cancelar"
+      "confirm": "Sí, cancelar",
+      "cancelling": "Cancelando...",
+      "errorGeneric": "No se pudo cancelar la suscripción. Intenta de nuevo."
     },
     "cancelSuccessModal": {
       "title": "Membresía cancelada",

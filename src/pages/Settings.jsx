@@ -54,6 +54,8 @@ function Settings() {
   const cardRemoved = localStorage.getItem("mypinky_card_removed") === "true";
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [cancelSuccess, setCancelSuccess] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState("");
   const { logout, session } = useAuth();
   const navigate = useNavigate();
 
@@ -222,8 +224,24 @@ function Settings() {
   };
 
   const handleCancelMembership = async () => {
+    setCancelling(true);
+    setCancelError("");
+
+    const { data: { session } } = await supabase.auth.getSession();
+
+    const { data, error } = await supabase.functions.invoke("cancel-paypal-subscription", {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+
+    setCancelling(false);
+
+    if (error || data?.error) {
+      console.error("Error cancelando suscripción:", error?.message || data?.error);
+      setCancelError(t("settings.cancelModal.errorGeneric"));
+      return;
+    }
+
     updateProfileField("plan_cancelled", true);
-    await commitProfileField("plan_cancelled", true);
     setShowCancelConfirm(false);
     setCancelSuccess(true);
   };
@@ -636,12 +654,14 @@ function Settings() {
               {t("settings.cancelModal.body", { plan: planName === "vip" ? t("settings.vip") : t("settings.premium"), count: daysLeft })}
             </p>
 
+            {cancelError && <p className="report-error">{cancelError}</p>}
+
             <div className="delete-modal-actions">
-              <button className="cancel-btn" onClick={() => setShowCancelConfirm(false)}>
+              <button className="cancel-btn" onClick={() => setShowCancelConfirm(false)} disabled={cancelling}>
                 {t("settings.cancelModal.back")}
               </button>
-              <button className="confirm-btn" onClick={handleCancelMembership}>
-                {t("settings.cancelModal.confirm")}
+              <button className="confirm-btn" onClick={handleCancelMembership} disabled={cancelling}>
+                {cancelling ? t("settings.cancelModal.cancelling") : t("settings.cancelModal.confirm")}
               </button>
             </div>
 

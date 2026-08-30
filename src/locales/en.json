@@ -287,7 +287,9 @@
       "body_one": "You'll keep enjoying your {{plan}} benefits for {{count}} more day, until the end of your paid period. After that you'll go back to the free plan.",
       "body_other": "You'll keep enjoying your {{plan}} benefits for {{count}} more days, until the end of your paid period. After that you'll go back to the free plan.",
       "back": "Go back",
-      "confirm": "Yes, cancel"
+      "confirm": "Yes, cancel",
+      "cancelling": "Cancelling...",
+      "errorGeneric": "Couldn't cancel the subscription. Try again."
     },
     "cancelSuccessModal": {
       "title": "Membership cancelled",
