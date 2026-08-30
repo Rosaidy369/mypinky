@@ -167,6 +167,42 @@ box-shadow:none;
 
 }
 
+.boost-buy-link{
+
+display:block;
+
+margin-top:8px;
+
+background:none;
+
+border:none;
+
+padding:0;
+
+color:#ff3f87;
+
+font-weight:600;
+
+font-size:13px;
+
+cursor:pointer;
+
+text-decoration:underline;
+
+}
+
+.boost-modal-icon{
+
+display:flex;
+
+justify-content:center;
+
+color:#ff6b6b;
+
+margin-bottom:12px;
+
+}
+
 .boost-error{
 
 margin-top:10px;

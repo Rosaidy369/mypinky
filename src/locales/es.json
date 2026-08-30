@@ -163,7 +163,15 @@
       "boosting": "Impulsando...",
       "activeLabel": "Perfil destacado activo",
       "cta": "Impulsar mi perfil",
-      "availableIn": "Disponible en {{time}}"
+      "availableIn": "Disponible en {{time}}",
+      "buyCta": "Comprar Boost (${{price}})",
+      "buyTitle": "Impulsa tu perfil ahora",
+      "buySubtitle": "Por ${{price}}, tu perfil aparece destacado durante 24 horas, sin esperar el cooldown gratis.",
+      "buyError": "No se pudo procesar la compra. Intenta de nuevo.",
+      "buySuccessTitle": "¡Boost activado!",
+      "buySuccessBody": "Tu perfil está destacado durante las próximas 24 horas.",
+      "cancel": "Cancelar",
+      "understood": "Entendido"
     },
     "viewPhotos": "Ver fotos ({{count}})",
     "completionLabel": "Perfil completo: {{percent}}%",

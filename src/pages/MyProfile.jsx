@@ -20,6 +20,7 @@ import CameraIcon from "../components/ui/CameraIcon";
 import PinIcon from "../components/ui/PinIcon";
 import CheckIcon from "../components/ui/CheckIcon";
 import BoostIcon from "../components/ui/BoostIcon";
+import BoostPurchaseModal from "../components/profile/BoostPurchaseModal";
 import { requestLocation } from "../lib/geolocation";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
@@ -112,6 +113,7 @@ function MyProfile() {
   const [locationError, setLocationError] = useState("");
   const [boosting, setBoosting] = useState(false);
   const [boostError, setBoostError] = useState("");
+  const [showBoostModal, setShowBoostModal] = useState(false);
 
   const isVip = isVipActive(user);
   const isPremiumPlan = isPlanActive(user) && user?.plan === "premium";
@@ -473,28 +475,57 @@ function MyProfile() {
                 </div>
               )}
 
-              {isVip && (
-                <div className="boost-section">
+              <div className="boost-section">
 
-                  <button
-                    className="boost-btn"
-                    onClick={handleBoost}
-                    disabled={boosting || (!canBoost && !isBoostedNow)}
-                  >
-                    {boosting ? (
-                      t("myProfile.boost.boosting")
-                    ) : isBoostedNow ? (
-                      <><BoostIcon size={20} /> {t("myProfile.boost.activeLabel")}</>
-                    ) : canBoost ? (
-                      <><BoostIcon size={20} /> {t("myProfile.boost.cta")}</>
-                    ) : (
-                      t("myProfile.boost.availableIn", { time: formatBoostCooldown(nextBoostAt - new Date()) })
+                {isVip ? (
+
+                  <>
+                    <button
+                      className="boost-btn"
+                      onClick={handleBoost}
+                      disabled={boosting || (!canBoost && !isBoostedNow)}
+                    >
+                      {boosting ? (
+                        t("myProfile.boost.boosting")
+                      ) : isBoostedNow ? (
+                        <><BoostIcon size={20} /> {t("myProfile.boost.activeLabel")}</>
+                      ) : canBoost ? (
+                        <><BoostIcon size={20} /> {t("myProfile.boost.cta")}</>
+                      ) : (
+                        t("myProfile.boost.availableIn", { time: formatBoostCooldown(nextBoostAt - new Date()) })
+                      )}
+                    </button>
+
+                    {!canBoost && !isBoostedNow && (
+                      <button className="boost-buy-link" onClick={() => setShowBoostModal(true)}>
+                        {t("myProfile.boost.buyCta", { price: 1.99 })}
+                      </button>
                     )}
+                  </>
+
+                ) : isBoostedNow ? (
+
+                  <button className="boost-btn" disabled>
+                    <BoostIcon size={20} /> {t("myProfile.boost.activeLabel")}
                   </button>
 
-                  {boostError && <p className="boost-error">{boostError}</p>}
+                ) : (
 
-                </div>
+                  <button className="boost-btn" onClick={() => setShowBoostModal(true)}>
+                    <BoostIcon size={20} /> {t("myProfile.boost.buyCta", { price: 1.99 })}
+                  </button>
+
+                )}
+
+                {boostError && <p className="boost-error">{boostError}</p>}
+
+              </div>
+
+              {showBoostModal && (
+                <BoostPurchaseModal
+                  onClose={() => setShowBoostModal(false)}
+                  onFulfilled={loadProfile}
+                />
               )}
 
               <button className="edit-profile-btn" onClick={startEditing}>

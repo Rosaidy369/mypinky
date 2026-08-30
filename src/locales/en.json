@@ -163,7 +163,15 @@
       "boosting": "Boosting...",
       "activeLabel": "Profile boost active",
       "cta": "Boost my profile",
-      "availableIn": "Available in {{time}}"
+      "availableIn": "Available in {{time}}",
+      "buyCta": "Buy a Boost (${{price}})",
+      "buyTitle": "Boost your profile now",
+      "buySubtitle": "For ${{price}}, your profile gets featured for 24 hours, no need to wait for the free cooldown.",
+      "buyError": "Couldn't process the purchase. Try again.",
+      "buySuccessTitle": "Boost activated!",
+      "buySuccessBody": "Your profile is featured for the next 24 hours.",
+      "cancel": "Cancel",
+      "understood": "Got it"
     },
     "viewPhotos": "View photos ({{count}})",
     "completionLabel": "Profile complete: {{percent}}%",
