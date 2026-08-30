@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { paypalFetch, paypalApiBase } from "../_shared/paypal.ts";
+import { paypalFetch } from "../_shared/paypal.ts";
 
 // PayPal llama esta funcion directamente -- no hay JWT de usuario, la
 // unica autenticacion real es la verificacion de firma de abajo.
@@ -66,8 +66,6 @@ async function verifySignature(req: Request, rawBody: string): Promise<boolean> 
     console.error("verify-webhook-signature respondió con error HTTP:", response.status, JSON.stringify(data));
     return false;
   }
-
-  console.log("DEBUG verification_status:", JSON.stringify(data));
 
   return data?.verification_status === "SUCCESS";
 }
