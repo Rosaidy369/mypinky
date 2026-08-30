@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
+import { loadPaypalSdk } from "../lib/paypalSdk";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import SuccessCheck from "../components/ui/SuccessCheck";
@@ -11,64 +12,104 @@ import "../styles/Checkout.css";
 import "../styles/BackButton.css";
 
 const PLAN_INFO = {
-  premium: { name: "Premium", price: 9.99, icon: <PremiumDiamond size={32} /> },
-  vip: { name: "VIP", price: 19.99, icon: null },
+  premium: {
+    name: "Premium",
+    icon: <PremiumDiamond size={32} />,
+    prices: { monthly: 9.99, annual: 79.99 },
+    planIds: {
+      monthly: import.meta.env.VITE_PAYPAL_PLAN_ID_PREMIUM_MONTHLY,
+      annual: import.meta.env.VITE_PAYPAL_PLAN_ID_PREMIUM_ANNUAL,
+    },
+  },
+  vip: {
+    name: "VIP",
+    icon: null,
+    prices: { monthly: 19.99, annual: 149.99 },
+    planIds: {
+      monthly: import.meta.env.VITE_PAYPAL_PLAN_ID_VIP_MONTHLY,
+      annual: import.meta.env.VITE_PAYPAL_PLAN_ID_VIP_ANNUAL,
+    },
+  },
 };
+
+const POLL_INTERVAL_MS = 1500;
+const POLL_MAX_ATTEMPTS = 14; // ~20s -- el webhook suele llegar en 1-5s, esto deja margen amplio
+
+// El webhook (BILLING.SUBSCRIPTION.ACTIVATED) es la unica fuente de
+// verdad que activa el plan -- este polling solo espera a que ese
+// resultado llegue, nunca lo decide por su cuenta. Se compara contra
+// el subscriptionID real, no solo "profile.plan cambio", para no dar
+// un falso positivo si el usuario ya tenia otro plan activo antes.
+async function pollSubscriptionActivation(userId, subscriptionId) {
+  for (let attempt = 0; attempt < POLL_MAX_ATTEMPTS; attempt++) {
+    await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+
+    const { data } = await supabase
+      .from("profiles")
+      .select("paypal_subscription_id")
+      .eq("id", userId)
+      .single();
+
+    if (data?.paypal_subscription_id === subscriptionId) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 function Checkout() {
   const { t } = useTranslation();
-  const { plan } = useParams();
+  const { plan, cycle: rawCycle } = useParams();
   const navigate = useNavigate();
+
   const info = PLAN_INFO[plan] || PLAN_INFO.premium;
+  const cycle = rawCycle === "annual" ? "annual" : "monthly";
+  const price = info.prices[cycle];
+  const planId = info.planIds[cycle];
 
   const [step, setStep] = useState("form");
-  const [cardData, setCardData] = useState({
-    name: "",
-    number: "",
-    expiry: "",
-    cvv: "",
-  });
-
-  const updateField = (field, value) => {
-    setCardData((prev) => ({ ...prev, [field]: value }));
-  };
-
   const [payError, setPayError] = useState("");
+  const paypalContainerRef = useRef(null);
 
-  const handlePay = (e) => {
-    e.preventDefault();
-    setStep("processing");
-    setPayError("");
+  useEffect(() => {
+    if (step !== "form") return;
 
-    setTimeout(async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+    let cancelled = false;
 
-      if (!user) {
-        navigate("/login");
-        return;
-      }
+    loadPaypalSdk("subscription").then((paypal) => {
+      if (cancelled || !paypalContainerRef.current) return;
+      paypalContainerRef.current.innerHTML = "";
 
-      const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 días
+      paypal.Buttons({
+        style: { layout: "vertical", color: "gold", label: "subscribe", height: 45 },
 
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          plan,
-          plan_expires_at: expiresAt.toISOString(),
-          plan_cancelled: false,
-        })
-        .eq("id", user.id);
+        createSubscription: async (data, actions) => {
+          const { data: { user } } = await supabase.auth.getUser();
+          return actions.subscription.create({
+            plan_id: planId,
+            custom_id: user.id,
+          });
+        },
 
-      if (error) {
-        console.error("Error activando el plan:", error.message);
-        setPayError(t("checkout.plan.payError"));
-        setStep("form");
-        return;
-      }
+        onApprove: async (data) => {
+          setStep("processing");
 
-      setStep("success");
-    }, 1800);
-  };
+          const { data: { user } } = await supabase.auth.getUser();
+          const activated = await pollSubscriptionActivation(user.id, data.subscriptionID);
+          setStep(activated ? "success" : "pending");
+        },
+
+        onError: (err) => {
+          console.error("Error de PayPal:", err);
+          setStep("form");
+          setPayError(t("checkout.form.paypalError"));
+        },
+      }).render(paypalContainerRef.current);
+    });
+
+    return () => { cancelled = true; };
+  }, [step, planId, t]);
 
   return (
     <div className="checkout-page">
@@ -88,71 +129,25 @@ function Checkout() {
 
               <div>
                 <h2>{t("checkout.plan.title", { name: info.name })}</h2>
-                <p>{t("checkout.plan.priceNote", { price: info.price })}</p>
+                <p>
+                  {cycle === "annual"
+                    ? t("checkout.plan.priceNoteAnnual", { price })
+                    : t("checkout.plan.priceNote", { price })}
+                </p>
               </div>
 
             </div>
 
-            <form className="checkout-form" onSubmit={handlePay}>
-
-              <label className="field-label">{t("checkout.form.nameLabel")}</label>
-              <input
-                type="text"
-                placeholder={t("checkout.form.namePlaceholder")}
-                required
-                value={cardData.name}
-                onChange={(e) => updateField("name", e.target.value)}
-              />
-
-              <label className="field-label">{t("checkout.form.numberLabel")}</label>
-              <input
-                type="text"
-                placeholder={t("checkout.form.numberPlaceholder")}
-                required
-                maxLength={19}
-                value={cardData.number}
-                onChange={(e) => updateField("number", e.target.value)}
-              />
-
-              <div className="checkout-row">
-
-                <div className="checkout-col">
-                  <label className="field-label">{t("checkout.form.expiryLabel")}</label>
-                  <input
-                    type="text"
-                    placeholder={t("checkout.form.expiryPlaceholder")}
-                    required
-                    maxLength={5}
-                    value={cardData.expiry}
-                    onChange={(e) => updateField("expiry", e.target.value)}
-                  />
-                </div>
-
-                <div className="checkout-col">
-                  <label className="field-label">{t("checkout.form.cvvLabel")}</label>
-                  <input
-                    type="text"
-                    placeholder={t("checkout.form.cvvPlaceholder")}
-                    required
-                    maxLength={3}
-                    value={cardData.cvv}
-                    onChange={(e) => updateField("cvv", e.target.value)}
-                  />
-                </div>
-
-              </div>
+            <div className="checkout-form">
 
               {payError && <p className="checkout-error">{payError}</p>}
 
-              <button type="submit" className="checkout-pay-btn">
-                {t("checkout.form.payButton", { price: info.price })}
-              </button>
+              <div ref={paypalContainerRef} className="paypal-buttons-container"></div>
 
               <p className="checkout-secure-note">
                 <LockIcon size={12} /> {t("checkout.form.secureNote")}
               </p>
-
-            </form>
+            </div>
           </>
 
         )}
@@ -162,6 +157,22 @@ function Checkout() {
           <div className="checkout-processing">
             <div className="checkout-spinner"></div>
             <p>{t("checkout.form.processing")}</p>
+          </div>
+
+        )}
+
+        {step === "pending" && (
+
+          <div className="checkout-success">
+            <div className="success-icon"><SuccessCheck /></div>
+            <h2>{t("checkout.form.pendingTitle")}</h2>
+            <p>{t("checkout.form.pendingBody")}</p>
+            <button
+              className="checkout-continue-btn"
+              onClick={() => navigate("/dashboard")}
+            >
+              {t("checkout.plan.continueBtn")}
+            </button>
           </div>
 
         )}

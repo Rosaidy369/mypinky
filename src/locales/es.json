@@ -677,15 +677,6 @@
   },
   "checkout": {
     "form": {
-      "nameLabel": "Nombre en la tarjeta",
-      "namePlaceholder": "Como aparece en tu tarjeta",
-      "numberLabel": "Número de tarjeta",
-      "numberPlaceholder": "1234 5678 9012 3456",
-      "expiryLabel": "Vencimiento",
-      "expiryPlaceholder": "MM/AA",
-      "cvvLabel": "CVV",
-      "cvvPlaceholder": "123",
-      "payButton": "Pagar ${{price}}",
       "secureNote": "Pago seguro procesado por PayPal.",
       "processing": "Confirmando tu pago...",
       "paypalError": "Hubo un problema con PayPal. Intenta de nuevo.",
@@ -695,7 +686,7 @@
     "plan": {
       "title": "Plan {{name}}",
       "priceNote": "${{price}}/mes · Cancela cuando quieras",
-      "payError": "No se pudo activar tu plan. Intenta de nuevo.",
+      "priceNoteAnnual": "${{price}}/año · Cancela cuando quieras",
       "successTitle": "¡Bienvenido a {{name}}!",
       "successBody": "Tu suscripción está activa. Disfruta de todos los beneficios.",
       "continueBtn": "Ir a la app"

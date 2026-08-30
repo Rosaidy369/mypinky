@@ -155,7 +155,7 @@ function App() {
             />
 
             <Route
-              path="/checkout/:plan"
+              path="/checkout/:plan/:cycle"
               element={
                 <ProtectedRoute>
                   <Checkout />

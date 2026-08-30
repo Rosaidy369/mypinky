@@ -162,7 +162,7 @@ function Premium() {
                 </button>
               ) : (
                 <Link
-                  to={`/checkout/${plan.key}`}
+                  to={`/checkout/${plan.key}/${yearly ? "annual" : "monthly"}`}
                   className={`plan-btn ${plan.highlight ? "plan-btn-highlight" : ""}`}
                 >
                   {t("premium.choosePlan", { plan: name })}

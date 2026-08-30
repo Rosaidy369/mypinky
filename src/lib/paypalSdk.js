@@ -1,25 +1,41 @@
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 
-let sdkPromise = null;
+// "capture" (compras unicas: Toque Especial, Boost) y "subscription"
+// (Premium/VIP) necesitan cada una su propio script del SDK con
+// opciones distintas -- se cargan bajo un data-namespace propio para
+// poder convivir en la misma pagina sin pisarse, ya que en una SPA es
+// posible visitar ambos tipos de checkout sin recargar la pagina.
+const NAMESPACES = {
+  capture: "paypalCapture",
+  subscription: "paypalSubscription",
+};
 
-// Carga el SDK de PayPal una sola vez por sesion de pagina, sin importar
-// cuantos componentes distintos lo pidan (Toque Especial, Boost,
-// Checkout de suscripciones) -- reinyectar el script varias veces
-// duplica los botones renderizados.
+const sdkPromises = {};
+
 export function loadPaypalSdk(intent = "capture") {
-  if (window.paypal) return Promise.resolve(window.paypal);
-  if (sdkPromise) return sdkPromise;
+  const namespace = NAMESPACES[intent];
 
-  sdkPromise = new Promise((resolve, reject) => {
+  if (window[namespace]) return Promise.resolve(window[namespace]);
+  if (sdkPromises[intent]) return sdkPromises[intent];
+
+  sdkPromises[intent] = new Promise((resolve, reject) => {
+    const params = new URLSearchParams({
+      "client-id": PAYPAL_CLIENT_ID,
+      currency: "USD",
+      intent,
+    });
+    if (intent === "subscription") params.set("vault", "true");
+
     const script = document.createElement("script");
-    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD&intent=${intent}${intent === "subscription" ? "&vault=true" : ""}`;
-    script.onload = () => resolve(window.paypal);
+    script.src = `https://www.paypal.com/sdk/js?${params.toString()}`;
+    script.dataset.namespace = namespace;
+    script.onload = () => resolve(window[namespace]);
     script.onerror = () => {
-      sdkPromise = null;
+      sdkPromises[intent] = null;
       reject(new Error("No se pudo cargar el SDK de PayPal."));
     };
     document.body.appendChild(script);
   });
 
-  return sdkPromise;
+  return sdkPromises[intent];
 }
