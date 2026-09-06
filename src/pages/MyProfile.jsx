@@ -444,6 +444,16 @@ function MyProfile() {
 
               </div>
 
+              {!user.is_verified && (
+                <Link to="/verificar" className="verification-banner">
+                  <VerifiedIcon size={22} />
+                  <div>
+                    <strong>{t("myProfile.verificationBanner.title")}</strong>
+                    <p>{t("myProfile.verificationBanner.body")}</p>
+                  </div>
+                </Link>
+              )}
+
               <div className="mood">{moodLabel(t, user.mood)}</div>
 
               <div className="about">

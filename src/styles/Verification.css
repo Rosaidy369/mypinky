@@ -1,3 +1,55 @@
+.verification-banner{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+background:linear-gradient(135deg,#fff0f6,#ffe0eb);
+
+border:1px solid #ffd0e2;
+
+border-radius:16px;
+
+padding:14px 18px;
+
+margin:14px 0;
+
+color:#ff3f87;
+
+text-decoration:none;
+
+transition:.2s;
+
+}
+
+.verification-banner:hover{
+
+transform:translateY(-2px);
+
+}
+
+.verification-banner strong{
+
+display:block;
+
+color:#222;
+
+font-size:14px;
+
+margin-bottom:2px;
+
+}
+
+.verification-banner p{
+
+color:#777;
+
+font-size:13px;
+
+}
+
 .verified-badge-icon{
 
 color:#3897f0;

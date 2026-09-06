@@ -156,6 +156,10 @@
   },
   "myProfile": {
     "loading": "Loading your profile...",
+    "verificationBanner": {
+      "title": "Verify your account",
+      "body": "Unlock likes, matches, and chat, and get a more complete experience — it's free and takes a minute."
+    },
     "boost": {
       "errorGeneric": "Couldn't boost your profile. Try again.",
       "errorNotVip": "Your VIP plan isn't active right now (it may have expired). Check your plan in Settings.",

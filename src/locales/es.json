@@ -156,6 +156,10 @@
   },
   "myProfile": {
     "loading": "Cargando tu perfil...",
+    "verificationBanner": {
+      "title": "Verifica tu cuenta",
+      "body": "Desbloquea likes, matches y chat, y ten una experiencia más completa — es gratis y toma un minuto."
+    },
     "boost": {
       "errorGeneric": "No se pudo impulsar tu perfil. Intenta de nuevo.",
       "errorNotVip": "Tu plan VIP no está activo ahora mismo (puede haber vencido). Revisa tu plan en Configuración.",
