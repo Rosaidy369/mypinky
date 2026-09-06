@@ -5,7 +5,7 @@
     "loginShort": "Log in",
     "register": "Create account",
     "registerShort": "Sign up",
-    "explore": "Explore",
+    "explore": "Search by affinity",
     "messages": "Messages",
     "matches": "Matches",
     "filters": "Filters",
@@ -22,7 +22,13 @@
     "onlineOnly": "🟢 Online only",
     "locationSearchPlaceholder": "Search by country or city",
     "locationSearchPlaceholderLocked": "Search by country or city",
-    "vip": "VIP"
+    "vip": "VIP",
+    "datingIntent": {
+      "all": "All intentions"
+    },
+    "interests": {
+      "label": "Interests"
+    }
   },
   "swipe": {
     "loading": "Loading profiles...",
@@ -72,7 +78,7 @@
     }
   },
   "explore": {
-    "title": "Explore profiles",
+    "title": "Search by affinity",
     "searchPlaceholder": "Search people...",
     "loading": "Loading profiles...",
     "noResults": {
@@ -196,7 +202,8 @@
     },
     "bioLabel": "Bio",
     "charCounter": "{{count}}/{{max}}",
-    "moodLabel": "What are you looking for?",
+    "moodLabel": "How are you feeling today?",
+    "datingIntentLabel": "What are you looking for?",
     "interestsFieldLabel": "Interests",
     "voiceNoteFieldLabel": "Voice note (10s)",
     "voiceNoteVipOnly": "Only available for VIP users",
@@ -545,8 +552,12 @@
       "subtitle": "Choose at least 3 (you can choose more)."
     },
     "lookingFor": {
-      "heading": "What are you looking for?",
+      "heading": "How are you feeling today?",
       "subtitle": "This helps match you with like-minded people."
+    },
+    "datingIntent": {
+      "heading": "What are you looking for?",
+      "subtitle": "This way we won't show you someone looking for something different."
     },
     "prompts": {
       "heading": "Icebreaker prompts",
@@ -586,6 +597,12 @@
       "laugh": { "label": "I want to laugh", "desc": "Have a good time" },
       "company": { "label": "Looking for company", "desc": "Someone to hang out with" },
       "night_owl": { "label": "Can't sleep", "desc": "Late-night chats" }
+    },
+    "datingIntents": {
+      "serious": "Something serious",
+      "casual": "Something casual",
+      "friendship": "Friendship first",
+      "open": "Open to anything"
     },
     "prompts": {
       "ideal_date": "My ideal date would be...",

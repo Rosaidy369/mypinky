@@ -142,6 +142,22 @@ display:inline-block;
 
 }
 
+.badges-row{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+}
+
+.dating-intent-badge{
+
+background:#e9e6ff;
+
+}
+
 .about{
 
 margin:25px 0;

@@ -40,6 +40,15 @@ export const MOODS = [
   { code: "night_owl", emoji: "🌙" },
 ];
 
+// Separado del Mood -- captura la intencion real de citas (que tipo de
+// relacion busca), no el estado de animo del momento.
+export const DATING_INTENTS = [
+  { code: "serious", emoji: "💍" },
+  { code: "casual", emoji: "🎉" },
+  { code: "friendship", emoji: "🤝" },
+  { code: "open", emoji: "🌍" },
+];
+
 export const PROMPT_QUESTIONS = [
   "ideal_date",
   "cant_live_without",

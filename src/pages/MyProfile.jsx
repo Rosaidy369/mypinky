@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive, isVipActive } from "../lib/plan";
 import { calculateAge } from "../lib/age";
-import { INTERESTS, MOODS } from "../data/profileOptions";
-import { moodLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
+import { INTERESTS, MOODS, DATING_INTENTS } from "../data/profileOptions";
+import { moodLabel, datingIntentLabel, interestLabel, promptQuestionLabel } from "../lib/profileLabels";
 import VoiceRecorder from "../components/profile/VoiceRecorder";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import PhotoCropModal from "../components/profile/PhotoCropModal";
@@ -60,6 +60,7 @@ function calculateCompletion(user, isVip) {
   const BIO_WEIGHT = 15;
   const INTERESTS_WEIGHT = 15;
   const MOOD_WEIGHT = 10;
+  const DATING_INTENT_WEIGHT = 10;
   const CITY_WEIGHT = 10;
   const PROMPTS_WEIGHT = 15;
   const PROMPTS_FOR_FULL_CREDIT = 2;
@@ -83,6 +84,9 @@ function calculateCompletion(user, isVip) {
 
   if (user.mood) score += MOOD_WEIGHT;
   maxPossible += MOOD_WEIGHT;
+
+  if (user.dating_intent) score += DATING_INTENT_WEIGHT;
+  maxPossible += DATING_INTENT_WEIGHT;
 
   if (user.city) score += CITY_WEIGHT;
   maxPossible += CITY_WEIGHT;
@@ -221,6 +225,7 @@ function MyProfile() {
         longitude: draft.longitude,
         bio: draft.bio,
         mood: draft.mood,
+        dating_intent: draft.dating_intent,
         interests: draft.interests,
         photos: draft.photos,
         prompts: draft.prompts,
@@ -454,7 +459,12 @@ function MyProfile() {
                 </Link>
               )}
 
-              <div className="mood">{moodLabel(t, user.mood)}</div>
+              <div className="badges-row">
+                <span className="mood">{moodLabel(t, user.mood)}</span>
+                {user.dating_intent && (
+                  <span className="mood dating-intent-badge">{datingIntentLabel(t, user.dating_intent)}</span>
+                )}
+              </div>
 
               <div className="about">
                 <h2>{t("myProfile.aboutHeading")}</h2>
@@ -660,6 +670,20 @@ function MyProfile() {
                   onClick={() => updateDraft("mood", code)}
                 >
                   {moodLabel(t, code)}
+                </button>
+              ))}
+            </div>
+
+            <label className="field-label">{t("myProfile.datingIntentLabel")}</label>
+            <div className="option-pills">
+              {DATING_INTENTS.map(({ code }) => (
+                <button
+                  type="button"
+                  key={code}
+                  className={`option-pill ${draft.dating_intent === code ? "selected" : ""}`}
+                  onClick={() => updateDraft("dating_intent", code)}
+                >
+                  {datingIntentLabel(t, code)}
                 </button>
               ))}
             </div>

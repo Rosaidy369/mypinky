@@ -5,7 +5,7 @@
     "loginShort": "Entrar",
     "register": "Crear cuenta",
     "registerShort": "Registro",
-    "explore": "Explorar",
+    "explore": "Buscar por afinidad",
     "messages": "Mensajes",
     "matches": "Matches",
     "filters": "Filtros",
@@ -22,7 +22,13 @@
     "onlineOnly": "🟢 Solo conectados",
     "locationSearchPlaceholder": "Buscar por país o ciudad",
     "locationSearchPlaceholderLocked": "Buscar por país o ciudad",
-    "vip": "VIP"
+    "vip": "VIP",
+    "datingIntent": {
+      "all": "Todas las intenciones"
+    },
+    "interests": {
+      "label": "Intereses"
+    }
   },
   "swipe": {
     "loading": "Cargando perfiles...",
@@ -72,7 +78,7 @@
     }
   },
   "explore": {
-    "title": "Explorar perfiles",
+    "title": "Buscar por afinidad",
     "searchPlaceholder": "Buscar personas...",
     "loading": "Cargando perfiles...",
     "noResults": {
@@ -196,7 +202,8 @@
     },
     "bioLabel": "Biografía",
     "charCounter": "{{count}}/{{max}}",
-    "moodLabel": "¿Qué buscas?",
+    "moodLabel": "¿Cómo te sientes hoy?",
+    "datingIntentLabel": "¿Qué buscas?",
     "interestsFieldLabel": "Intereses",
     "voiceNoteFieldLabel": "Nota de voz (10s)",
     "voiceNoteVipOnly": "Solo disponible para usuarios VIP",
@@ -545,8 +552,12 @@
       "subtitle": "Elige al menos 3 (puedes elegir más)."
     },
     "lookingFor": {
-      "heading": "¿Qué estás buscando?",
+      "heading": "¿Cómo te sientes hoy?",
       "subtitle": "Esto ayuda a encontrarte con personas afines."
+    },
+    "datingIntent": {
+      "heading": "¿Qué buscas?",
+      "subtitle": "Así evitamos mostrarte a alguien que busca algo distinto a ti."
     },
     "prompts": {
       "heading": "Preguntas rompehielo",
@@ -586,6 +597,12 @@
       "laugh": { "label": "Quiero reír", "desc": "Pasar un buen rato" },
       "company": { "label": "Busco compañía", "desc": "Alguien con quien salir" },
       "night_owl": { "label": "No puedo dormir", "desc": "Charlas nocturnas" }
+    },
+    "datingIntents": {
+      "serious": "Algo serio",
+      "casual": "Algo casual",
+      "friendship": "Amistad primero",
+      "open": "Abierto/a a lo que surja"
     },
     "prompts": {
       "ideal_date": "Mi cita ideal sería...",

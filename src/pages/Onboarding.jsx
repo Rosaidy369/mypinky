@@ -9,10 +9,11 @@ import StepPhotos from "../components/onboarding/StepPhotos";
 import StepBio from "../components/onboarding/StepBio";
 import StepInterests from "../components/onboarding/StepInterests";
 import StepLookingFor from "../components/onboarding/StepLookingFor";
+import StepDatingIntent from "../components/onboarding/StepDatingIntent";
 import StepPrompts from "../components/onboarding/StepPrompts";
 import "../styles/Onboarding.css";
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 function Onboarding() {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ function Onboarding() {
     bio: "",
     interests: [],
     mood: "",
+    datingIntent: "",
     prompts: [],
   });
 
@@ -110,6 +112,7 @@ function Onboarding() {
     if (step === 3) return formData.bio.trim().length > 0;
     if (step === 4) return formData.interests.length >= 3;
     if (step === 5) return formData.mood !== "";
+    if (step === 6) return formData.datingIntent !== "";
     return true;
   };
 
@@ -156,6 +159,7 @@ function Onboarding() {
         bio: formData.bio,
         interests: formData.interests,
         mood: formData.mood,
+        dating_intent: formData.datingIntent,
         prompts: cleanPrompts,
       })
       .eq("id", user.id);
@@ -220,6 +224,13 @@ function Onboarding() {
         )}
 
         {step === 6 && (
+          <StepDatingIntent
+            datingIntent={formData.datingIntent}
+            onChange={(val) => updateField("datingIntent", val)}
+          />
+        )}
+
+        {step === 7 && (
           <StepPrompts
             prompts={formData.prompts}
             onChange={(val) => updateField("prompts", val)}

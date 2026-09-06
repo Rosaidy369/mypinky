@@ -1,4 +1,4 @@
-import { INTERESTS, MOODS } from "../data/profileOptions";
+import { INTERESTS, MOODS, DATING_INTENTS } from "../data/profileOptions";
 
 // Every read site (Profile, MyProfile, Explore, Swipe cards, Matches,
 // Favorites, filters) goes through these instead of re-implementing the
@@ -23,6 +23,12 @@ export function moodLabel(t, code) {
 
 export function moodDesc(t, code) {
   return code ? t(`profileOptions.moods.${code}.desc`, { defaultValue: "" }) : "";
+}
+
+export function datingIntentLabel(t, code) {
+  const item = DATING_INTENTS.find((d) => d.code === code);
+  const text = t(`profileOptions.datingIntents.${code}`, { defaultValue: code });
+  return item ? `${item.emoji} ${text}` : text;
 }
 
 export function promptQuestionLabel(t, code) {

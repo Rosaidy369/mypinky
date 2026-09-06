@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 import { useAuth } from "../hooks/useAuth";
 import { isPlanActive, isVipActive } from "../lib/plan";
 import { GENDER_FILTER_ALL } from "../data/profileOptions";
-import { moodLabel } from "../lib/profileLabels";
+import { moodLabel, datingIntentLabel } from "../lib/profileLabels";
 import FilterBar from "../components/filters/FilterBar";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
@@ -42,6 +42,8 @@ function Explore() {
     ageMax: 90,
     onlineOnly: false,
     locationSearch: "",
+    datingIntent: null,
+    interests: [],
   });
 
   const [favorites, setFavorites] = useState([]);
@@ -55,7 +57,7 @@ function Explore() {
   useEffect(() => {
     if (currentUserId) loadProfiles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly]);
+  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly, filters.datingIntent, filters.interests]);
 
   // is_online is a snapshot from whenever the query ran -- without this, the
   // green dot would only ever reflect who was online at page load or the
@@ -120,6 +122,8 @@ function Explore() {
       p_exclude_swiped: false,
       p_limit: 60,
       p_online_only: filters.onlineOnly,
+      p_dating_intent: filters.datingIntent,
+      p_interests: filters.interests.length > 0 ? filters.interests : null,
     };
 
     // Server-side: never returns anyone else's exact coordinates, only the
@@ -264,8 +268,11 @@ function Explore() {
                   {typeof profile.distance_km === "number" && t("explore.distanceKm", { km: Math.round(profile.distance_km) })}
                 </p>
 
-                <div className="mood-badge">
-                  {moodLabel(t, profile.mood)}
+                <div className="badges-row">
+                  <span className="mood-badge">{moodLabel(t, profile.mood)}</span>
+                  {profile.dating_intent && (
+                    <span className="mood-badge dating-intent-badge">{datingIntentLabel(t, profile.dating_intent)}</span>
+                  )}
                 </div>
 
                 <div className="profile-actions">

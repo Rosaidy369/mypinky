@@ -348,6 +348,12 @@ flex-shrink:0;
 
 }
 
+.badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .mood-badge {
   display: inline-flex;
   align-items: center;
@@ -359,6 +365,10 @@ flex-shrink:0;
   font-weight: 600;
   color: #444;
   font-size:14px;
+}
+
+.dating-intent-badge {
+  background: #e9e6ff;
 }
 
 /* ========================= */
