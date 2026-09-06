@@ -26,6 +26,18 @@ function SelfieCapture({ onCapture }) {
 
   useEffect(() => stopStream, []);
 
+  // El <video> solo se monta cuando streaming=true (mas abajo en el
+  // JSX) -- en el momento en que startCamera pide la camara, ese
+  // elemento todavia no existe, asi que conectar el stream ahi mismo
+  // no sirve de nada. Este efecto lo conecta una vez que el elemento
+  // ya esta en el DOM.
+  useEffect(() => {
+    if (streaming && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [streaming]);
+
   const startCamera = async () => {
     setError("");
 
@@ -34,12 +46,6 @@ function SelfieCapture({ onCapture }) {
         video: { facingMode: "user" },
       });
       streamRef.current = stream;
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-      }
-
       setStreaming(true);
     } catch {
       setError(t("verification.errorCameraPermission"));
