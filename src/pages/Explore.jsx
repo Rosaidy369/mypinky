@@ -13,6 +13,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import HouseAdBanner from "../components/ads/HouseAdBanner";
 import BoostIcon from "../components/ui/BoostIcon";
 import SearchIcon from "../components/ui/SearchIcon";
+import FilterIcon from "../components/ui/FilterIcon";
 import PinIcon from "../components/ui/PinIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
@@ -49,6 +50,19 @@ function Explore() {
   const [favorites, setFavorites] = useState([]);
   const [isPremium, setIsPremium] = useState(false);
   const [isVip, setIsVip] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Cuenta cuantos filtros se alejan de su valor por defecto -- se muestra
+  // en el boton "Filtros" para que no haga falta abrir el panel para saber
+  // si hay algo activo.
+  const activeFilterCount =
+    (filters.gender !== GENDER_FILTER_ALL ? 1 : 0) +
+    (filters.ageMin !== 18 || filters.ageMax !== 90 ? 1 : 0) +
+    (filters.maxDistance !== 100 ? 1 : 0) +
+    (filters.onlineOnly ? 1 : 0) +
+    (filters.locationSearch ? 1 : 0) +
+    (filters.datingIntent ? 1 : 0) +
+    (filters.interests.length > 0 ? 1 : 0);
 
   useEffect(() => {
     if (currentUserId) loadInitialData(currentUserId);
@@ -188,22 +202,38 @@ function Explore() {
 
         <h1>{t("explore.title")}</h1>
 
-        <div className="search-box">
+        <div className="explore-search-row">
 
-          <span className="search-icon"><SearchIcon size={17} /></span>
+          <div className="search-box">
 
-          <input
-            type="text"
-            placeholder={t("explore.searchPlaceholder")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+            <span className="search-icon"><SearchIcon size={17} /></span>
+
+            <input
+              type="text"
+              placeholder={t("explore.searchPlaceholder")}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+          </div>
+
+          <button
+            type="button"
+            className={`explore-filters-toggle ${showFilters ? "active" : ""}`}
+            onClick={() => setShowFilters((prev) => !prev)}
+          >
+            <FilterIcon size={16} />
+            {t("filters.toggleLabel")}
+            {activeFilterCount > 0 && <span className="explore-filters-count">{activeFilterCount}</span>}
+          </button>
 
         </div>
 
       </div>
 
-      <FilterBar filters={filters} onChange={updateFilter} isPremium={isPremium} isVip={isVip} />
+      {showFilters && (
+        <FilterBar filters={filters} onChange={updateFilter} isPremium={isPremium} isVip={isVip} />
+      )}
 
       {loading ? (
 

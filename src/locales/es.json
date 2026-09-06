@@ -23,6 +23,7 @@
     "locationSearchPlaceholder": "Buscar por país o ciudad",
     "locationSearchPlaceholderLocked": "Buscar por país o ciudad",
     "vip": "VIP",
+    "toggleLabel": "Filtros",
     "datingIntent": {
       "all": "Todas las intenciones"
     },
