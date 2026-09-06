@@ -277,6 +277,23 @@ async function handleEvent(adminClient: ReturnType<typeof createClient>, event: 
             fulfilled_at: activated ? new Date().toISOString() : null,
           })
           .eq("id", intent.id);
+      } else if (intent.purchase_type === "verification_express") {
+        const { data: created, error } = await adminClient.rpc("admin_fulfill_verification_express", {
+          p_user_id: intent.user_id,
+          p_photo_url: intent.metadata.photo_url,
+          p_pose_requested: intent.metadata.pose_requested,
+        });
+
+        if (error) throw new Error(error.message);
+
+        await adminClient
+          .from("purchase_intents")
+          .update({
+            status: created ? "fulfilled" : "failed",
+            failure_reason: created ? null : "already_pending",
+            fulfilled_at: created ? new Date().toISOString() : null,
+          })
+          .eq("id", intent.id);
       }
       break;
     }

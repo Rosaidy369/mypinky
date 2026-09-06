@@ -23,6 +23,7 @@ import ChatRoom from "./pages/ChatRoom";
 import MyProfile from "./pages/MyProfile";
 import Settings from "./pages/Settings";
 import Checkout from "./pages/Checkout";
+import VerifyAccount from "./pages/VerifyAccount";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Support from "./pages/Support";
@@ -159,6 +160,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Checkout />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/verificar"
+              element={
+                <ProtectedRoute>
+                  <VerifyAccount />
                 </ProtectedRoute>
               }
             />

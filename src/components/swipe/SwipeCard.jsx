@@ -7,6 +7,7 @@ import PremiumDiamond from "../ui/PremiumDiamond";
 import VipDiamond from "../ui/VipDiamond";
 import BoostIcon from "../ui/BoostIcon";
 import PinIcon from "../ui/PinIcon";
+import VerifiedIcon from "../ui/VerifiedIcon";
 import SuperLikeHeart from "../ui/SuperLikeHeart";
 import SpecialTouchHeart from "../ui/SpecialTouchHeart";
 import SwipeProfileDetail from "./SwipeProfileDetail";
@@ -175,7 +176,10 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
           )}
 
           <div className="swipe-name-row">
-            <h2>{profile.name}, {profile.age}</h2>
+            <h2>
+              {profile.name}, {profile.age}
+              {profile.is_verified && <VerifiedIcon size={15} className="verified-badge-icon" />}
+            </h2>
             {distance !== null && <span className="swipe-distance"><PinIcon size={12} className="swipe-distance-icon" /> {distance} km</span>}
           </div>
 

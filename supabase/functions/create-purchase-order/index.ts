@@ -7,6 +7,7 @@ import { paypalFetch, corsHeaders } from "../_shared/paypal.ts";
 const PRICES: Record<string, number> = {
   special_touch: 2.99,
   boost: 1.99,
+  verification_express: 3.99,
 };
 
 const WEEKLY_LIMIT = 3;
@@ -44,7 +45,7 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => null);
   const purchaseType = body?.purchase_type;
 
-  if (purchaseType !== "special_touch" && purchaseType !== "boost") {
+  if (!(purchaseType in PRICES)) {
     return new Response(JSON.stringify({ error: "Tipo de compra inválido." }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -129,6 +130,46 @@ Deno.serve(async (req) => {
     }
 
     metadata = { recipient_id: recipientId, message };
+  }
+
+  if (purchaseType === "verification_express") {
+    const photoUrl = body?.metadata?.photo_url;
+    const poseRequested = body?.metadata?.pose_requested;
+
+    if (typeof photoUrl !== "string" || !photoUrl || typeof poseRequested !== "string" || !poseRequested) {
+      return new Response(JSON.stringify({ error: "Falta la selfie de verificación." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Defensa en profundidad: misma validacion que ya hace
+    // submit_verification_request/admin_fulfill_verification_express,
+    // repetida aqui antes de cobrar.
+    const [{ count: pendingCount }, { data: profile }] = await Promise.all([
+      adminClient
+        .from("verification_requests")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("status", "pending"),
+      adminClient.from("profiles").select("is_verified").eq("id", user.id).single(),
+    ]);
+
+    if ((pendingCount || 0) > 0) {
+      return new Response(JSON.stringify({ error: "already_pending" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (profile?.is_verified) {
+      return new Response(JSON.stringify({ error: "already_verified" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    metadata = { photo_url: photoUrl, pose_requested: poseRequested };
   }
 
   const amount = PRICES[purchaseType];

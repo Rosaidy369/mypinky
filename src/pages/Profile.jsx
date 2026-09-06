@@ -14,10 +14,12 @@ import CameraIcon from "../components/ui/CameraIcon";
 import MessageIcon from "../components/ui/MessageIcon";
 import FlagIcon from "../components/ui/FlagIcon";
 import PinIcon from "../components/ui/PinIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import ReportModal from "../components/profile/ReportModal";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
+import "../styles/Verification.css";
 import "../styles/BackButton.css";
 
 function Profile() {
@@ -167,6 +169,7 @@ function Profile() {
 
             <h1>
               {profile.name}, {calculateAge(profile.birth_date)}
+              {profile.is_verified && <VerifiedIcon size={16} className="verified-badge-icon" />}
 
               {isVipActive(profile) ? (
                 <span className="vip-badge-inline">

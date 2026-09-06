@@ -4,8 +4,10 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
 import { isVipActive } from "../lib/plan";
+import { isVerified } from "../lib/verification";
 import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import "../styles/Chat.css";
+import "../styles/Verification.css";
 
 function ChatRoom() {
   const { t, i18n } = useTranslation();
@@ -18,6 +20,8 @@ function ChatRoom() {
   const [text, setText] = useState("");
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isVip, setIsVip] = useState(false);
+  const [isVerifiedUser, setIsVerifiedUser] = useState(false);
+  const [showVerificationGate, setShowVerificationGate] = useState(false);
   const [loading, setLoading] = useState(true);
   const endRef = useRef(null);
 
@@ -104,7 +108,9 @@ function ChatRoom() {
 
     // Read receipts ("Leído") are a VIP perk for the sender, not the
     // recipient -- derived from data already fetched above, no extra query.
-    setIsVip(isVipActive(isOwner ? matchData.user_profile : matchData.matched_profile));
+    const myProfile = isOwner ? matchData.user_profile : matchData.matched_profile;
+    setIsVip(isVipActive(myProfile));
+    setIsVerifiedUser(isVerified(myProfile));
 
     const { data: messagesData } = await supabase
       .from("messages")
@@ -121,6 +127,11 @@ function ChatRoom() {
   const sendMessage = async () => {
     if (!text.trim()) return;
 
+    if (!isVerifiedUser) {
+      setShowVerificationGate(true);
+      return;
+    }
+
     const messageText = text;
     setText("");
 
@@ -136,6 +147,13 @@ function ChatRoom() {
 
     if (error) {
       console.error("Error enviando mensaje:", error.message);
+      // Respaldo del lado servidor -- el trigger de la base bloquea el
+      // insert si la cuenta no esta verificada, sin importar lo que
+      // diga el estado del cliente.
+      if (error.message?.includes("verificar tu cuenta")) {
+        setText(messageText);
+        setShowVerificationGate(true);
+      }
       return;
     }
 
@@ -242,6 +260,18 @@ function ChatRoom() {
         <button onClick={sendMessage}>➤</button>
 
       </div>
+
+      {showVerificationGate && (
+        <div className="delete-modal-backdrop" onClick={() => setShowVerificationGate(false)}>
+          <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{t("verification.gateTitle")}</h3>
+            <p>{t("verification.gateBody")}</p>
+            <Link to="/verificar" className="verification-gate-btn">
+              {t("verification.gateCta")}
+            </Link>
+          </div>
+        </div>
+      )}
 
     </div>
   );

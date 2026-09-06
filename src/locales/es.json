@@ -790,5 +790,38 @@
     "submitting": "Guardando...",
     "errorUnderage": "Debes ser mayor de 18 años.",
     "errorGeneric": "No se pudo guardar tu fecha de nacimiento. Intenta de nuevo."
+  },
+  "verification": {
+    "title": "Verifica tu cuenta",
+    "subtitle": "Es rápido y gratis — solo necesitamos confirmar que la persona detrás de tu perfil eres tú.",
+    "poseInstruction": "Toma tu selfie haciendo esto:",
+    "poses": {
+      "peaceSignCheek": "Haz una señal de paz (✌️) junto a tu mejilla",
+      "handOpenBesideHead": "Levanta tu mano derecha con la palma abierta junto a tu cabeza",
+      "thumbsUp": "Haz una señal de pulgar arriba (👍) a la altura de tu hombro",
+      "touchNoseIndex": "Toca la punta de tu nariz con el dedo índice",
+      "okSignByEye": "Haz el signo de OK (👌) junto a uno de tus ojos",
+      "coveredOneEye": "Cubre uno de tus ojos con la palma de tu mano",
+      "twoFingersChin": "Coloca dos dedos (índice y medio) bajo tu barbilla",
+      "wavingHand": "Saluda con la mano bien abierta junto a tu cara"
+    },
+    "openCamera": "Abrir cámara",
+    "retakePhoto": "Tomar otra foto",
+    "errorCameraPermission": "No pudimos acceder a tu cámara. Revisa los permisos e intenta de nuevo.",
+    "errorCameraCapture": "No se pudo capturar la foto. Intenta de nuevo.",
+    "submitFree": "Enviar gratis",
+    "submitExpress": "Priorizar por ${{price}}",
+    "submitting": "Enviando...",
+    "errorNoPhoto": "Toma la selfie antes de continuar.",
+    "errorAlreadyPending": "Ya tienes una solicitud de verificación en revisión.",
+    "errorAlreadyVerified": "Tu cuenta ya está verificada.",
+    "errorGeneric": "No se pudo enviar tu verificación. Intenta de nuevo.",
+    "successTitle": "¡Solicitud enviada!",
+    "successBody": "Vamos a revisar tu selfie pronto. Te avisaremos en cuanto tu cuenta quede verificada.",
+    "successBodyExpress": "Como priorizaste tu revisión, la vamos a revisar en los próximos minutos.",
+    "continueBtn": "Volver a Explorar",
+    "gateTitle": "Verifica tu cuenta para continuar",
+    "gateBody": "Para dar like, hacer match o chatear, primero necesitamos confirmar que la persona detrás de tu perfil eres tú. Es gratis y toma un minuto.",
+    "gateCta": "Verificar mi cuenta"
   }
 }

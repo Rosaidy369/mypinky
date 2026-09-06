@@ -19,12 +19,14 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import CameraIcon from "../components/ui/CameraIcon";
 import PinIcon from "../components/ui/PinIcon";
 import CheckIcon from "../components/ui/CheckIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import BoostIcon from "../components/ui/BoostIcon";
 import BoostPurchaseModal from "../components/profile/BoostPurchaseModal";
 import { requestLocation } from "../lib/geolocation";
 import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
+import "../styles/Verification.css";
 
 // Same generic messages as StepBasicInfo.jsx's onboarding step -- reused
 // here since geolocation.js rejects with a code, not a message, and this
@@ -418,6 +420,7 @@ function MyProfile() {
 
                 <h1>
                   {user.name}, {calculateAge(user.birth_date)}
+                  {user.is_verified && <VerifiedIcon size={16} className="verified-badge-icon" />}
 
                   {isVip && (
                     <span className="vip-badge-inline">

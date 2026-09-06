@@ -790,5 +790,38 @@
     "submitting": "Saving...",
     "errorUnderage": "You must be at least 18 years old.",
     "errorGeneric": "Couldn't save your date of birth. Try again."
+  },
+  "verification": {
+    "title": "Verify your account",
+    "subtitle": "It's quick and free — we just need to confirm the person behind your profile is really you.",
+    "poseInstruction": "Take your selfie doing this:",
+    "poses": {
+      "peaceSignCheek": "Make a peace sign (✌️) next to your cheek",
+      "handOpenBesideHead": "Raise your right hand with an open palm next to your head",
+      "thumbsUp": "Give a thumbs up (👍) at shoulder height",
+      "touchNoseIndex": "Touch the tip of your nose with your index finger",
+      "okSignByEye": "Make an OK sign (👌) next to one of your eyes",
+      "coveredOneEye": "Cover one of your eyes with the palm of your hand",
+      "twoFingersChin": "Place two fingers (index and middle) under your chin",
+      "wavingHand": "Wave with your hand wide open next to your face"
+    },
+    "openCamera": "Open camera",
+    "retakePhoto": "Retake photo",
+    "errorCameraPermission": "We couldn't access your camera. Check your permissions and try again.",
+    "errorCameraCapture": "Couldn't capture the photo. Try again.",
+    "submitFree": "Send for free",
+    "submitExpress": "Prioritize for ${{price}}",
+    "submitting": "Sending...",
+    "errorNoPhoto": "Take the selfie before continuing.",
+    "errorAlreadyPending": "You already have a verification request under review.",
+    "errorAlreadyVerified": "Your account is already verified.",
+    "errorGeneric": "Couldn't send your verification. Try again.",
+    "successTitle": "Request sent!",
+    "successBody": "We'll review your selfie soon. We'll let you know as soon as your account is verified.",
+    "successBodyExpress": "Since you prioritized your review, we'll review it within the next few minutes.",
+    "continueBtn": "Back to Explore",
+    "gateTitle": "Verify your account to continue",
+    "gateBody": "To like, match, or chat, we first need to confirm the person behind your profile is really you. It's free and takes a minute.",
+    "gateCta": "Verify my account"
   }
 }

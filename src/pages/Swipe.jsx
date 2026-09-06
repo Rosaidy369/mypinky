@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { isVerified } from "../lib/verification";
 import { useSwipeFilters } from "../hooks/useSwipeFilters";
 import { GENDER_FILTER_ALL } from "../data/profileOptions";
 import SwipeCard from "../components/swipe/SwipeCard";
@@ -18,6 +19,8 @@ import HouseAdBanner from "../components/ads/HouseAdBanner";
 import "../styles/Swipe.css";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
+import "../styles/Settings.css";
+import "../styles/Verification.css";
 
 const AD_EVERY_N_SWIPES = 9;
 
@@ -56,6 +59,7 @@ function Swipe() {
   const [swipesLeft, setSwipesLeft] = useState(null);
   const [resetAt, setResetAt] = useState(null);
   const [, setSwipesSinceAd] = useState(0);
+  const [showVerificationGate, setShowVerificationGate] = useState(false);
 
   const isPremium = isPlanActive(currentUser);
   const filtersAreDefault =
@@ -175,10 +179,18 @@ function Swipe() {
   const isBlocked = !isPremium && swipesLeft !== null && swipesLeft <= 0;
 
   const handleSwipe = async (direction, card, isSuperLike = false) => {
+    const swipeDirection = direction === "right" ? (isSuperLike ? "superlike" : "like") : "dislike";
+
+    // Solo like/superlike requieren estar verificado -- el dislike pasa
+    // libre. Se revisa ANTES de tocar el stack para que la tarjeta ni
+    // siquiera se mueva (nada que restaurar despues).
+    if (swipeDirection !== "dislike" && !isVerified(currentUser)) {
+      setShowVerificationGate(true);
+      return;
+    }
+
     setLastSwiped(card);
     setStack((prev) => prev.filter((p) => p.id !== card.id));
-
-    const swipeDirection = direction === "right" ? (isSuperLike ? "superlike" : "like") : "dislike";
 
     // register_swipe is the ONLY way a swipe row gets created -- direct
     // inserts into `swipes` are revoked so the daily limit can't be
@@ -202,6 +214,9 @@ function Swipe() {
 
       if (!result.allowed) {
         setStack((prev) => [card, ...prev]);
+        if (result.reason === "not_verified") {
+          setShowVerificationGate(true);
+        }
         return;
       }
     }
@@ -540,6 +555,18 @@ function Swipe() {
 
           </div>
 
+        </div>
+      )}
+
+      {showVerificationGate && (
+        <div className="delete-modal-backdrop" onClick={() => setShowVerificationGate(false)}>
+          <div className="delete-modal verification-gate-modal" onClick={(e) => e.stopPropagation()}>
+            <h3>{t("verification.gateTitle")}</h3>
+            <p>{t("verification.gateBody")}</p>
+            <Link to="/verificar" className="verification-gate-btn">
+              {t("verification.gateCta")}
+            </Link>
+          </div>
         </div>
       )}
 
