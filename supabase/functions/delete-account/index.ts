@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { paypalFetch } from "../_shared/paypal.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -42,6 +43,37 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_URL"),
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
   );
+
+  // Si tiene una suscripcion de PayPal activa, cancelarla ANTES de borrar
+  // la cuenta -- de lo contrario PayPal sigue cobrando cada mes para
+  // siempre, ya que nada mas le avisaria que la cuenta ya no existe.
+  const { data: profile } = await adminClient
+    .from("profiles")
+    .select("paypal_subscription_id, plan_cancelled")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.paypal_subscription_id && !profile.plan_cancelled) {
+    const cancelResponse = await paypalFetch(
+      `/v1/billing/subscriptions/${profile.paypal_subscription_id}/cancel`,
+      {
+        method: "POST",
+        body: JSON.stringify({ reason: "Cuenta eliminada por el usuario en MyPinky." }),
+      }
+    );
+
+    if (!cancelResponse.ok && cancelResponse.status !== 204) {
+      const errorData = await cancelResponse.json().catch(() => null);
+      console.error("Error cancelando suscripción antes de eliminar la cuenta:", errorData);
+      return new Response(
+        JSON.stringify({
+          error: "No se pudo cancelar tu suscripción activa. Contacta a soporte antes de eliminar tu cuenta.",
+          code: "subscription_cancel_failed",
+        }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+  }
 
   const { error: deleteError } = await adminClient.auth.admin.deleteUser(user.id);
 

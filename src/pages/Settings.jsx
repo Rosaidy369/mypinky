@@ -288,7 +288,14 @@ function Settings() {
 
     if (error || data?.error) {
       setDeletingAccount(false);
-      setDeleteError(t("settings.deleteModal.errorGeneric"));
+      // Caso especifico y accionable: si hay una suscripcion de PayPal
+      // que no se pudo cancelar, "intenta de nuevo" no ayuda -- hay que
+      // decirle que contacte a soporte, no reintentar en bucle.
+      setDeleteError(
+        data?.code === "subscription_cancel_failed"
+          ? data.error
+          : t("settings.deleteModal.errorGeneric")
+      );
       console.error(error?.message || data?.error);
       return;
     }
