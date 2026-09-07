@@ -16,11 +16,6 @@ function Matches() {
   const navigate = useNavigate();
   const { markMatchesViewed } = useNotifications();
 
-  useEffect(() => {
-    loadMatches();
-    markMatchesViewed();
-  }, []);
-
   const loadMatches = async () => {
     setLoading(true);
 
@@ -48,6 +43,11 @@ function Matches() {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadMatches();
+    markMatchesViewed();
+  }, []);
 
   const confirmDeleteMatch = async () => {
     await supabase.from("matches").delete().eq("id", matchToDelete.id);

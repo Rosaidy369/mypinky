@@ -37,10 +37,6 @@ function Profile() {
   const [showGallery, setShowGallery] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
-  useEffect(() => {
-    loadProfile();
-  }, [id]);
-
   const loadProfile = async () => {
     setLoading(true);
     setNotFound(false);
@@ -84,6 +80,10 @@ function Profile() {
     setExistingMatch(matchData);
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadProfile();
+  }, [id]);
 
   const sharedCount = profile
     ? sharedInterestCount(profile.interests || [], myInterests)

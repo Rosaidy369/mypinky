@@ -124,10 +124,6 @@ function MyProfile() {
   const isVip = isVipActive(user);
   const isPremiumPlan = isPlanActive(user) && user?.plan === "premium";
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
   const loadProfile = async () => {
     setLoading(true);
 
@@ -157,6 +153,10 @@ function MyProfile() {
       navigate("/onboarding");
     }
   };
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
 
   if (loading) {
     return <div style={{ padding: "140px", textAlign: "center" }}>{t("myProfile.loading")}</div>;

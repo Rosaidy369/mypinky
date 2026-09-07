@@ -64,41 +64,6 @@ function Explore() {
     (filters.datingIntent ? 1 : 0) +
     (filters.interests.length > 0 ? 1 : 0);
 
-  useEffect(() => {
-    if (currentUserId) loadInitialData(currentUserId);
-  }, [currentUserId]);
-
-  useEffect(() => {
-    if (currentUserId) loadProfiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly, filters.datingIntent, filters.interests]);
-
-  // is_online is a snapshot from whenever the query ran -- without this, the
-  // green dot would only ever reflect who was online at page load or the
-  // last filter change, and would silently go stale the longer the page
-  // stays open without a manual refresh.
-  useEffect(() => {
-    if (!currentUserId) return;
-
-    const interval = setInterval(() => {
-      loadProfiles();
-    }, 30000);
-
-    // Also refresh immediately when the tab/app regains focus, so coming
-    // back after switching apps or locking the screen doesn't leave a stale
-    // snapshot on screen until the next 30s tick.
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") loadProfiles();
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      clearInterval(interval);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUserId]);
-
   const loadInitialData = async (userId) => {
     const { data: myProfile, error: profileError } = await supabase
       .from("profiles")
@@ -152,6 +117,41 @@ function Explore() {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (currentUserId) loadInitialData(currentUserId);
+  }, [currentUserId]);
+
+  useEffect(() => {
+    if (currentUserId) loadProfiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserId, filters.gender, filters.ageMin, filters.ageMax, filters.maxDistance, filters.onlineOnly, filters.datingIntent, filters.interests]);
+
+  // is_online is a snapshot from whenever the query ran -- without this, the
+  // green dot would only ever reflect who was online at page load or the
+  // last filter change, and would silently go stale the longer the page
+  // stays open without a manual refresh.
+  useEffect(() => {
+    if (!currentUserId) return;
+
+    const interval = setInterval(() => {
+      loadProfiles();
+    }, 30000);
+
+    // Also refresh immediately when the tab/app regains focus, so coming
+    // back after switching apps or locking the screen doesn't leave a stale
+    // snapshot on screen until the next 30s tick.
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") loadProfiles();
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUserId]);
 
   const toggleFavorite = async (profileId) => {
     const isFav = favorites.includes(profileId);

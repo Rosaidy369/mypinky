@@ -133,7 +133,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
         });
       }, 1000);
 
-    } catch (err) {
+    } catch {
       setError(t("voiceRecorder.errorMicPermission"));
     }
   };

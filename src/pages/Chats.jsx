@@ -15,10 +15,6 @@ function Chats() {
   const [loading, setLoading] = useState(true);
   const [toDelete, setToDelete] = useState(null);
 
-  useEffect(() => {
-    loadConversations();
-  }, []);
-
   const loadConversations = async () => {
     setLoading(true);
 
@@ -71,6 +67,10 @@ function Chats() {
     setConversations(withLastMessage);
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadConversations();
+  }, []);
 
   const confirmDelete = async () => {
     await supabase.from("matches").delete().eq("id", toDelete.id);

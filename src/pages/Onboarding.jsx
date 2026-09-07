@@ -37,13 +37,6 @@ function Onboarding() {
     prompts: [],
   });
 
-  // Registro ya guarda name/birth_date (via el trigger que crea la fila de
-  // profiles al registrarse) -- sin esto, el paso 1 siempre arrancaba
-  // vacío como si nada se hubiera guardado, aunque sí estuviera ahí.
-  useEffect(() => {
-    loadExistingProfile();
-  }, []);
-
   const loadExistingProfile = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -76,6 +69,13 @@ function Onboarding() {
 
     setLoading(false);
   };
+
+  // Registro ya guarda name/birth_date (via el trigger que crea la fila de
+  // profiles al registrarse) -- sin esto, el paso 1 siempre arrancaba
+  // vacío como si nada se hubiera guardado, aunque sí estuviera ahí.
+  useEffect(() => {
+    loadExistingProfile();
+  }, []);
 
   const updateField = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

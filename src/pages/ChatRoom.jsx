@@ -25,6 +25,55 @@ function ChatRoom() {
   const [loading, setLoading] = useState(true);
   const endRef = useRef(null);
 
+  const loadChat = async () => {
+    setLoading(true);
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    setCurrentUserId(user.id);
+
+    const { data: matchData, error } = await supabase
+      .from("matches")
+      .select("id, user_id, matched_profile_id, created_via, user_profile:user_id(*), matched_profile:matched_profile_id(*)")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      console.error("Error cargando el chat:", error.message);
+      setLoading(false);
+      return;
+    }
+
+    const isOwner = matchData.user_id === user.id;
+    setMatch({
+      ...matchData,
+      otherProfile: isOwner ? matchData.matched_profile : matchData.user_profile,
+      otherProfileId: isOwner ? matchData.matched_profile_id : matchData.user_id,
+      isSpecialTouchSender: isOwner && matchData.created_via === "special_touch",
+    });
+
+    // Read receipts ("Leído") are a VIP perk for the sender, not the
+    // recipient -- derived from data already fetched above, no extra query.
+    const myProfile = isOwner ? matchData.user_profile : matchData.matched_profile;
+    setIsVip(isVipActive(myProfile));
+    setIsVerifiedUser(isVerified(myProfile));
+
+    const { data: messagesData } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("match_id", id)
+      .order("created_at", { ascending: true });
+
+    setMessages(messagesData || []);
+    setLoading(false);
+
+    markMessagesReadForMatch(id);
+  };
+
   useEffect(() => {
     loadChat();
   }, [id]);
@@ -74,55 +123,6 @@ function ChatRoom() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  const loadChat = async () => {
-    setLoading(true);
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    setCurrentUserId(user.id);
-
-    const { data: matchData, error } = await supabase
-      .from("matches")
-      .select("id, user_id, matched_profile_id, created_via, user_profile:user_id(*), matched_profile:matched_profile_id(*)")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      console.error("Error cargando el chat:", error.message);
-      setLoading(false);
-      return;
-    }
-
-    const isOwner = matchData.user_id === user.id;
-    setMatch({
-      ...matchData,
-      otherProfile: isOwner ? matchData.matched_profile : matchData.user_profile,
-      otherProfileId: isOwner ? matchData.matched_profile_id : matchData.user_id,
-      isSpecialTouchSender: isOwner && matchData.created_via === "special_touch",
-    });
-
-    // Read receipts ("Leído") are a VIP perk for the sender, not the
-    // recipient -- derived from data already fetched above, no extra query.
-    const myProfile = isOwner ? matchData.user_profile : matchData.matched_profile;
-    setIsVip(isVipActive(myProfile));
-    setIsVerifiedUser(isVerified(myProfile));
-
-    const { data: messagesData } = await supabase
-      .from("messages")
-      .select("*")
-      .eq("match_id", id)
-      .order("created_at", { ascending: true });
-
-    setMessages(messagesData || []);
-    setLoading(false);
-
-    markMessagesReadForMatch(id);
-  };
 
   const sendMessage = async () => {
     if (!text.trim()) return;

@@ -59,10 +59,6 @@ function Settings() {
   const { logout, session } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
   // Strip the error hash from the URL bar once it's been read into state
   // above, so it doesn't linger or get re-parsed on a refresh.
   useEffect(() => {
@@ -101,6 +97,10 @@ function Settings() {
 
     setLoadingProfile(false);
   };
+
+  useEffect(() => {
+    loadProfile();
+  }, []);
 
   const isPremium = isPlanActive(profile);
   const planName = profile?.plan;

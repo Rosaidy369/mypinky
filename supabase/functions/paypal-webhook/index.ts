@@ -195,7 +195,7 @@ async function handleEvent(adminClient: ReturnType<typeof createClient>, event: 
 
       const { data: profile } = await adminClient
         .from("profiles")
-        .select("id, plan_billing_cycle, plan_expires_at")
+        .select("id, plan, plan_billing_cycle, plan_expires_at")
         .eq("paypal_subscription_id", subscriptionId)
         .maybeSingle();
 
@@ -212,6 +212,20 @@ async function handleEvent(adminClient: ReturnType<typeof createClient>, event: 
         .eq("id", profile.id);
 
       if (error) throw new Error(error.message);
+
+      // Registro para la seccion de Ingresos del panel de admin -- este
+      // evento es la unica fuente que trae el monto real cobrado, tanto
+      // para el primer pago de la suscripcion como para cada renovacion.
+      const { error: paymentError } = await adminClient.from("subscription_payments").insert({
+        user_id: profile.id,
+        paypal_subscription_id: subscriptionId,
+        paypal_event_id: event.id,
+        plan: profile.plan,
+        billing_cycle: profile.plan_billing_cycle || "monthly",
+        amount_usd: resource.amount?.total,
+      });
+
+      if (paymentError) throw new Error(paymentError.message);
       break;
     }
 

@@ -21,11 +21,6 @@ function WhoLikedMe() {
   const [isPremium, setIsPremium] = useState(false);
   const { markLikesViewed } = useNotifications();
 
-  useEffect(() => {
-    loadLikers();
-    markLikesViewed();
-  }, []);
-
   const loadLikers = async () => {
     setLoading(true);
 
@@ -77,6 +72,11 @@ function WhoLikedMe() {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadLikers();
+    markLikesViewed();
+  }, []);
 
   const handleCardClick = (profile) => {
     if (isPremium) {

@@ -20,10 +20,6 @@ function Favorites() {
   const [loading, setLoading] = useState(true);
   const [currentUserId, setCurrentUserId] = useState(null);
 
-  useEffect(() => {
-    loadFavorites();
-  }, []);
-
   const loadFavorites = async () => {
     setLoading(true);
 
@@ -48,6 +44,10 @@ function Favorites() {
 
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadFavorites();
+  }, []);
 
   const toggleFavorite = async (profileId) => {
     await supabase

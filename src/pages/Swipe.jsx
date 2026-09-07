@@ -65,20 +65,6 @@ function Swipe() {
   const filtersAreDefault =
     filters.gender === GENDER_FILTER_ALL && filters.ageMin === 18 && filters.ageMax === 90 && filters.maxDistance === 100;
 
-  useEffect(() => {
-    loadCurrentUser();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) loadCandidates();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, filters]);
-
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   const loadCurrentUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -175,6 +161,20 @@ function Swipe() {
     );
     setLoading(false);
   };
+
+  useEffect(() => {
+    loadCurrentUser();
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) loadCandidates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, filters]);
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const isBlocked = !isPremium && swipesLeft !== null && swipesLeft <= 0;
 

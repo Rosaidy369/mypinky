@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
 import { NotificationsProvider } from "./hooks/useNotifications";
@@ -6,30 +7,41 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
 
 import Home from "./pages/Home";
-import Explore from "./pages/Explore";
-import Swipe from "./pages/Swipe";
-import Favorites from "./pages/Favorites";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import EmailConfirmed from "./pages/EmailConfirmed";
-import Profile from "./pages/Profile";
-import Premium from "./pages/Premium";
-import Onboarding from "./pages/Onboarding";
-import Matches from "./pages/Matches";
-import Chats from "./pages/Chats";
-import ChatRoom from "./pages/ChatRoom";
-import MyProfile from "./pages/MyProfile";
-import Settings from "./pages/Settings";
-import Checkout from "./pages/Checkout";
-import VerifyAccount from "./pages/VerifyAccount";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import Support from "./pages/Support";
-import Contact from "./pages/Contact";
-import SpecialTouchCheckout from "./pages/SpecialTouchCheckout";
-import WhoLikedMe from "./pages/WhoLikedMe";
+
+// El resto de las paginas se cargan solo cuando se visitan -- Home es la
+// unica que de verdad hace falta en el bundle inicial (landing publica),
+// el resto son pantallas detras de login o secundarias.
+const Explore = lazy(() => import("./pages/Explore"));
+const Swipe = lazy(() => import("./pages/Swipe"));
+const Favorites = lazy(() => import("./pages/Favorites"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const EmailConfirmed = lazy(() => import("./pages/EmailConfirmed"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Premium = lazy(() => import("./pages/Premium"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
+const Matches = lazy(() => import("./pages/Matches"));
+const Chats = lazy(() => import("./pages/Chats"));
+const ChatRoom = lazy(() => import("./pages/ChatRoom"));
+const MyProfile = lazy(() => import("./pages/MyProfile"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const VerifyAccount = lazy(() => import("./pages/VerifyAccount"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Support = lazy(() => import("./pages/Support"));
+const Contact = lazy(() => import("./pages/Contact"));
+const SpecialTouchCheckout = lazy(() => import("./pages/SpecialTouchCheckout"));
+const WhoLikedMe = lazy(() => import("./pages/WhoLikedMe"));
+
+// Mismo patron ya usado en el "loading" de Profile.jsx/MyProfile.jsx/etc,
+// para que el parpadeo mientras carga el chunk de la ruta se vea igual
+// que cualquier otro estado de carga de la app.
+function RouteFallback() {
+  return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+}
 
 function App() {
   return (
@@ -37,6 +49,7 @@ function App() {
     <NotificationsProvider>
     <SwipeFiltersProvider>
       <BrowserRouter>
+        <Suspense fallback={<RouteFallback />}>
         <Routes>
 
           <Route element={<AppLayout />}>
@@ -181,7 +194,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
             <Route
               path="/quien-me-dio-like"
               element={
@@ -190,10 +203,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            
+
           </Route>
 
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </SwipeFiltersProvider>
     </NotificationsProvider>
