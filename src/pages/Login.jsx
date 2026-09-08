@@ -40,9 +40,17 @@ function Login() {
   };
 
   const handleGoogleLogin = async () => {
+    // Same redirect-intent key the email/password path already honors
+    // (set by ProtectedRoute when a logged-out user is bounced from a
+    // deep link) -- Google's OAuth flow is a full page redirect, not a
+    // client-side navigate, so the target has to be baked into
+    // redirectTo itself rather than read after the fact.
+    const target = sessionStorage.getItem("mypinky_redirect_after_login") || "/swipe";
+    sessionStorage.removeItem("mypinky_redirect_after_login");
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/swipe` },
+      options: { redirectTo: `${window.location.origin}${target}` },
     });
   };
 

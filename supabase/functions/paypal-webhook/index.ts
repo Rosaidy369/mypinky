@@ -193,11 +193,27 @@ async function handleEvent(adminClient: ReturnType<typeof createClient>, event: 
       const subscriptionId = resource.billing_agreement_id;
       if (!subscriptionId) break; // pago que no es de una suscripcion nuestra
 
-      const { data: profile } = await adminClient
+      let { data: profile } = await adminClient
         .from("profiles")
         .select("id, plan, plan_billing_cycle, plan_expires_at")
         .eq("paypal_subscription_id", subscriptionId)
         .maybeSingle();
+
+      // PayPal no garantiza el orden de entrega de sus webhooks -- si
+      // este es el primer cobro de una suscripcion nueva, este evento
+      // podria llegar antes que BILLING.SUBSCRIPTION.ACTIVATED (que es
+      // quien recien pone paypal_subscription_id en el perfil). Un solo
+      // reintento corto cubre ese caso sin convertir esto en una cola de
+      // reintentos real.
+      if (!profile) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        ({ data: profile } = await adminClient
+          .from("profiles")
+          .select("id, plan, plan_billing_cycle, plan_expires_at")
+          .eq("paypal_subscription_id", subscriptionId)
+          .maybeSingle());
+      }
 
       if (!profile) throw new Error(`Suscripción no encontrada: ${subscriptionId}`);
 

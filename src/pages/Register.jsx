@@ -52,9 +52,17 @@ function Register() {
   };
 
   const handleGoogleRegister = async () => {
+    // Same redirect-intent key Login.jsx's Google path honors -- see the
+    // comment there. A brand-new signup still lands in Onboarding first
+    // regardless (ProtectedRoute's profileIncompleteGateNeeded), but an
+    // existing Google account clicking "Register" again should still
+    // return to whatever deep link sent them to auth in the first place.
+    const target = sessionStorage.getItem("mypinky_redirect_after_login") || "/swipe";
+    sessionStorage.removeItem("mypinky_redirect_after_login");
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/swipe` },
+      options: { redirectTo: `${window.location.origin}${target}` },
     });
   };
 

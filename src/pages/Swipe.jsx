@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
@@ -63,6 +63,12 @@ function Swipe() {
   const [resetAt, setResetAt] = useState(null);
   const [, setSwipesSinceAd] = useState(0);
   const [showVerificationGate, setShowVerificationGate] = useState(false);
+  // Blocks a second handleSwipe call for the same card while the first
+  // is still in flight -- SwipeCard's fly-off animation keeps its drag
+  // handlers live for ~300ms after release, and the like/nope buttons
+  // have no disabled state, so a fast double-tap/double-click could
+  // otherwise call register_swipe twice for one swipe.
+  const swipeInFlightRef = useRef(false);
 
   const isPremium = isPlanActive(currentUser);
   const filtersAreDefault =
@@ -181,7 +187,7 @@ function Swipe() {
 
   const isBlocked = !isPremium && swipesLeft !== null && swipesLeft <= 0;
 
-  const handleSwipe = async (direction, card, isSuperLike = false) => {
+  const handleSwipeInner = async (direction, card, isSuperLike = false) => {
     const swipeDirection = direction === "right" ? (isSuperLike ? "superlike" : "like") : "dislike";
 
     // Solo like/superlike requieren estar verificado -- el dislike pasa
@@ -280,6 +286,17 @@ function Swipe() {
         p_special_touch_id: card.special_touch_id,
         p_action: "decline",
       });
+    }
+  };
+
+  const handleSwipe = async (direction, card, isSuperLike = false) => {
+    if (swipeInFlightRef.current) return;
+    swipeInFlightRef.current = true;
+
+    try {
+      await handleSwipeInner(direction, card, isSuperLike);
+    } finally {
+      swipeInFlightRef.current = false;
     }
   };
 

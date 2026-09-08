@@ -73,7 +73,20 @@ function ChatRoom() {
       .eq("match_id", id)
       .order("created_at", { ascending: true });
 
-    setMessages(messagesData || []);
+    // The realtime subscription (separate effect below) can start
+    // receiving INSERTs before this fetch resolves -- overwriting
+    // unconditionally here would silently drop a message that arrived
+    // in that window. Merge instead: keep the fetch as the base (it's
+    // already ordered) and fold in anything realtime already appended
+    // that isn't in it yet.
+    setMessages((prev) => {
+      const fetched = messagesData || [];
+      const fetchedIds = new Set(fetched.map((m) => m.id));
+      const fromRealtimeOnly = prev.filter((m) => !fetchedIds.has(m.id));
+      return [...fetched, ...fromRealtimeOnly].sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+      );
+    });
     setLoading(false);
 
     markMessagesReadForMatch(id);
