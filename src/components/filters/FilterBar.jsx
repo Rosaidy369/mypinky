@@ -38,7 +38,7 @@ function FilterBar({ filters, onChange, isPremium, isVip }) {
         ))}
       </div>
 
-      <div className="filter-gender-pills">
+      <div className="filter-gender-pills filter-intent-pills">
 
         <button
           type="button"
