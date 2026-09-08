@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
   const [suspension, setSuspension] = useState(null);
   const [suspensionLoading, setSuspensionLoading] = useState(true);
   const [birthDateGateNeeded, setBirthDateGateNeeded] = useState(false);
+  const [profileIncompleteGateNeeded, setProfileIncompleteGateNeeded] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -32,6 +33,7 @@ export function AuthProvider({ children }) {
     if (!userId) {
       setSuspension(null);
       setBirthDateGateNeeded(false);
+      setProfileIncompleteGateNeeded(false);
       setSuspensionLoading(false);
       return;
     }
@@ -40,7 +42,7 @@ export function AuthProvider({ children }) {
 
     const { data, error } = await supabase
       .from("profiles")
-      .select("suspended_until, suspension_reason, preferred_language, age, birth_date")
+      .select("suspended_until, suspension_reason, preferred_language, age, birth_date, city, bio")
       .eq("id", userId)
       .single();
 
@@ -63,6 +65,13 @@ export function AuthProvider({ children }) {
     // onboarding, same as it fills in everything else. Both of those must
     // NOT trigger this gate.
     setBirthDateGateNeeded(data?.age != null && data?.birth_date == null);
+
+    // Google OAuth signups land on /swipe with a real session but none of
+    // the profile fields Onboarding collects (no DB trigger fills those
+    // in for OAuth the way it does name/birth_date) -- same completeness
+    // check MyProfile.jsx already uses, applied globally so it can't be
+    // skipped by never visiting "My Profile".
+    setProfileIncompleteGateNeeded(!data?.city && !data?.bio);
 
     setSuspensionLoading(false);
 
@@ -122,6 +131,7 @@ export function AuthProvider({ children }) {
         suspension,
         suspensionLoading,
         birthDateGateNeeded,
+        profileIncompleteGateNeeded,
         refetchGates,
         register,
         login,

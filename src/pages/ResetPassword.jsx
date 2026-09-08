@@ -5,6 +5,9 @@ import { supabase } from "../lib/supabaseClient";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import "../styles/Login.css";
 import "../styles/Register.css";
+// .success-icon y el SVG interno de <SuccessCheck> (.success-check-*)
+// viven en Checkout.css -- ver el mismo comentario en Settings.jsx.
+import "../styles/Checkout.css";
 
 function ResetPassword() {
   const { t } = useTranslation();

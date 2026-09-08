@@ -245,11 +245,21 @@ function Swipe() {
         .maybeSingle();
 
       if (theyLikedMe) {
-        const { data: newMatch } = await supabase
+        const { data: newMatch, error: matchError } = await supabase
           .from("matches")
           .insert({ user_id: currentUser.id, matched_profile_id: card.id })
           .select()
           .single();
+
+        if (matchError) {
+          // El swipe ya quedo registrado (register_swipe ya corrio) --
+          // si el insert de matches falla aqui, no hay tarjeta que
+          // restaurar, solo se pierde el popup de "Es un Match" esta
+          // vez. El match se puede volver a intentar mas adelante si
+          // register_swipe corre de nuevo desde el otro lado.
+          console.error("Error creando match:", matchError.message);
+          return;
+        }
 
         const isSuperLikeMatch = isSuperLike || theyLikedMe.direction === "superlike";
 

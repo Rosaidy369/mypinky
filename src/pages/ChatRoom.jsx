@@ -53,7 +53,12 @@ function ChatRoom() {
       ...matchData,
       otherProfile: isOwner ? matchData.matched_profile : matchData.user_profile,
       otherProfileId: isOwner ? matchData.matched_profile_id : matchData.user_id,
-      isSpecialTouchSender: isOwner && matchData.created_via === "special_touch",
+      // matches.user_id es siempre quien completa el match deslizando
+      // sobre la tarjeta del remitente (o sea, quien RECIBIO el Toque
+      // Especial) -- el remitente real es matched_profile_id, lo
+      // opuesto de "isOwner". Antes decia "isOwner &&", que mostraba el
+      // banner de "tu lo enviaste" a quien en realidad lo recibio.
+      isSpecialTouchSender: !isOwner && matchData.created_via === "special_touch",
     });
 
     // Read receipts ("Leído") are a VIP perk for the sender, not the

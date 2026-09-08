@@ -26,6 +26,8 @@ background:#fafafa;
 
 color:#333;
 
+-webkit-text-fill-color:#333;
+
 transition:.3s;
 
 }
@@ -43,6 +45,8 @@ box-shadow:0 0 0 4px rgba(255,63,135,.15);
 background:#f0f0f0;
 
 color:#999;
+
+-webkit-text-fill-color:#999;
 
 cursor:not-allowed;
 

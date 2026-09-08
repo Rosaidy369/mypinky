@@ -11,7 +11,7 @@ const ACTIVITY_MIN_GAP_MS = 45000;
 
 function ProtectedRoute({ children }) {
   const { t } = useTranslation();
-  const { isLoggedIn, loading, suspension, suspensionLoading, birthDateGateNeeded, session } = useAuth();
+  const { isLoggedIn, loading, suspension, suspensionLoading, birthDateGateNeeded, profileIncompleteGateNeeded, session } = useAuth();
   const location = useLocation();
   const userId = session?.user?.id;
 
@@ -82,6 +82,15 @@ function ProtectedRoute({ children }) {
 
   if (birthDateGateNeeded) {
     return <BirthDateGate />;
+  }
+
+  // Email signup always goes through Onboarding before it can reach any
+  // other protected page; Google OAuth logs the user straight into
+  // /swipe with a real session but no city/bio/photos yet. Excluding
+  // /onboarding itself avoids bouncing the user back to the very page
+  // that's about to clear this gate.
+  if (profileIncompleteGateNeeded && location.pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" replace />;
   }
 
   return children;

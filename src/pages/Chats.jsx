@@ -7,6 +7,9 @@ import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Chat.css";
 import "../styles/BackButton.css";
+// .matches-empty-icon (estado vacio de la lista) vive en Matches.css --
+// ver el mismo comentario en Settings.jsx.
+import "../styles/Matches.css";
 
 function Chats() {
   const { t } = useTranslation();

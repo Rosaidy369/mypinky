@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import "../styles/Legal.css";
+// El SVG interno de <SuccessCheck> (.success-check-*) vive en
+// Checkout.css -- ver el mismo comentario en Settings.jsx.
+import "../styles/Checkout.css";
 
 function Contact() {
   const { t } = useTranslation();

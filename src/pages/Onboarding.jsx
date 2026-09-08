@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
+import { useAuth } from "../hooks/useAuth";
 import { isAtLeast18 } from "../lib/age";
 import ProgressBar from "../components/onboarding/ProgressBar";
 import StepBasicInfo from "../components/onboarding/StepBasicInfo";
@@ -12,12 +13,17 @@ import StepLookingFor from "../components/onboarding/StepLookingFor";
 import StepDatingIntent from "../components/onboarding/StepDatingIntent";
 import StepPrompts from "../components/onboarding/StepPrompts";
 import "../styles/Onboarding.css";
+// StepBasicInfo usa .locked-fields-notice (cuando name/birth_date ya
+// estan fijados), definida en MyProfile.css -- ver el mismo comentario
+// en Settings.jsx.
+import "../styles/MyProfile.css";
 
 const TOTAL_STEPS = 7;
 
 function Onboarding() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { refetchGates } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [nameAgeLocked, setNameAgeLocked] = useState(false);
@@ -171,6 +177,12 @@ function Onboarding() {
       console.error(error.message);
       return;
     }
+
+    // ProtectedRoute's profileIncompleteGateNeeded check was computed
+    // from the profile fetched before this save -- without refreshing
+    // it here, the very next protected page (including /swipe below)
+    // would immediately bounce back to /onboarding on stale state.
+    await refetchGates();
 
     const redirectTo = sessionStorage.getItem("mypinky_redirect_after_login");
     if (redirectTo) {

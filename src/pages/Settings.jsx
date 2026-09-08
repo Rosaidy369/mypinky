@@ -18,6 +18,14 @@ import ShieldIcon from "../components/ui/ShieldIcon";
 import MessageIcon from "../components/ui/MessageIcon";
 import "../styles/Settings.css";
 import "../styles/BackButton.css";
+// .report-error (Profile.css), .onboarding-error (Onboarding.css) y el
+// SVG interno de <SuccessCheck> (.success-check-*, Checkout.css) se usan
+// aqui pero viven en el CSS de otras paginas -- desde que las rutas se
+// separaron por chunk (React.lazy), cada pagina tiene que traer el
+// suyo, ya no se carga gratis con el resto del bundle.
+import "../styles/Profile.css";
+import "../styles/Onboarding.css";
+import "../styles/Checkout.css";
 
 function Settings() {
   const { t, i18n } = useTranslation();

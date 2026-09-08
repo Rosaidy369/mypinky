@@ -23,8 +23,11 @@ import "../styles/Verification.css";
 import "../styles/BackButton.css";
 // ReportModal (renderizado desde esta pagina) usa .delete-modal*/
 // .confirm-btn, definidas en Settings.css -- mismo problema de
-// code-splitting que Explore.jsx/MyProfile.jsx.
+// code-splitting que Explore.jsx/MyProfile.jsx. El SVG interno de
+// <SuccessCheck> dentro de ReportModal (.success-check-*) vive en
+// Checkout.css.
 import "../styles/Settings.css";
+import "../styles/Checkout.css";
 
 function Profile() {
   const { t } = useTranslation();
