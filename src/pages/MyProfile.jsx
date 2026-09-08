@@ -27,6 +27,15 @@ import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/BackButton.css";
 import "../styles/Verification.css";
+// .option-pills/.option-pill (Mood, Intencion) y .interest-grid/
+// .interest-chip (Intereses) del formulario de edicion viven en
+// Onboarding.css -- ver el mismo comentario en Explore.jsx.
+import "../styles/Onboarding.css";
+// BoostPurchaseModal y PhotoCropModal (renderizados desde esta pagina)
+// usan .delete-modal*/.confirm-btn (Settings.css) y .checkout-*/
+// .success-icon (Checkout.css) -- mismo problema de code-splitting.
+import "../styles/Settings.css";
+import "../styles/Checkout.css";
 
 // Same generic messages as StepBasicInfo.jsx's onboarding step -- reused
 // here since geolocation.js rejects with a code, not a message, and this

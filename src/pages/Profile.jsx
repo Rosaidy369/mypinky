@@ -21,6 +21,10 @@ import "../styles/Profile.css";
 import "../styles/MyProfile.css";
 import "../styles/Verification.css";
 import "../styles/BackButton.css";
+// ReportModal (renderizado desde esta pagina) usa .delete-modal*/
+// .confirm-btn, definidas en Settings.css -- mismo problema de
+// code-splitting que Explore.jsx/MyProfile.jsx.
+import "../styles/Settings.css";
 
 function Profile() {
   const { t } = useTranslation();

@@ -17,6 +17,12 @@ import FilterIcon from "../components/ui/FilterIcon";
 import PinIcon from "../components/ui/PinIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
+// .interest-grid/.interest-chip (filtro de intereses) viven en
+// Onboarding.css -- antes se cargaban gratis porque todo el CSS iba en
+// un solo bundle; con las rutas separadas por React.lazy(), esta
+// pagina necesita importarlo ella misma o esas clases quedan sin
+// estilo si el usuario nunca visito Onboarding en la sesion.
+import "../styles/Onboarding.css";
 
 const AD_EVERY_N_PROFILES = 6;
 

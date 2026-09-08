@@ -21,6 +21,9 @@ import "../styles/Explore.css";
 import "../styles/BackButton.css";
 import "../styles/Settings.css";
 import "../styles/Verification.css";
+// SwipeProfileDetail (via SwipeCard) usa .voice-title-icon/.voice-audio,
+// definidas en MyProfile.css -- mismo problema de code-splitting.
+import "../styles/MyProfile.css";
 
 const AD_EVERY_N_SWIPES = 9;
 

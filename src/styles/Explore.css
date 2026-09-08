@@ -516,11 +516,20 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
     border-radius:18px;
   }
 
-  .interest-grid{
-    max-height:180px;
-    overflow-y:auto;
-    gap:12px;
-    padding:4px 2px;
+  /* Especificidad de una sola clase -- si el .interest-grid{gap:10px}
+     base (Onboarding.css) queda despues en el CSS final, empata y gana
+     por orden en vez de por especificidad, igual que ya paso arriba con
+     .filter-intent-pills. Se sube con .filter-bar por seguridad. Sin
+     max-height/overflow-y: un scroll interno anidado dentro del panel
+     (que ya vive dentro de un scroll de pagina) se siente confuso en
+     mobile -- mejor dejar que la grilla fluya con su alto natural y que
+     la pagina entera haga el scroll. */
+  .filter-bar .interest-grid{
+    gap:14px;
+  }
+
+  .filter-bar .interest-chip{
+    padding:12px 16px;
   }
 
 }
