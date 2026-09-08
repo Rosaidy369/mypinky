@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
+import { GOOGLE_AUTH_ENABLED } from "../lib/authConfig";
 import "../styles/Login.css";
 
 function Login() {
@@ -108,22 +109,26 @@ function Login() {
 
         </div>
 
-        <div className="separator">
+        {GOOGLE_AUTH_ENABLED && (
+          <>
+            <div className="separator">
 
-          <span>{t("auth.login.separator")}</span>
+              <span>{t("auth.login.separator")}</span>
 
-        </div>
+            </div>
 
-        <button type="button" className="google-btn" onClick={handleGoogleLogin}>
+            <button type="button" className="google-btn" onClick={handleGoogleLogin}>
 
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-    alt="Google"
-  />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                alt="Google"
+              />
 
-  {t("auth.login.googleButton")}
+              {t("auth.login.googleButton")}
 
-</button>
+            </button>
+          </>
+        )}
 
         <p className="login-register-link">
 

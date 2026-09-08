@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isAtLeast18 } from "../lib/age";
+import { GOOGLE_AUTH_ENABLED } from "../lib/authConfig";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
 import BirthDatePicker from "../components/ui/BirthDatePicker";
 import "../styles/Register.css";
@@ -178,20 +179,24 @@ function Register() {
 
         </form>
 
-        <div className="separator">
-          <span>{t("auth.register.separator")}</span>
-        </div>
+        {GOOGLE_AUTH_ENABLED && (
+          <>
+            <div className="separator">
+              <span>{t("auth.register.separator")}</span>
+            </div>
 
-        <button type="button" className="google-btn" onClick={handleGoogleRegister}>
+            <button type="button" className="google-btn" onClick={handleGoogleRegister}>
 
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-            alt="Google"
-          />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                alt="Google"
+              />
 
-          {t("auth.register.googleButton")}
+              {t("auth.register.googleButton")}
 
-        </button>
+            </button>
+          </>
+        )}
 
         <p className="login-redirect">
 
