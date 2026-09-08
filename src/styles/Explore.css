@@ -493,22 +493,33 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
   }
 
   /* La fila de "¿Que buscas?" reutiliza .filter-gender-pill pero tiene 5
-     opciones (una larga, "Todas las intenciones") en vez de las 3 cortas
-     de genero -- flex:1 + nowrap del bloque de arriba la desborda fuera
-     de la pantalla en mobile. Se anula ese comportamiento solo para esta
-     fila, dejandola envolver en varias lineas como chips normales. */
-  .filter-intent-pills{
+     opciones (una larga, "Todas las intenciones"/"Something serious") en
+     vez de las 3 cortas de genero -- flex:1 + nowrap del bloque de arriba
+     la desborda fuera de la pantalla en mobile. Se anula ese
+     comportamiento solo para esta fila, dejandola envolver en varias
+     lineas como chips normales -- con su propio padding/radio de borde
+     en vez de heredar el pill angosto pensado para una sola linea corta,
+     porque un radio de 40px sobre un boton de 2 lineas recorta el texto
+     contra la esquina redondeada.  */
+  .filter-bar .filter-intent-pills{
     flex-wrap:wrap;
+    gap:12px;
   }
 
   .filter-intent-pills .filter-gender-pill{
     flex:0 1 auto;
     white-space:normal;
+    text-align:center;
+    line-height:1.35;
+    padding:12px 18px;
+    font-size:14px;
+    border-radius:18px;
   }
 
   .interest-grid{
     max-height:180px;
     overflow-y:auto;
+    gap:12px;
     padding:4px 2px;
   }
 
