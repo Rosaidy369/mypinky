@@ -9,6 +9,7 @@ import BackButton from "../components/ui/BackButton";
 import SuccessCheck from "../components/ui/SuccessCheck";
 import LockIcon from "../components/ui/LockIcon";
 import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
+import CompatibilityIcon from "../components/ui/CompatibilityIcon";
 import "../styles/Checkout.css";
 import "../styles/BackButton.css";
 import "../styles/Swipe.css";
@@ -229,7 +230,7 @@ function SpecialTouchCheckout() {
                 <p>{t("checkout.specialTouch.priceNote", { price: TOUCH_PRICE })}</p>
                 {sharedCount > 0 && (
                   <p className="special-touch-checkout-shared">
-                    ✨ {t("swipe.detail.sharedInterests", { count: sharedCount })}
+                    <CompatibilityIcon size={14} /> {t("swipe.detail.sharedInterests", { count: sharedCount })}
                   </p>
                 )}
               </div>

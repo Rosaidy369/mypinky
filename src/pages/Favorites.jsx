@@ -9,6 +9,7 @@ import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import PinIcon from "../components/ui/PinIcon";
+import HeartIcon from "../components/ui/HeartIcon";
 import "../styles/Explore.css";
 import "../styles/Favorites.css";
 import "../styles/BackButton.css";
@@ -83,7 +84,7 @@ function Favorites() {
       {favoriteProfiles.length === 0 ? (
 
         <div className="favorites-empty">
-          <div className="favorites-empty-icon">💔</div>
+          <div className="favorites-empty-icon"><HeartIcon size={44} /></div>
           <h2>{t("favorites.emptyTitle")}</h2>
           <p>{t("favorites.emptyBody")}</p>
           <Link to="/explore" className="favorites-empty-btn">
@@ -144,7 +145,7 @@ function Favorites() {
                     className="favorite-btn active"
                     onClick={() => toggleFavorite(profile.id)}
                   >
-                    ❤️
+                    <HeartIcon size={20} />
                   </button>
 
                   <Link

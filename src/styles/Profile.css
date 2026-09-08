@@ -419,6 +419,14 @@ color:white !important;
 
 }
 
+.tag-shared-check{
+
+vertical-align:-1px;
+
+margin-left:4px;
+
+}
+
 .profile-back-wrapper{
 
 position:absolute;
@@ -732,6 +740,12 @@ color:white;
 font-size:16px;
 
 cursor:pointer;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
 
 }
 

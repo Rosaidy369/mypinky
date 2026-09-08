@@ -8,6 +8,7 @@ import VipDiamond from "../ui/VipDiamond";
 import BoostIcon from "../ui/BoostIcon";
 import PinIcon from "../ui/PinIcon";
 import VerifiedIcon from "../ui/VerifiedIcon";
+import CompatibilityIcon from "../ui/CompatibilityIcon";
 import SuperLikeHeart from "../ui/SuperLikeHeart";
 import SpecialTouchHeart from "../ui/SpecialTouchHeart";
 import SwipeProfileDetail from "./SwipeProfileDetail";
@@ -163,7 +164,7 @@ function SwipeCard({ profile, onSwipe, isTop, depth, myInterests = [] }) {
 
             {profile.is_online && <span className="online-dot swipe-online-dot" title={t("swipe.card.onlineTitle")}></span>}
 
-            <span className="swipe-match">🔥 {t("swipe.card.matchPercent", { percent: compatibility })}</span>
+            <span className="swipe-match"><CompatibilityIcon size={13} /> {t("swipe.card.matchPercent", { percent: compatibility })}</span>
 
           </div>
 

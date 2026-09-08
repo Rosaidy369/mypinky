@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import VipDiamond from "../components/ui/VipDiamond";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
+import HeartIcon from "../components/ui/HeartIcon";
+import CheckIcon from "../components/ui/CheckIcon";
+import XIcon from "../components/ui/XIcon";
 import "../styles/Premium.css";
 
 // Display text (name, feature copy) lives in the locale files under
@@ -13,7 +16,7 @@ import "../styles/Premium.css";
 const plans = [
   {
     key: "free",
-    icon: "🩶",
+    icon: <HeartIcon size={38} />,
     monthlyPrice: 0,
     yearlyPrice: 0,
     highlight: false,
@@ -148,7 +151,7 @@ function Premium() {
                 {plan.features.map((feature, i) => (
                   <li key={i} className={feature.included ? "" : "not-included"}>
                     <span className="feature-icon">
-                      {feature.included ? "✓" : "✕"}
+                      {feature.included ? <CheckIcon size={14} /> : <XIcon size={14} />}
                     </span>
                     {featureTexts[i]}
                   </li>

@@ -570,6 +570,12 @@ color:#ff3f87;
 
 transition:.25s;
 
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
 }
 
 .hamburger-btn:hover{

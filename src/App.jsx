@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AuthProvider } from "./hooks/useAuth";
 import { NotificationsProvider } from "./hooks/useNotifications";
 import { SwipeFiltersProvider } from "./hooks/useSwipeFilters";
@@ -40,7 +41,8 @@ const WhoLikedMe = lazy(() => import("./pages/WhoLikedMe"));
 // para que el parpadeo mientras carga el chunk de la ruta se vea igual
 // que cualquier otro estado de carga de la app.
 function RouteFallback() {
-  return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+  const { t } = useTranslation();
+  return <div style={{ padding: "140px", textAlign: "center" }}>{t("common.loading")}</div>;
 }
 
 function App() {

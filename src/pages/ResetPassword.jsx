@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
 import SuccessCheck from "../components/ui/SuccessCheck";
+import WarningIcon from "../components/ui/WarningIcon";
 import "../styles/Login.css";
 import "../styles/Register.css";
 // .success-icon y el SVG interno de <SuccessCheck> (.success-check-*)
@@ -91,7 +92,7 @@ function ResetPassword() {
           </div>
 
           <div className="confirm-email-message">
-            <div className="confirm-email-icon">⚠️</div>
+            <div className="confirm-email-icon"><WarningIcon size={36} /></div>
             <h2>{t("auth.resetPassword.invalidHeading")}</h2>
             <p>{t("auth.resetPassword.invalidMessage")}</p>
             <Link to="/olvide-contrasena" className="confirm-email-btn">

@@ -9,6 +9,7 @@
     "messages": "Messages",
     "matches": "Matches",
     "filters": "Filters",
+    "menuAria": "Menu",
     "myProfileAlt": "My profile",
     "myProfile": "My Profile",
     "favorites": "Favorites",
@@ -158,7 +159,8 @@
       "emptyHint": "It's a match with {{name}}. Break the ice! 💬",
       "readReceipt": "Read · {{time}}",
       "sentReceipt": "Sent",
-      "inputPlaceholder": "Type a message..."
+      "inputPlaceholder": "Type a message...",
+      "sendAria": "Send message"
     }
   },
   "myProfile": {

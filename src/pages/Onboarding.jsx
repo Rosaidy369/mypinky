@@ -198,7 +198,7 @@ function Onboarding() {
   };
 
   if (loading) {
-    return <div style={{ padding: "140px", textAlign: "center" }}>Cargando...</div>;
+    return <div style={{ padding: "140px", textAlign: "center" }}>{t("common.loading")}</div>;
   }
 
   return (

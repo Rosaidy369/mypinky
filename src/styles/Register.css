@@ -342,7 +342,11 @@ padding:20px 0;
 
 .confirm-email-icon{
 
-font-size:44px;
+display:flex;
+
+justify-content:center;
+
+color:#e67700;
 
 margin-bottom:16px;
 

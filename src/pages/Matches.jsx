@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 import { useNotifications } from "../hooks/useNotifications";
 import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
+import HeartIcon from "../components/ui/HeartIcon";
 import "../styles/Matches.css";
 import "../styles/BackButton.css";
 
@@ -76,7 +77,7 @@ function Matches() {
       {matches.length === 0 ? (
 
         <div className="matches-empty">
-          <div className="matches-empty-icon">💔</div>
+          <div className="matches-empty-icon"><HeartIcon size={44} /></div>
           <h2>{t("matches.empty.title")}</h2>
           <p>{t("matches.empty.body")}</p>
         </div>

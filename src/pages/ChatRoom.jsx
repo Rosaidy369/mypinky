@@ -6,6 +6,8 @@ import { useNotifications } from "../hooks/useNotifications";
 import { isVipActive } from "../lib/plan";
 import { isVerified } from "../lib/verification";
 import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
+import ArrowLeftIcon from "../components/ui/ArrowLeftIcon";
+import SendIcon from "../components/ui/SendIcon";
 import "../styles/Chat.css";
 import "../styles/Verification.css";
 
@@ -205,7 +207,7 @@ function ChatRoom() {
             navigate("/mensajes");
           }
         }}>
-          ←
+          <ArrowLeftIcon size={18} />
         </button>
 
         <Link to={`/profile/${match.otherProfileId}`} className="chat-header-profile-link">
@@ -275,7 +277,7 @@ function ChatRoom() {
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
 
-        <button onClick={sendMessage}>➤</button>
+        <button onClick={sendMessage} aria-label={t("chat.room.sendAria")}><SendIcon size={18} /></button>
 
       </div>
 

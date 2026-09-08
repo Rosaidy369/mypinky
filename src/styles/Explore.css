@@ -401,7 +401,7 @@ border-radius:50%;
 
 background:#fff0f6;
 
-font-size:22px;
+color:#e0b3c4;
 
 cursor:pointer;
 
@@ -412,6 +412,12 @@ justify-content:center;
 align-items:center;
 
 transition:.25s;
+
+}
+
+.favorite-btn.active{
+
+color:#ff3f87;
 
 }
 
@@ -474,7 +480,6 @@ box-shadow:0 12px 25px rgba(255,63,135,.35);
 
   .filter-bar select,
   .filter-bar button,
-  .select-wrapper,
   .online-filter,
   .distance-filter,
   .premium-search-wrapper,
@@ -761,86 +766,6 @@ color:white;
 -webkit-text-fill-color:white;
 
 box-shadow:0 10px 25px rgba(255,63,135,.3);
-
-}
-
-/* ========================= */
-/* SELECTS PERSONALIZADOS */
-/* ========================= */
-
-.select-wrapper{
-
-position:relative;
-
-display:inline-block;
-
-}
-
-.select-wrapper::after{
-
-content:"▾";
-
-position:absolute;
-
-right:18px;
-
-top:50%;
-
-transform:translateY(-50%);
-
-color:#ff3f87;
-
-font-size:14px;
-
-pointer-events:none;
-
-}
-
-.select-wrapper select{
-
-appearance:none;
-
--webkit-appearance:none;
-
--moz-appearance:none;
-
-padding:14px 40px 14px 22px;
-
-border:1px solid transparent;
-
-border-radius:40px;
-
-background:white;
-
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-
-cursor:pointer;
-
-font-size:15px;
-
-font-weight:500;
-
-color:#333;
-
-transition:.25s;
-
-}
-
-.select-wrapper select:hover{
-
-transform:translateY(-2px);
-
-box-shadow:0 14px 30px rgba(0,0,0,.12);
-
-}
-
-.select-wrapper select:focus{
-
-outline:none;
-
-border-color:#ff3f87;
-
-box-shadow:0 0 0 4px rgba(255,63,135,.15);
 
 }
 

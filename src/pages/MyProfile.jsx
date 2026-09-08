@@ -19,6 +19,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import CameraIcon from "../components/ui/CameraIcon";
 import PinIcon from "../components/ui/PinIcon";
 import CheckIcon from "../components/ui/CheckIcon";
+import XIcon from "../components/ui/XIcon";
 import VerifiedIcon from "../components/ui/VerifiedIcon";
 import BoostIcon from "../components/ui/BoostIcon";
 import BoostPurchaseModal from "../components/profile/BoostPurchaseModal";
@@ -610,7 +611,7 @@ function MyProfile() {
                           className="remove-photo"
                           onClick={() => removePhoto(i)}
                         >
-                          ✕
+                          <XIcon size={13} />
                         </button>
 
                         {i === 0 && <span className="main-tag">{t("onboarding.photos.mainBadge")}</span>}

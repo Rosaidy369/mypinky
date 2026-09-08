@@ -8,6 +8,9 @@ import VipDiamond from "../ui/VipDiamond";
 import MicIcon from "../ui/MicIcon";
 import PinIcon from "../ui/PinIcon";
 import SpecialTouchHeart from "../ui/SpecialTouchHeart";
+import CompatibilityIcon from "../ui/CompatibilityIcon";
+import CheckIcon from "../ui/CheckIcon";
+import XIcon from "../ui/XIcon";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
@@ -34,7 +37,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
       <div className="detail-sheet" onClick={(e) => e.stopPropagation()}>
 
         <button className="detail-close" onClick={onClose}>
-          ✕
+          <XIcon size={16} />
         </button>
 
         <div className="detail-gallery">
@@ -100,7 +103,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
 
           {sharedCount > 0 && (
             <div className="detail-compatibility">
-              ✨ {t("swipe.detail.sharedInterests", { count: sharedCount })}
+              <CompatibilityIcon size={14} /> {t("swipe.detail.sharedInterests", { count: sharedCount })}
             </div>
           )}
 
@@ -129,7 +132,7 @@ function SwipeProfileDetail({ profile, onClose, myInterests = [] }) {
                   className={myInterests.includes(interest) ? "tag-shared" : ""}
                 >
                   {interestLabel(t, interest)}
-                  {myInterests.includes(interest) && " ✓"}
+                  {myInterests.includes(interest) && <CheckIcon size={11} className="tag-shared-check" />}
                 </span>
               ))}
             </div>

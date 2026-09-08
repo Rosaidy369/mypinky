@@ -13,6 +13,7 @@ import PremiumDiamond from "../components/ui/PremiumDiamond";
 import HouseAdBanner from "../components/ads/HouseAdBanner";
 import BoostIcon from "../components/ui/BoostIcon";
 import SearchIcon from "../components/ui/SearchIcon";
+import HeartIcon from "../components/ui/HeartIcon";
 import FilterIcon from "../components/ui/FilterIcon";
 import PinIcon from "../components/ui/PinIcon";
 import "../styles/Explore.css";
@@ -317,7 +318,7 @@ function Explore() {
                     className={`favorite-btn ${favorites.includes(profile.id) ? "active" : ""}`}
                     onClick={() => toggleFavorite(profile.id)}
                   >
-                    {favorites.includes(profile.id) ? "❤️" : "🤍"}
+                    <HeartIcon size={20} />
                   </button>
 
                   <Link

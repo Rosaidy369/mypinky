@@ -15,6 +15,8 @@ import MessageIcon from "../components/ui/MessageIcon";
 import FlagIcon from "../components/ui/FlagIcon";
 import PinIcon from "../components/ui/PinIcon";
 import VerifiedIcon from "../components/ui/VerifiedIcon";
+import CompatibilityIcon from "../components/ui/CompatibilityIcon";
+import CheckIcon from "../components/ui/CheckIcon";
 import PhotoGalleryModal from "../components/profile/PhotoGalleryModal";
 import ReportModal from "../components/profile/ReportModal";
 import "../styles/Profile.css";
@@ -204,7 +206,7 @@ function Profile() {
 
           {sharedCount > 0 && (
             <div className="profile-compatibility">
-              ✨ {t("profile.sharedInterests", { count: sharedCount })}
+              <CompatibilityIcon size={14} /> {t("profile.sharedInterests", { count: sharedCount })}
             </div>
           )}
 
@@ -241,7 +243,7 @@ function Profile() {
                   className={myInterests.includes(interest) ? "tag-shared" : ""}
                 >
                   {interestLabel(t, interest)}
-                  {myInterests.includes(interest) && " ✓"}
+                  {myInterests.includes(interest) && <CheckIcon size={11} className="tag-shared-check" />}
                 </span>
               ))}
 

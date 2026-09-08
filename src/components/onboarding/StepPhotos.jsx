@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../lib/supabaseClient";
+import XIcon from "../ui/XIcon";
 
 function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
   const { t } = useTranslation();
@@ -64,7 +65,7 @@ function StepPhotos({ photos, onAddPhotos, onRemovePhoto }) {
                     className="remove-photo"
                     onClick={() => onRemovePhoto(i)}
                   >
-                    ✕
+                    <XIcon size={13} />
                   </button>
 
                   {i === 0 && <span className="main-tag">{t("onboarding.photos.mainBadge")}</span>}

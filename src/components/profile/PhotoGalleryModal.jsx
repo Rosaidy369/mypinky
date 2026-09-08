@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import XIcon from "../ui/XIcon";
 
 function PhotoGalleryModal({ photos, onClose }) {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ function PhotoGalleryModal({ photos, onClose }) {
       <div className="gallery-modal" onClick={(e) => e.stopPropagation()}>
 
         <button className="gallery-modal-close" onClick={onClose} aria-label={t("common.close")}>
-          ✕
+          <XIcon size={16} />
         </button>
 
         <img src={photos[index]} alt={t("common.photoAlt", { count: index + 1 })} className="gallery-modal-image" />

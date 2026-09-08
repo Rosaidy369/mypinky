@@ -12,6 +12,7 @@ import PersonIcon from "../ui/PersonIcon";
 import SearchIcon from "../ui/SearchIcon";
 import MessageIcon from "../ui/MessageIcon";
 import FilterIcon from "../ui/FilterIcon";
+import MenuIcon from "../ui/MenuIcon";
 import { GENDER_FILTER_GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
 import { genderLabel } from "../../lib/profileLabels";
 import "../../styles/Navbar.css";
@@ -229,8 +230,9 @@ function Navbar() {
               <button
                 className="hamburger-btn"
                 onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={t("nav.menuAria")}
               >
-                ☰
+                <MenuIcon size={20} />
               </button>
 
               {menuOpen && (

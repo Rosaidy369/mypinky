@@ -12,6 +12,7 @@ import StarIcon from "../components/ui/StarIcon";
 import LockIcon from "../components/ui/LockIcon";
 import PremiumDiamond from "../components/ui/PremiumDiamond";
 import XIcon from "../components/ui/XIcon";
+import PersonIcon from "../components/ui/PersonIcon";
 import RewindIcon from "../components/ui/RewindIcon";
 import HeartIcon from "../components/ui/HeartIcon";
 import MessageIcon from "../components/ui/MessageIcon";
@@ -534,7 +535,7 @@ function Swipe() {
           <div className="match-popup-content">
 
             <button className="match-popup-close" onClick={() => setMatchInfo(null)}>
-              ✕
+              <XIcon size={16} />
             </button>
 
             <div className="match-photos">
@@ -543,7 +544,7 @@ function Swipe() {
                 {myPhoto ? (
                   <img src={myPhoto} alt={t("swipe.match.selfAlt")} />
                 ) : (
-                  <span className="match-photo-placeholder">👤</span>
+                  <span className="match-photo-placeholder"><PersonIcon size={28} /></span>
                 )}
               </div>
 

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import MicIcon from "../ui/MicIcon";
 import StopIcon from "../ui/StopIcon";
+import XIcon from "../ui/XIcon";
 
 const MAX_SECONDS = 10;
 
@@ -162,7 +163,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
         <div className="voice-error">
           <span>{error}</span>
           <button type="button" className="voice-error-dismiss" onClick={() => setError("")} aria-label={t("voiceRecorder.closeAria")}>
-            ✕
+            <XIcon size={13} />
           </button>
         </div>
       )}
@@ -177,7 +178,7 @@ function VoiceRecorder({ voiceNote, onSave, onRemove }) {
             <span className="voice-uploading">{t("voiceRecorder.uploading")}</span>
           ) : (
             <button type="button" className="voice-remove-btn" onClick={handleRemove}>
-              ✕ {t("voiceRecorder.remove")}
+              <XIcon size={13} /> {t("voiceRecorder.remove")}
             </button>
           )}
 
