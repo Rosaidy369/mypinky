@@ -38,8 +38,6 @@ function Footer() {
 
       <div className="footer-social">
 
-        <p className="footer-social-title">{t("footer.followUs")}</p>
-
         <div className="footer-social-icons">
           {SOCIAL_LINKS.map(({ name, Icon, url }) => (
             <a
