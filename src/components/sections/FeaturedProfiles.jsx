@@ -22,7 +22,7 @@ function FeaturedProfiles() {
 
         {featuredProfiles.map((profile) => (
 
-          <div className="profile-card" key={profile.id}>
+          <div className="featured-profile-card" key={profile.id}>
 
             <Link to="/login">
 

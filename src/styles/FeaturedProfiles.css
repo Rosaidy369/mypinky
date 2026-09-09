@@ -19,7 +19,7 @@ grid-template-columns:repeat(3,1fr);
 gap:35px;
 }
 
-.profile-card{
+.featured-profile-card{
 
 background:white;
 
@@ -35,13 +35,13 @@ transition:.35s;
 
 }
 
-.profile-card:hover{
+.featured-profile-card:hover{
 
 transform:translateY(-10px);
 
 }
 
-.profile-card img{
+.featured-profile-card img{
 
 width:100%;
 
@@ -55,7 +55,7 @@ transition:.4s;
 
 }
 
-.profile-card h3{
+.featured-profile-card h3{
 
 margin-top:20px;
 
@@ -63,7 +63,7 @@ font-size:26px;
 
 }
 
-.profile-card span{
+.featured-profile-card span{
 
 display:block;
 
