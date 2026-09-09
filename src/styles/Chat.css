@@ -114,7 +114,9 @@ margin-top:2px;
 
 .chatroom-page{
 
-min-height:100vh;
+height:100vh;
+
+box-sizing:border-box;
 
 display:flex;
 
@@ -124,9 +126,13 @@ background:#fff8fb;
 
 padding-top:var(--navbar-bottom);
 
+overflow:hidden;
+
 }
 
 .chatroom-header{
+
+flex-shrink:0;
 
 display:flex;
 
@@ -139,6 +145,10 @@ padding:16px 24px;
 background:white;
 
 box-shadow:0 6px 20px rgba(0,0,0,.05);
+
+position:relative;
+
+z-index:2;
 
 }
 
@@ -179,6 +189,10 @@ color:#222;
 .chatroom-messages{
 
 flex:1;
+
+min-height:0;
+
+overflow-y:auto;
 
 padding:24px;
 
@@ -261,6 +275,8 @@ border-bottom-left-radius:6px;
 }
 
 .chatroom-input{
+
+flex-shrink:0;
 
 display:flex;
 
@@ -661,6 +677,8 @@ box-shadow:0 6px 16px rgba(123,47,247,.3);
 }
 
 .special-touch-banner{
+
+flex-shrink:0;
 
 display:flex;
 
