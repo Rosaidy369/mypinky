@@ -34,7 +34,7 @@ function OurMission() {
         <div className="mission-signature">
           <span className="mission-avatar"><PersonIcon size={20} /></span>
           <span className="mission-signature-text">
-            {t("home.ourMission.signature", { name: "Rosaidy Mercedes" })}
+            {t("home.ourMission.signature", { name: "Rosaidy" })}
           </span>
         </div>
 
