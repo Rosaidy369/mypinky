@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isAtLeast18 } from "../lib/age";
 import { GOOGLE_AUTH_ENABLED } from "../lib/authConfig";
+import { suggestEmailCorrection } from "../lib/emailTypoCheck";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
 import BirthDatePicker from "../components/ui/BirthDatePicker";
 import "../styles/Register.css";
@@ -15,9 +16,23 @@ function Register() {
   const [form, setForm] = useState({ name: "", birthDate: null, email: "", password: "", confirmPassword: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const [registered, setRegistered] = useState(false);
+  const [emailSuggestion, setEmailSuggestion] = useState(null);
 
   const updateField = (field, value) => {
+    if (field === "email") setEmailSuggestion(null);
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Checked on blur, not on every keystroke, so the suggestion doesn't
+  // flash while the person is still mid-typing. Purely a hint -- never
+  // blocks submit, since a real (if unusual) domain shouldn't be
+  // second-guessed just because it resembles a common one.
+  const checkEmailTypo = () => {
+    setEmailSuggestion(suggestEmailCorrection(form.email));
+  };
+
+  const applyEmailSuggestion = () => {
+    updateField("email", emailSuggestion);
   };
 
   const handleSubmit = async (e) => {
@@ -138,8 +153,18 @@ function Register() {
             placeholder={t("auth.register.emailPlaceholder")}
             value={form.email}
             onChange={(e) => updateField("email", e.target.value)}
+            onBlur={checkEmailTypo}
             required
           />
+
+          {emailSuggestion && (
+            <p className="email-typo-suggestion">
+              {t("auth.emailTypo.question", { email: emailSuggestion })}{" "}
+              <button type="button" onClick={applyEmailSuggestion}>
+                {t("auth.emailTypo.applyBtn")}
+              </button>
+            </p>
+          )}
 
           <input
             type="password"

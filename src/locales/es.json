@@ -431,6 +431,10 @@
     }
   },
   "auth": {
+    "emailTypo": {
+      "question": "¿Quisiste decir {{email}}?",
+      "applyBtn": "Usar esta"
+    },
     "register": {
       "heading": "Crea tu cuenta",
       "subtitle": "Regístrate y empieza a conocer personas nuevas.",

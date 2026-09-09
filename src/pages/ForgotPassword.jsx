@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabaseClient";
+import { suggestEmailCorrection } from "../lib/emailTypoCheck";
 import EmailSentIcon from "../components/ui/EmailSentIcon";
 import "../styles/Login.css";
 import "../styles/Register.css";
@@ -12,6 +13,20 @@ function ForgotPassword() {
   const [errorMsg, setErrorMsg] = useState("");
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [emailSuggestion, setEmailSuggestion] = useState(null);
+
+  // Checked on blur, not on every keystroke, so the suggestion doesn't
+  // flash while the person is still mid-typing. Purely a hint -- never
+  // blocks submit, since a real (if unusual) domain shouldn't be
+  // second-guessed just because it resembles a common one.
+  const checkEmailTypo = () => {
+    setEmailSuggestion(suggestEmailCorrection(email));
+  };
+
+  const applyEmailSuggestion = () => {
+    setEmail(emailSuggestion);
+    setEmailSuggestion(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,9 +98,19 @@ function ForgotPassword() {
             type="email"
             placeholder={t("auth.forgotPassword.emailPlaceholder")}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { setEmail(e.target.value); setEmailSuggestion(null); }}
+            onBlur={checkEmailTypo}
             required
           />
+
+          {emailSuggestion && (
+            <p className="email-typo-suggestion">
+              {t("auth.emailTypo.question", { email: emailSuggestion })}{" "}
+              <button type="button" onClick={applyEmailSuggestion}>
+                {t("auth.emailTypo.applyBtn")}
+              </button>
+            </p>
+          )}
 
           {errorMsg && <p className="login-error">{errorMsg}</p>}
 
