@@ -97,8 +97,14 @@ function Explore() {
     setFavorites((favoritesData || []).map((f) => f.favorite_profile_id));
   };
 
-  const loadProfiles = async () => {
-    setLoading(true);
+  // silent=true es para el refresco automatico de fondo (cada 30s / al
+  // volver a la pestana) -- ese no debe tocar `loading`, porque el
+  // ternario de abajo desmonta toda la grilla mientras loading es true,
+  // causando un parpadeo visible cada vez que corre. Solo la carga
+  // inicial y los cambios de filtro (donde el usuario espera ver un
+  // estado de carga) deben pasar por setLoading.
+  const loadProfiles = async (silent = false) => {
+    if (!silent) setLoading(true);
 
     const rpcParams = {
       p_gender: filters.gender === GENDER_FILTER_ALL ? null : filters.gender,
@@ -122,7 +128,7 @@ function Explore() {
       setProfiles(profilesData || []);
     }
 
-    setLoading(false);
+    if (!silent) setLoading(false);
   };
 
   useEffect(() => {
@@ -142,14 +148,14 @@ function Explore() {
     if (!currentUserId) return;
 
     const interval = setInterval(() => {
-      loadProfiles();
+      loadProfiles(true);
     }, 30000);
 
     // Also refresh immediately when the tab/app regains focus, so coming
     // back after switching apps or locking the screen doesn't leave a stale
     // snapshot on screen until the next 30s tick.
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") loadProfiles();
+      if (document.visibilityState === "visible") loadProfiles(true);
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
