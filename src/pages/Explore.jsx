@@ -16,8 +16,10 @@ import SearchIcon from "../components/ui/SearchIcon";
 import HeartIcon from "../components/ui/HeartIcon";
 import FilterIcon from "../components/ui/FilterIcon";
 import PinIcon from "../components/ui/PinIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import "../styles/Explore.css";
 import "../styles/BackButton.css";
+import "../styles/Verification.css";
 // .interest-grid/.interest-chip (filtro de intereses) viven en
 // Onboarding.css -- antes se cargaban gratis porque todo el CSS iba en
 // un solo bundle; con las rutas separadas por React.lazy(), esta
@@ -298,7 +300,10 @@ function Explore() {
 
                 <div className="profile-top">
 
-                  <h3>{profile.name}</h3>
+                  <h3>
+                    {profile.name}
+                    {profile.is_verified && <VerifiedIcon size={15} className="verified-badge-icon" />}
+                  </h3>
 
                   <span className="age">
                     {profile.age}

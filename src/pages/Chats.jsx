@@ -5,11 +5,13 @@ import { supabase } from "../lib/supabaseClient";
 import BackButton from "../components/ui/BackButton";
 import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import MessageIcon from "../components/ui/MessageIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import "../styles/Chat.css";
 import "../styles/BackButton.css";
 // .matches-empty-icon (estado vacio de la lista) vive en Matches.css --
 // ver el mismo comentario en Settings.jsx.
 import "../styles/Matches.css";
+import "../styles/Verification.css";
 
 function Chats() {
   const { t } = useTranslation();
@@ -121,6 +123,7 @@ function Chats() {
                 <div className="chat-item-info">
                   <h3>
                     {chat.otherProfile?.name}
+                    {chat.otherProfile?.is_verified && <VerifiedIcon size={14} className="verified-badge-icon" />}
                     {chat.created_via === "special_touch" && (
                       <span className="special-touch-chat-tag" title={t("chat.list.specialTouchTag")}><SpecialTouchHeart size={13} /></span>
                     )}

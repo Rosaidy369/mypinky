@@ -8,6 +8,7 @@ import { isVerified } from "../lib/verification";
 import SpecialTouchHeart from "../components/ui/SpecialTouchHeart";
 import ArrowLeftIcon from "../components/ui/ArrowLeftIcon";
 import SendIcon from "../components/ui/SendIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import "../styles/Chat.css";
 import "../styles/Verification.css";
 
@@ -214,7 +215,10 @@ function ChatRoom() {
 
           <img src={match.otherProfile?.photos?.[0] || "https://via.placeholder.com/100"} alt={match.otherProfile?.name} />
 
-          <h2>{match.otherProfile?.name}</h2>
+          <h2>
+            {match.otherProfile?.name}
+            {match.otherProfile?.is_verified && <VerifiedIcon size={15} className="verified-badge-icon" />}
+          </h2>
 
         </Link>
 

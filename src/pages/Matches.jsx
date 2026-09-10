@@ -6,8 +6,10 @@ import { useNotifications } from "../hooks/useNotifications";
 import { moodLabel } from "../lib/profileLabels";
 import BackButton from "../components/ui/BackButton";
 import HeartIcon from "../components/ui/HeartIcon";
+import VerifiedIcon from "../components/ui/VerifiedIcon";
 import "../styles/Matches.css";
 import "../styles/BackButton.css";
+import "../styles/Verification.css";
 
 function Matches() {
   const { t } = useTranslation();
@@ -109,7 +111,10 @@ function Matches() {
               <div onClick={() => navigate(`/chat/${match.id}`)}>
                 <img src={match.otherProfile?.photos?.[0] || "https://via.placeholder.com/200"} alt={match.otherProfile?.name} />
                 <div className="match-info">
-                  <h3>{match.otherProfile?.name}</h3>
+                  <h3>
+                    {match.otherProfile?.name}
+                    {match.otherProfile?.is_verified && <VerifiedIcon size={14} className="verified-badge-icon" />}
+                  </h3>
                   <p>{moodLabel(t, match.otherProfile?.mood)}</p>
                 </div>
               </div>
