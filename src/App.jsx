@@ -36,6 +36,7 @@ const Support = lazy(() => import("./pages/Support"));
 const Contact = lazy(() => import("./pages/Contact"));
 const SpecialTouchCheckout = lazy(() => import("./pages/SpecialTouchCheckout"));
 const WhoLikedMe = lazy(() => import("./pages/WhoLikedMe"));
+const ProfileVisitors = lazy(() => import("./pages/ProfileVisitors"));
 
 // Mismo patron ya usado en el "loading" de Profile.jsx/MyProfile.jsx/etc,
 // para que el parpadeo mientras carga el chunk de la ruta se vea igual
@@ -202,6 +203,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <WhoLikedMe />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/quien-vio-mi-perfil"
+              element={
+                <ProtectedRoute>
+                  <ProfileVisitors />
                 </ProtectedRoute>
               }
             />

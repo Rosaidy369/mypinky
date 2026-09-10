@@ -80,6 +80,13 @@ function Profile() {
 
     setProfile(profileData);
 
+    if (user.id !== id) {
+      supabase.rpc("record_profile_visit", { p_visited_profile_id: id })
+        .then(({ error: visitError }) => {
+          if (visitError) console.error("Error registrando visita de perfil:", visitError.message);
+        });
+    }
+
     const { data: matchData } = await supabase
       .from("matches")
       .select("id")

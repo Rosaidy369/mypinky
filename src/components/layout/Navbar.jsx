@@ -13,6 +13,7 @@ import SearchIcon from "../ui/SearchIcon";
 import MessageIcon from "../ui/MessageIcon";
 import FilterIcon from "../ui/FilterIcon";
 import MenuIcon from "../ui/MenuIcon";
+import EyeIcon from "../ui/EyeIcon";
 import { GENDER_FILTER_GENDERS, GENDER_FILTER_ALL } from "../../data/profileOptions";
 import { genderLabel } from "../../lib/profileLabels";
 import "../../styles/Navbar.css";
@@ -268,6 +269,14 @@ function Navbar() {
                       {badges?.likes && <span className="notif-dot menu-notif-dot"></span>}
                     </span>
                     <span className="menu-item-label">{t("nav.whoLikesYou")}</span>
+                  </Link>
+
+                  <Link to="/quien-vio-mi-perfil" onClick={() => setMenuOpen(false)}>
+                    <span className="menu-icon-badge-wrap">
+                      <span className="menu-icon-slot"><EyeIcon size={15} /></span>
+                      {badges?.visitors && <span className="notif-dot menu-notif-dot"></span>}
+                    </span>
+                    <span className="menu-item-label">{t("nav.whoVisitedYou")}</span>
                   </Link>
 
                   <Link to="/configuracion" onClick={() => setMenuOpen(false)}>

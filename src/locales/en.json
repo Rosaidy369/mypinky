@@ -14,6 +14,7 @@
     "myProfile": "My Profile",
     "favorites": "Favorites",
     "whoLikesYou": "Who likes you",
+    "whoVisitedYou": "Who viewed your profile",
     "settings": "Settings",
     "logout": "Log out"
   },
@@ -132,6 +133,19 @@
     "lockOverlay": "Tap to unlock",
     "cta": {
       "heading": "Discover who already wants to meet you",
+      "body": "Unlock this list with Premium or VIP.",
+      "button": "View with Premium"
+    }
+  },
+  "whoVisitedMe": {
+    "loading": "Loading...",
+    "heading": "Who viewed your profile",
+    "visitCount_one": "{{count}} person viewed your profile",
+    "visitCount_other": "{{count}} people viewed your profile",
+    "emptyState": "No one has viewed your profile yet.",
+    "lockOverlay": "Tap to unlock",
+    "cta": {
+      "heading": "Discover who's interested in you",
       "body": "Unlock this list with Premium or VIP.",
       "button": "View with Premium"
     }
@@ -389,9 +403,9 @@
           "See featured profiles",
           "Chat with matches",
           "See who liked you",
+          "See who viewed your profile",
           "Unlimited likes",
-          "Rewind swipe",
-          "Invisible mode"
+          "Rewind swipe"
         ]
       },
       "premium": {
@@ -400,6 +414,7 @@
           "Unlimited likes",
           "Search by country and city",
           "See who liked you",
+          "See who viewed your profile",
           "Rewind swipe",
           "5 Super Likes a day",
           "No ads",
@@ -426,7 +441,7 @@
       "items": [
         { "q": "Can I cancel anytime?", "a": "Yes, you can cancel your subscription at any time from your profile." },
         { "q": "How do Super Likes work?", "a": "A Super Like shows that person you're very interested, making you stand out from the rest." },
-        { "q": "What is invisible mode?", "a": "It lets you browse and like without your profile showing up in other people's Explore, until you like them first." }
+        { "q": "What is invisible mode?", "a": "It lets you browse and like without showing up in other people's search results, or having your profile visits recorded, until you like them first." }
       ]
     }
   },

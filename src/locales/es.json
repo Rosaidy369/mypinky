@@ -14,6 +14,7 @@
     "myProfile": "Mi Perfil",
     "favorites": "Favoritos",
     "whoLikesYou": "A quién le gustas",
+    "whoVisitedYou": "Quién vio tu perfil",
     "settings": "Configuración",
     "logout": "Cerrar sesión"
   },
@@ -132,6 +133,19 @@
     "lockOverlay": "Toca para desbloquear",
     "cta": {
       "heading": "Descubre quién ya quiere conocerte",
+      "body": "Desbloquea esta lista con Premium o VIP.",
+      "button": "Ver con Premium"
+    }
+  },
+  "whoVisitedMe": {
+    "loading": "Cargando...",
+    "heading": "Quién vio tu perfil",
+    "visitCount_one": "{{count}} persona visitó tu perfil",
+    "visitCount_other": "{{count}} personas visitaron tu perfil",
+    "emptyState": "Aún nadie ha visitado tu perfil.",
+    "lockOverlay": "Toca para desbloquear",
+    "cta": {
+      "heading": "Descubre quién está interesado en ti",
       "body": "Desbloquea esta lista con Premium o VIP.",
       "button": "Ver con Premium"
     }
@@ -389,9 +403,9 @@
           "Ver perfiles destacados",
           "Chat con matches",
           "Ver quién te dio like",
+          "Ver quién visitó tu perfil",
           "Likes ilimitados",
-          "Rebobinar swipe",
-          "Modo invisible"
+          "Rebobinar swipe"
         ]
       },
       "premium": {
@@ -400,6 +414,7 @@
           "Likes ilimitados",
           "Buscar por país y ciudad",
           "Ver quién te dio like",
+          "Ver quién visitó tu perfil",
           "Rebobinar swipe",
           "5 Super Likes al día",
           "Sin anuncios",
@@ -426,7 +441,7 @@
       "items": [
         { "q": "¿Puedo cancelar cuando quiera?", "a": "Sí, puedes cancelar tu suscripción en cualquier momento desde tu perfil." },
         { "q": "¿Cómo funcionan los Super Likes?", "a": "Un Super Like le muestra a esa persona que estás muy interesado/a, destacándote sobre los demás." },
-        { "q": "¿Qué es el modo invisible?", "a": "Te permite navegar y dar like sin que tu perfil aparezca en el Explorar de otras personas, hasta que tú les des like primero." }
+        { "q": "¿Qué es el modo invisible?", "a": "Te permite navegar y dar like sin aparecer en las búsquedas de otras personas, ni que se registre cuando visitas su perfil, hasta que tú les des like primero." }
       ]
     }
   },

@@ -8,11 +8,11 @@ export function NotificationsProvider({ children }) {
   const { session } = useAuth();
   const userId = session?.user?.id || null;
 
-  const [badges, setBadges] = useState({ messages: false, matches: false, likes: false });
+  const [badges, setBadges] = useState({ messages: false, matches: false, likes: false, visitors: false });
 
   const refresh = useCallback(async () => {
     if (!userId) {
-      setBadges({ messages: false, matches: false, likes: false });
+      setBadges({ messages: false, matches: false, likes: false, visitors: false });
       return;
     }
 
@@ -24,7 +24,7 @@ export function NotificationsProvider({ children }) {
 
     let { data: views } = await supabase
       .from("notification_views")
-      .select("matches_viewed_at, likes_seen_count")
+      .select("matches_viewed_at, likes_seen_count, visitors_seen_count")
       .eq("user_id", userId)
       .maybeSingle();
 
@@ -34,7 +34,7 @@ export function NotificationsProvider({ children }) {
         .insert({ user_id: userId })
         .select()
         .maybeSingle();
-      views = inserted || { matches_viewed_at: new Date().toISOString(), likes_seen_count: 0 };
+      views = inserted || { matches_viewed_at: new Date().toISOString(), likes_seen_count: 0, visitors_seen_count: 0 };
     }
 
     let hasUnreadMessages = false;
@@ -80,7 +80,14 @@ export function NotificationsProvider({ children }) {
       hasNewLikes = (count || 0) > (views.likes_seen_count || 0);
     }
 
-    setBadges({ messages: hasUnreadMessages, matches: hasNewMatches, likes: hasNewLikes });
+    const { count: visitorCount } = await supabase
+      .from("profile_visits")
+      .select("id", { count: "exact", head: true })
+      .eq("visited_profile_id", userId);
+
+    const hasNewVisitors = (visitorCount || 0) > (views.visitors_seen_count || 0);
+
+    setBadges({ messages: hasUnreadMessages, matches: hasNewMatches, likes: hasNewLikes, visitors: hasNewVisitors });
   }, [userId]);
 
   useEffect(() => {
@@ -98,6 +105,7 @@ export function NotificationsProvider({ children }) {
       .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, refresh)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "matches" }, refresh)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "swipes" }, refresh)
+      .on("postgres_changes", { event: "*", schema: "public", table: "profile_visits" }, refresh)
       .subscribe();
 
     return () => {
@@ -128,6 +136,20 @@ export function NotificationsProvider({ children }) {
       .upsert({ user_id: userId, likes_seen_count: count || 0 }, { onConflict: "user_id" });
   }, [userId]);
 
+  const markVisitorsViewed = useCallback(async () => {
+    if (!userId) return;
+
+    const { count } = await supabase
+      .from("profile_visits")
+      .select("id", { count: "exact", head: true })
+      .eq("visited_profile_id", userId);
+
+    setBadges((prev) => ({ ...prev, visitors: false }));
+    await supabase
+      .from("notification_views")
+      .upsert({ user_id: userId, visitors_seen_count: count || 0 }, { onConflict: "user_id" });
+  }, [userId]);
+
   const markMessagesReadForMatch = useCallback(async (matchId) => {
     if (!userId || !matchId) return;
 
@@ -143,7 +165,7 @@ export function NotificationsProvider({ children }) {
 
   return (
     <NotificationsContext.Provider
-      value={{ badges, refresh, markMatchesViewed, markLikesViewed, markMessagesReadForMatch }}
+      value={{ badges, refresh, markMatchesViewed, markLikesViewed, markVisitorsViewed, markMessagesReadForMatch }}
     >
       {children}
     </NotificationsContext.Provider>
