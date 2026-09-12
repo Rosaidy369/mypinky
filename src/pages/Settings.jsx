@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabaseClient";
 import { isPlanActive } from "../lib/plan";
+import { GOOGLE_AUTH_ENABLED } from "../lib/authConfig";
 import BackButton from "../components/ui/BackButton";
 import VipDiamond from "../components/ui/VipDiamond";
 import LockIcon from "../components/ui/LockIcon";
@@ -358,14 +359,16 @@ function Settings() {
               </button>
             )
           ) : (
-            <button
-              type="button"
-              className="neutral-btn"
-              onClick={handleLinkGoogle}
-              disabled={linkingGoogle}
-            >
-              {linkingGoogle ? t("settings.linkedAccounts.connecting") : t("settings.linkedAccounts.connectButton")}
-            </button>
+            GOOGLE_AUTH_ENABLED && (
+              <button
+                type="button"
+                className="neutral-btn"
+                onClick={handleLinkGoogle}
+                disabled={linkingGoogle}
+              >
+                {linkingGoogle ? t("settings.linkedAccounts.connecting") : t("settings.linkedAccounts.connectButton")}
+              </button>
+            )
           )}
 
           {linkError && <p className="onboarding-error">{linkError}</p>}
