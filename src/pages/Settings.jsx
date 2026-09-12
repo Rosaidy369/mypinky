@@ -333,33 +333,38 @@ function Settings() {
         <h1>{t("settings.title")}</h1>
         <p className="settings-subtitle">{t("settings.subtitle")}</p>
 
-        {/* ===== CUENTAS VINCULADAS ===== */}
+        {/* ===== CUENTAS VINCULADAS =====
+            Seccion completa oculta mientras se espera la aprobacion de
+            Google -- nadie ha vinculado Google todavia, asi que no hay
+            riesgo de afectar a un usuario real. Reactivar es un solo
+            cambio: GOOGLE_AUTH_ENABLED = true en src/lib/authConfig.js
+            (mismo flag que ya ocultaba los botones de Login/Register). */}
 
-        <div className="settings-section">
+        {GOOGLE_AUTH_ENABLED && (
+          <div className="settings-section">
 
-          <h2><ShieldIcon size={18} /> {t("settings.linkedAccounts.title")}</h2>
+            <h2><ShieldIcon size={18} /> {t("settings.linkedAccounts.title")}</h2>
 
-          <div className="settings-row">
-            <span>{t("settings.linkedAccounts.google")}</span>
-            <span className="settings-value">
-              {linkedAccounts.google
-                ? t("settings.linkedAccounts.connected", { email: linkedAccounts.email })
-                : t("settings.linkedAccounts.notConnected")}
-            </span>
-          </div>
+            <div className="settings-row">
+              <span>{t("settings.linkedAccounts.google")}</span>
+              <span className="settings-value">
+                {linkedAccounts.google
+                  ? t("settings.linkedAccounts.connected", { email: linkedAccounts.email })
+                  : t("settings.linkedAccounts.notConnected")}
+              </span>
+            </div>
 
-          {linkedAccounts.google ? (
-            hasPassword && (
-              <button
-                type="button"
-                className="settings-inline-link"
-                onClick={() => setShowUnlinkConfirm(true)}
-              >
-                {t("settings.linkedAccounts.unlinkButton")}
-              </button>
-            )
-          ) : (
-            GOOGLE_AUTH_ENABLED && (
+            {linkedAccounts.google ? (
+              hasPassword && (
+                <button
+                  type="button"
+                  className="settings-inline-link"
+                  onClick={() => setShowUnlinkConfirm(true)}
+                >
+                  {t("settings.linkedAccounts.unlinkButton")}
+                </button>
+              )
+            ) : (
               <button
                 type="button"
                 className="neutral-btn"
@@ -368,13 +373,13 @@ function Settings() {
               >
                 {linkingGoogle ? t("settings.linkedAccounts.connecting") : t("settings.linkedAccounts.connectButton")}
               </button>
-            )
-          )}
+            )}
 
-          {linkError && <p className="onboarding-error">{linkError}</p>}
-          {unlinkError && <p className="onboarding-error">{unlinkError}</p>}
+            {linkError && <p className="onboarding-error">{linkError}</p>}
+            {unlinkError && <p className="onboarding-error">{unlinkError}</p>}
 
-        </div>
+          </div>
+        )}
 
         {/* ===== AYUDA Y SOPORTE ===== */}
 
