@@ -1,0 +1,30 @@
+User-agent: *
+
+# Paginas publicas que si deben indexarse: /, /premium, /privacidad,
+# /terminos, /soporte, /contacto (mas /login y /register).
+# Todo lo de abajo es privado (requiere sesion) o es un paso de flujo
+# sin valor de busqueda -- en una SPA, Google solo ve el index.html
+# generico con canonical a la raiz, no el contenido real.
+
+# Rutas privadas de la app
+Disallow: /onboarding
+Disallow: /dashboard
+Disallow: /explore
+Disallow: /swipe
+Disallow: /favoritos
+Disallow: /matches
+Disallow: /mensajes
+Disallow: /chat/
+Disallow: /profile/
+Disallow: /mi-perfil
+Disallow: /configuracion
+Disallow: /checkout/
+Disallow: /verificar
+Disallow: /toque-especial/
+Disallow: /quien-me-dio-like
+Disallow: /quien-vio-mi-perfil
+
+# Pasos de flujo de cuenta (llegan con tokens en la URL, sin valor SEO)
+Disallow: /olvide-contrasena
+Disallow: /restablecer-contrasena
+Disallow: /correo-verificado
